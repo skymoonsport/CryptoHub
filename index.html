@@ -522,36 +522,6 @@
     }
 
     @media(max-width:768px) {
-      .stats-panel {
-        position: fixed;
-        top: auto;
-        bottom: 0;
-        left: 0 !important;
-        right: 0 !important;
-        border-radius: 22px 22px 0 0;
-        width: 100%;
-        max-height: 75vh;
-        overflow-y: auto;
-        box-shadow: 0 -12px 50px rgba(0, 0, 0, .25);
-        transform-origin: bottom center
-      }
-
-      .stats-panel.active {
-        animation: spMob .35s cubic-bezier(.32, .72, .24, 1.02)
-      }
-
-      @keyframes spMob {
-        0% {
-          opacity: 0;
-          transform: translateY(100%)
-        }
-
-        100% {
-          opacity: 1;
-          transform: translateY(0)
-        }
-      }
-
       .stats-panel::before {
         content: '';
         display: block;
@@ -1258,8 +1228,6 @@
     .ec-row td {
       transition: background .15s
     }
-
-    #exLst {}
 
     #exMod .mc {
       display: flex;
@@ -3074,10 +3042,6 @@
         font-size: 10px
       }
 
-      #exLst {}
-
-      #exMod .mc>div:last-child {}
-
       .ec-row td {
         padding: 6px 4px !important;
         font-size: 10px !important
@@ -3731,10 +3695,6 @@
       font-weight: 800;
       padding: 3px 8px;
       border-radius: 8px;
-    }
-
-    color: var(--t2);
-    font-weight: 600
     }
 
     .tg-chg {
@@ -4637,17 +4597,37 @@
                   <i class="fas fa-robot"></i>
                 </div>
                 <div style="flex: 1;">
-                  <div class="nav-title" data-i18n="aiMenuTitle"
+                  <div class="nav-title" data-i18n="aiTitle"
                     style="color:#a855f7; display: flex; align-items: center; gap: 6px;">التحليل الفني
                     <i class="fas fa-sparkles" style="font-size: 10px; color: #a855f7;"></i>
                   </div>
-                  <div class="nav-desc" data-i18n="aiMenuDesc" style="color:var(--t2)">تحليل بالذكاء الاصطناعي</div>
+                  <div class="nav-desc" data-i18n="aiSub" style="color:var(--t2)">تحليل بالذكاء الاصطناعي</div>
                 </div>
                 <span class="nav-badge"
                   style="background:rgba(168,85,247,.1);color:#a855f7; border: 1px solid rgba(168,85,247,0.3); display: flex; align-items: center; gap: 4px;">
                   <span class="ld" style="width:5px;height:5px;background:#a855f7"></span> AI
                 </span>
                 <i class="fas fa-chevron-left nav-arrow" style="color: #a855f7;"></i>
+              </a>
+              <a class="nav-item" href="crypto-analyzer.html"
+                style="background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.05)); border-right: 3px solid #00d4ff;">
+                <div class="nav-ico"
+                  style="background:linear-gradient(135deg,#0070a8,#00d4ff);color:#fff;box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);">
+                  <i class="fas fa-chart-pie"></i>
+                </div>
+                <div style="flex: 1;">
+                  <div class="nav-title" data-i18n="cryptoAnalyzer"
+                    style="color:#00d4ff; display: flex; align-items: center; gap: 6px;">محلل السيولة
+                    <i class="fas fa-bolt" style="font-size: 10px; color: #00d4ff;"></i>
+                  </div>
+                  <div class="nav-desc" data-i18n="cryptoAnalyzerDesc" style="color:var(--t2)">تحليل متقدم للسيولة
+                    والعملات</div>
+                </div>
+                <span class="nav-badge"
+                  style="background:rgba(0, 212, 255, .1);color:#00d4ff; border: 1px solid rgba(0, 212, 255, 0.3); display: flex; align-items: center; gap: 4px;">
+                  <span class="ld" style="width:5px;height:5px;background:#00d4ff"></span> PRO
+                </span>
+                <i class="fas fa-chevron-left nav-arrow" style="color: #00d4ff;"></i>
               </a>
               <div class="stats-panel-ft"><i class="fas fa-shield-halved"></i> CryptoHub <span>•</span> <span
                   data-i18n="secure">آمن</span></div>
@@ -5371,6 +5351,7 @@
       padding: 1px;
       background: linear-gradient(45deg, #0ea5e9, transparent);
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       -webkit-mask-composite: xor;
       mask-composite: exclude;
       pointer-events: none;
@@ -5941,6 +5922,42 @@
     T.bn = { trustScore: 'বিশ্বাস', siteTitle: 'CryptoHub', exchanges: 'এক্সচেঞ্জ', recommendedExchanges: 'প্রস্তাবিত এক্সচেঞ্জ', live: 'লাইভ', fearGreedTitle: 'ভয় ও লোভ সূচক', fearGreedSub: 'বাজার সেন্টিমেন্ট - Binance থেকে', outOf100: '/ ১০০', extremeFear: 'চরম ভয়', fear: 'ভয়', neutral: 'নিরপেক্ষ', greed: 'লোভ', extremeGreed: 'চরম লোভ', aiTitle: 'AI বিশ্লেষণ', aiSub: 'AI-চালিত পূর্বাভাস', analyzing: 'বিশ্লেষণ হচ্ছে...', bullishSignals: 'ঊর্ধ্বমুখী সংকেত', bearishSignals: 'নিম্নমুখী সংকেত', bollingerBands: 'বলিঞ্জার', searchCoin: 'কয়েন খুঁজুন...', sortBy: 'সাজান', network: 'নেটওয়ার্ক', show: 'দেখান', loadMore: 'আরো লোড করুন', loadingData: 'লোড হচ্ছে...', filteredBy: 'ফিল্টার:', colName: 'নাম', colPrice: 'মূল্য', colMarketCap: 'মার্কেট ক্যাপ', colVolume: 'ভলিউম ২৪ঘ', colExchanges: 'এক্সচেঞ্জ', prev: 'আগের', next: 'পরের', showing: 'দেখানো হচ্ছে', of: 'এর', coins: 'কয়েন', availableOn: 'পাওয়া যায়', exchange: 'এক্সচেঞ্জে', referralNote: '🎁 রেফারেল লিংক', register: 'নিবন্ধন', visit: 'ভিজিট', trustHigh: 'উচ্চ বিশ্বাস', trustMedium: 'মাঝারি বিশ্বাস', trustLow: 'কম বিশ্বাস', volume: 'ভলিউম', allNetworks: 'সকল নেটওয়ার্ক', rank: 'র‍্যাংক', marketCap: 'মার্কেট ক্যাপ', price: 'মূল্য', change24h: 'পরিবর্তন ২৪ঘ', noExchanges: 'পাওয়া যায়নি', errorLoading: 'লোডিং ত্রুটি', retry: 'পুনরায় চেষ্টা', allLoaded: 'সব লোড হয়েছে', loadMoreRemaining: 'আরো লোড করুন', oversold: 'অতিবিক্রীত', overbought: 'অতিক্রীত', bullish: 'ঊর্ধ্বমুখী', bearish: 'নিম্নমুখী', nearBottom: 'তলদেশের কাছে', nearTop: 'শীর্ষের কাছে', goldenCross: 'গোল্ডেন ক্রস', deathCross: 'ডেথ ক্রস', strongBuy: 'শক্তিশালী ক্রয়', buy: 'কিনুন', sell: 'বিক্রি', strongSell: 'শক্তিশালী বিক্রি', coinsFound: 'পাওয়া গেছে', trendingTitle: 'ট্রেন্ডিং', trendingSub: '২৪ঘ ভলিউমে শীর্ষ ১০০', altcoinIndex: 'অল্টকয়েন সিজন সূচক', altcoinSeason: 'অল্টকয়েন সিজন', btcDominance: 'BTC আধিপত্য', ethDominance: 'ETH আধিপত্য', totalMarketCap: 'মোট মার্কেট ক্যাপ', totalVolume24: 'মোট ভলিউম ২৪ঘ', fgHistory: 'ইতিহাস', now: 'এখন', yesterday: 'গতকাল', lastWeek: 'গত সপ্তাহ', lastMonth: 'গত মাস', entryExitTitle: 'এন্ট্রি ও এক্সিট সিগন্যাল - Bitcoin', entryZone: 'এন্ট্রি জোন', exitZone: 'এক্সিট জোন', currentPrice: 'বর্তমান মূল্য', entryNote: 'সাপোর্ট লেভেলে', exitNote: 'রেজিস্ট্যান্স লেভেলে', volAnalysis: 'ভলিউম বিশ্লেষণ', supportResistance: 'সাপোর্ট/রেজিস্ট্যান্স', aiRecommendation: 'সুপারিশ', strongTrend: 'শক্তিশালী ট্রেন্ড', weakTrend: 'দুর্বল ট্রেন্ড', highVol: 'উচ্চ ভলিউম', lowVol: 'কম ভলিউম', aboveAvg: 'গড়ের উপরে', belowAvg: 'গড়ের নিচে', footerDesc: '৫০০০+ ক্রিপ্টোকারেন্সি ট্র্যাক করার জন্য AI বিশ্লেষণ ও রিয়েল-টাইম মূল্য সহ আপনার সম্পূর্ণ প্ল্যাটফর্ম।', quickLinks: 'দ্রুত লিংক', home: 'হোম', topExchanges: 'শীর্ষ এক্সচেঞ্জ', disclaimer: 'দায়মুক্তি', disclaimerText: 'এই সাইটের তথ্য শুধুমাত্র শিক্ষামূলক এবং আর্থিক পরামর্শ নয়। ক্রিপ্টো ট্রেডিংয়ে অত্যন্ত উচ্চ ঝুঁকি রয়েছে।', allRights: 'সর্বস্বত্ব সংরক্ষিত', btcSeason: 'বিটকয়েন সিজন', holdEntry: 'ভালো এন্ট্রির জন্য অপেক্ষা করুন', goodEntry: 'ভালো এন্ট্রি সুযোগ', riskHigh: 'উচ্চ ঝুঁকি', support: 'সহায়তা', yourName: 'আপনার নাম', yourEmail: 'আপনার ইমেইল', yourMessage: 'আপনার বার্তা...', sendMessage: 'পাঠান', messageSent: 'বার্তা সফলভাবে পাঠানো হয়েছে!', languages: 'ভাষা', secure: 'নিরাপদ', loading: 'লোড হচ্ছে...', tabCrypto: 'ক্রিপ্টোকারেন্সি', tabExchanges: 'সকল এক্সচেঞ্জ', tabCommodities: 'সোনা, রূপা ও স্টক', allExchangesTitle: 'সকল গ্লোবাল এক্সচেঞ্জ', allExchangesSub: '১০২টি লাইসেন্সপ্রাপ্ত এক্সচেঞ্জ • বিশ্বস্ততা অনুযায়ী • সরাসরি ট্রেডিং লিংক', searchExchange: 'এক্সচেঞ্জ খুঁজুন...', metalExTitle: 'মূল্যবান ধাতু প্ল্যাটফর্ম', metalExSub: 'মূল্যবান ধাতু ট্রেডিং সমর্থনকারী সকল এক্সচেঞ্জ', stocksTitle: 'প্রধান স্টক ও ETF', stocksSub: 'টোকেনাইজড স্টক ও মূল্যবান ধাতু ETF • Yahoo Finance রিয়েল-টাইম ডেটা', colExchange2: 'এক্সচেঞ্জ', colPairs: 'ট্রেডিং পেয়ার', colRefPrice: 'রেফ. মূল্য', colVol24h: 'ভলিউম ২৪ঘ', colTrade: 'ট্রেড', colStock: 'স্টক' };
     T.sw = { trustScore: 'Uaminifu', siteTitle: 'CryptoHub', exchanges: 'Masoko', recommendedExchanges: 'Masoko Yaliyopendekezwa', live: 'Moja kwa Moja', fearGreedTitle: 'Fahirisi ya Hofu na Tamaa', fearGreedSub: 'Hali ya Soko - kutoka Binance', outOf100: 'kati ya 100', extremeFear: 'Hofu Kali', fear: 'Hofu', neutral: 'Wastani', greed: 'Tamaa', extremeGreed: 'Tamaa Kali', aiTitle: 'Uchambuzi wa AI', aiSub: 'Utabiri unaodhibitiwa na AI', analyzing: 'Inachambua...', bullishSignals: 'Ishara za Kupanda', bearishSignals: 'Ishara za Kushuka', bollingerBands: 'Bollinger', searchCoin: 'Tafuta sarafu...', sortBy: 'Panga kwa', network: 'Mtandao', show: 'Onyesha', loadMore: 'Pakia Zaidi', loadingData: 'Inapakia...', filteredBy: 'Chuja:', colName: 'Jina', colPrice: 'Bei', colMarketCap: 'Thamani ya Soko', colVolume: 'Kiasi 24s', colExchanges: 'Masoko', prev: 'Iliyotangulia', next: 'Inayofuata', showing: 'Inaonyesha', of: 'ya', coins: 'sarafu', availableOn: 'Inapatikana', exchange: 'masoko', referralNote: '🎁 Viungo vya rufaa', register: 'Jiandikishe', visit: 'Tembelea', trustHigh: 'Imani Kubwa', trustMedium: 'Imani ya Kati', trustLow: 'Imani Ndogo', volume: 'Kiasi', allNetworks: 'Mitandao Yote', rank: 'Nafasi', marketCap: 'Thamani ya Soko', price: 'Bei', change24h: 'Mabadiliko 24s', noExchanges: 'Haijapatikana', errorLoading: 'Hitilafu ya kupakia', retry: 'Jaribu tena', allLoaded: 'Yote Yamepakiwa', loadMoreRemaining: 'Pakia Zaidi', oversold: 'Kuuzwa kupita kiasi', overbought: 'Kununuliwa kupita kiasi', bullish: 'Kupanda', bearish: 'Kushuka', nearBottom: 'Karibu na Chini', nearTop: 'Karibu na Juu', goldenCross: 'Msalaba wa Dhahabu', deathCross: 'Msalaba wa Kifo', strongBuy: 'Nunua Sana', buy: 'Nunua', sell: 'Uza', strongSell: 'Uza Sana', coinsFound: 'zimepatikana', trendingTitle: 'Zinazovuma', trendingSub: 'Sarafu 100 bora kwa kiasi cha 24s', altcoinIndex: 'Fahirisi ya Msimu wa Altcoin', altcoinSeason: 'Msimu wa Altcoin', btcDominance: 'Utawala wa BTC', ethDominance: 'Utawala wa ETH', totalMarketCap: 'Thamani Jumla', totalVolume24: 'Kiasi Jumla 24s', fgHistory: 'Historia', now: 'Sasa', yesterday: 'Jana', lastWeek: 'Wiki Iliyopita', lastMonth: 'Mwezi Uliopita', entryExitTitle: 'Ishara za Kuingia na Kutoka - Bitcoin', entryZone: 'Eneo la Kuingia', exitZone: 'Eneo la Kutoka', currentPrice: 'Bei ya Sasa', entryNote: 'Katika kiwango cha msaada', exitNote: 'Katika kiwango cha upinzani', volAnalysis: 'Uchambuzi wa Kiasi', supportResistance: 'Msaada/Upinzani', aiRecommendation: 'Mapendekezo', strongTrend: 'Mwelekeo Mkali', weakTrend: 'Mwelekeo Dhaifu', highVol: 'Kiasi Kikubwa', lowVol: 'Kiasi Kidogo', aboveAvg: 'Juu ya Wastani', belowAvg: 'Chini ya Wastani', footerDesc: 'Jukwaa lako kamili la kufuatilia sarafu 5000+ za kripto na zana za AI na bei za wakati halisi.', quickLinks: 'Viungo vya Haraka', home: 'Nyumbani', topExchanges: 'Masoko Bora', disclaimer: 'Kanusho', disclaimerText: 'Taarifa kwenye tovuti hii ni kwa madhumuni ya elimu tu na si ushauri wa kifedha. Biashara ya kripto ina hatari kubwa sana.', allRights: 'Haki Zote Zimehifadhiwa', btcSeason: 'Msimu wa Bitcoin', holdEntry: 'Subiri kuingia bora', goodEntry: 'Fursa nzuri ya kuingia', riskHigh: 'Hatari Kubwa', support: 'Msaada', yourName: 'Jina Lako', yourEmail: 'Barua Pepe Yako', yourMessage: 'Ujumbe Wako...', sendMessage: 'Tuma', messageSent: 'Ujumbe umetumwa!', languages: 'Lugha', secure: 'Salama', loading: 'Inapakia...', tabCrypto: 'Sarafu za Kripto', tabExchanges: 'Masoko Yote', tabCommodities: 'Dhahabu, Fedha na Hisa', allExchangesTitle: 'Masoko Yote ya Dunia', allExchangesSub: 'Masoko 102 yenye leseni • Kwa uaminifu • Viungo vya moja kwa moja', searchExchange: 'Tafuta soko...', metalExTitle: 'Majukwaa ya Madini ya Thamani', metalExSub: 'Masoko yote yanayounga mkono biashara ya madini ya thamani', stocksTitle: 'Hisa Kuu na ETF', stocksSub: 'Hisa za tokeni na ETF za madini ya thamani • Data ya wakati halisi kutoka Yahoo Finance', colExchange2: 'Soko', colPairs: 'Jozi za Biashara', colRefPrice: 'Bei ya Ref.', colVol24h: 'Kiasi 24s', colTrade: 'Fanya Biashara', colStock: 'Hisa' };
     // Fill any remaining languages from English base
+    const analyzerLangs = {
+      ar: { cryptoAnalyzer: 'محلل السيولة', cryptoAnalyzerDesc: 'تحليل متقدم للسيولة والعملات' },
+      en: { cryptoAnalyzer: 'Liquidity Analyzer', cryptoAnalyzerDesc: 'Advanced crypto liquidity analysis' },
+      zh: { cryptoAnalyzer: '流动性分析仪', cryptoAnalyzerDesc: '高级流动性及代币分析' },
+      es: { cryptoAnalyzer: 'Analizador de Liquidez', cryptoAnalyzerDesc: 'Análisis avanzado de liquidez criptográfica' },
+      pt: { cryptoAnalyzer: 'Analisador de Liquidez', cryptoAnalyzerDesc: 'Análise avançada de liquidez de criptomoedas' },
+      fr: { cryptoAnalyzer: 'Analyseur de Liquidité', cryptoAnalyzerDesc: 'Analyse avancée de la liquidité crypto' },
+      de: { cryptoAnalyzer: 'Liquiditätsanalysator', cryptoAnalyzerDesc: 'Erweiterte Krypto-Liquiditätsanalyse' },
+      it: { cryptoAnalyzer: 'Analizzatore di Liquidità', cryptoAnalyzerDesc: 'Analisi avanzata della liquidità crypto' },
+      ru: { cryptoAnalyzer: 'Анализатор Ликвидности', cryptoAnalyzerDesc: 'Продвинутый анализ криптовалютной ликвидности' },
+      tr: { cryptoAnalyzer: 'Likidite Analizörü', cryptoAnalyzerDesc: 'Gelişmiş kripto likidite analizi' },
+      ja: { cryptoAnalyzer: '流動性アナライザー', cryptoAnalyzerDesc: '高度な暗号資産の流動性分析' },
+      ko: { cryptoAnalyzer: '유동성 분석기', cryptoAnalyzerDesc: '고급 암호화폐 유동성 분석' },
+      hi: { cryptoAnalyzer: 'तरलता विश्लेषक', cryptoAnalyzerDesc: 'उन्नत क्रिप्टो तरलता विश्लेषण' },
+      nl: { cryptoAnalyzer: 'Liquiditeitsanalysator', cryptoAnalyzerDesc: 'Geavanceerde crypto-liquiditeitsanalyse' },
+      pl: { cryptoAnalyzer: 'Analizator Płynności', cryptoAnalyzerDesc: 'Zaawansowana analiza płynności kryptowalut' },
+      th: { cryptoAnalyzer: 'เครื่องวิเคราะห์สภาพคล่อง', cryptoAnalyzerDesc: 'การวิเคราะห์สภาพคล่องของคริปโตขั้นสูง' },
+      vi: { cryptoAnalyzer: 'Trình Phân Tích Thanh Khoản', cryptoAnalyzerDesc: 'Phân tích thanh khoản tiền điện tử nâng cao' },
+      id: { cryptoAnalyzer: 'Penganalisis Likuiditas', cryptoAnalyzerDesc: 'Analisis likuiditas kripto tingkat lanjut' },
+      uk: { cryptoAnalyzer: 'Аналізатор Ліквідності', cryptoAnalyzerDesc: 'Розширений аналіз криптовалютної ліквідності' },
+      fa: { cryptoAnalyzer: 'تحلیلگر نقدینگی', cryptoAnalyzerDesc: 'تحلیل پیشرفته نقدینگی ارزهای دیجیتال' },
+      he: { cryptoAnalyzer: 'נתח נזילות', cryptoAnalyzerDesc: 'ניתוח נזילות קריפטו מתקדם' },
+      fi: { cryptoAnalyzer: 'Likviditeettianalysaattori', cryptoAnalyzerDesc: 'Edistynyt kryptojen likviditeettianalyysi' },
+      ro: { cryptoAnalyzer: 'Analizor de Lichiditate', cryptoAnalyzerDesc: 'Analiza avansată a lichidității' },
+      el: { cryptoAnalyzer: 'Αναλυτής Ρευστότητας', cryptoAnalyzerDesc: 'Προηγμένη ανάλυση ρευστότητας κρυπτονομισμάτων' },
+      hu: { cryptoAnalyzer: 'Likviditás Elemző', cryptoAnalyzerDesc: 'Fejlett kripto likviditás elemzés' },
+      sv: { cryptoAnalyzer: 'Likviditetsanalysator', cryptoAnalyzerDesc: 'Avancerad krypto likviditetsanalys' },
+      cs: { cryptoAnalyzer: 'Analyzátor Likvidity', cryptoAnalyzerDesc: 'Pokročilá analýza krypto likvidity' },
+      ms: { cryptoAnalyzer: 'Penganalisis Kecairan', cryptoAnalyzerDesc: 'Analisis kecairan kripto lanjutan' },
+      bn: { cryptoAnalyzer: 'তারল্য বিশ্লেষক', cryptoAnalyzerDesc: 'উন্নত ক্রিপ্টো তারল্য বিশ্লেষণ' },
+      sw: { cryptoAnalyzer: 'Mchambuzi wa Ukwasi', cryptoAnalyzerDesc: 'Uchambuzi wa hali ya juu wa ukwasi wa crypto' }
+    };
+    for (let k in T) {
+      Object.assign(T[k], analyzerLangs[k] || analyzerLangs.en);
+    }
+
     const fb = T.en; LANGS.forEach(l => { if (!T[l.c]) T[l.c] = { ...fb } });
     // Nav dropdown i18n
     const _ni = { ar: { navSections: 'أقسام الموقع', navCryptoDesc: '+5000 عملة • أسعار لحظية • تحليل AI', navExchDesc: '102 منصة عالمية • روابط تسجيل مباشرة', navMetalsDesc: 'الذهب • الفضة • البلاتين • البلاديوم', navStocksDesc: 'أسهم مرمّزة • صناديق ETF • بيانات Yahoo Finance', tabCommodities: 'المعادن الثمينة', tabStocks: 'الأسهم وETF' }, en: { navSections: 'Site Sections', navCryptoDesc: '5000+ Coins • Real-time Prices • AI Analysis', navExchDesc: '102 Global Exchanges • Direct Registration', navMetalsDesc: 'Gold • Silver • Platinum • Palladium', navStocksDesc: 'Tokenized Stocks • ETFs • Yahoo Finance Data', tabCommodities: 'Precious Metals', tabStocks: 'Stocks & ETFs' }, zh: { navSections: '网站板块', navCryptoDesc: '5000+ 币种 • 实时价格 • AI分析', navExchDesc: '102家全球交易所 • 直接注册链接', navMetalsDesc: '黄金 • 白银 • 铂金 • 钯金', navStocksDesc: '代币化股票 • ETF • Yahoo Finance数据', tabCommodities: '贵金属', tabStocks: '股票和ETF' }, es: { navSections: 'Secciones', navCryptoDesc: '5000+ Monedas • Precios en Vivo • Análisis IA', navExchDesc: '102 Exchanges Globales • Registro Directo', navMetalsDesc: 'Oro • Plata • Platino • Paladio', navStocksDesc: 'Acciones Tokenizadas • ETFs • Yahoo Finance', tabCommodities: 'Metales Preciosos', tabStocks: 'Acciones y ETFs' }, pt: { navSections: 'Seções', navCryptoDesc: '5000+ Moedas • Preços em Tempo Real • IA', navExchDesc: '102 Exchanges Globais • Registro Direto', navMetalsDesc: 'Ouro • Prata • Platina • Paládio', navStocksDesc: 'Ações Tokenizadas • ETFs • Yahoo Finance', tabCommodities: 'Metais Preciosos', tabStocks: 'Ações e ETFs' }, fr: { navSections: 'Sections', navCryptoDesc: '5000+ Cryptos • Prix en Direct • Analyse IA', navExchDesc: '102 Plateformes Mondiales • Inscription Directe', navMetalsDesc: 'Or • Argent • Platine • Palladium', navStocksDesc: 'Actions Tokenisées • ETFs • Yahoo Finance', tabCommodities: 'Métaux Précieux', tabStocks: 'Actions et ETFs' }, de: { navSections: 'Bereiche', navCryptoDesc: '5000+ Coins • Echtzeitpreise • KI-Analyse', navExchDesc: '102 Globale Börsen • Direkte Registrierung', navMetalsDesc: 'Gold • Silber • Platin • Palladium', navStocksDesc: 'Tokenisierte Aktien • ETFs • Yahoo Finance', tabCommodities: 'Edelmetalle', tabStocks: 'Aktien & ETFs' }, it: { navSections: 'Sezioni', navCryptoDesc: '5000+ Crypto • Prezzi in Tempo Reale • IA', navExchDesc: '102 Exchange Globali • Registrazione Diretta', navMetalsDesc: 'Oro • Argento • Platino • Palladio', navStocksDesc: 'Azioni Tokenizzate • ETF • Yahoo Finance', tabCommodities: 'Metalli Preziosi', tabStocks: 'Azioni ed ETF' }, ru: { navSections: 'Разделы', navCryptoDesc: '5000+ Монет • Цены в Реальном Времени • ИИ', navExchDesc: '102 Биржи • Прямая Регистрация', navMetalsDesc: 'Золото • Серебро • Платина • Палладий', navStocksDesc: 'Токенизированные Акции • ETF • Yahoo Finance', tabCommodities: 'Драгоценные Металлы', tabStocks: 'Акции и ETF' }, tr: { navSections: 'Bölümler', navCryptoDesc: '5000+ Coin • Anlık Fiyatlar • AI Analizi', navExchDesc: '102 Küresel Borsa • Doğrudan Kayıt', navMetalsDesc: 'Altın • Gümüş • Platin • Paladyum', navStocksDesc: 'Tokenize Hisseler • ETF • Yahoo Finance', tabCommodities: 'Değerli Metaller', tabStocks: 'Hisseler ve ETF' }, ja: { navSections: 'セクション', navCryptoDesc: '5000+ コイン • リアルタイム価格 • AI分析', navExchDesc: '102 取引所 • 直接登録リンク', navMetalsDesc: '金 • 銀 • プラチナ • パラジウム', navStocksDesc: 'トークン化株式 • ETF • Yahoo Finance', tabCommodities: '貴金属', tabStocks: '株式＆ETF' }, ko: { navSections: '섹션', navCryptoDesc: '5000+ 코인 • 실시간 가격 • AI 분석', navExchDesc: '102 거래소 • 직접 가입', navMetalsDesc: '금 • 은 • 백금 • 팔라듐', navStocksDesc: '토큰화 주식 • ETF • Yahoo Finance', tabCommodities: '귀금속', tabStocks: '주식 & ETF' }, hi: { navSections: 'अनुभाग', navCryptoDesc: '5000+ कॉइन • रीयल-टाइम • AI विश्लेषण', navExchDesc: '102 एक्सचेंज • सीधा पंजीकरण', navMetalsDesc: 'सोना • चाँदी • प्लैटिनम • पैलेडियम', navStocksDesc: 'टोकनाइज़्ड स्टॉक • ETF • Yahoo Finance', tabCommodities: 'कीमती धातु', tabStocks: 'स्टॉक और ETF' }, nl: { navSections: 'Secties', navCryptoDesc: '5000+ Coins • Realtime Prijzen • AI-Analyse', navExchDesc: '102 Wereldwijde Beurzen • Directe Registratie', navMetalsDesc: 'Goud • Zilver • Platina • Palladium', navStocksDesc: 'Getokeniseerde Aandelen • ETFs • Yahoo Finance', tabCommodities: 'Edelmetalen', tabStocks: 'Aandelen & ETFs' }, pl: { navSections: 'Sekcje', navCryptoDesc: '5000+ Kryptowalut • Ceny na Żywo • AI', navExchDesc: '102 Giełdy • Bezpośrednia Rejestracja', navMetalsDesc: 'Złoto • Srebro • Platyna • Pallad', navStocksDesc: 'Tokenizowane Akcje • ETF • Yahoo Finance', tabCommodities: 'Metale Szlachetne', tabStocks: 'Akcje i ETF' }, th: { navSections: 'หมวดหมู่', navCryptoDesc: '5000+ เหรียญ • ราคาเรียลไทม์ • AI', navExchDesc: '102 แพลตฟอร์ม • สมัครตรง', navMetalsDesc: 'ทอง • เงิน • แพลทินัม • แพลเลเดียม', navStocksDesc: 'หุ้นโทเค็น • ETF • Yahoo Finance', tabCommodities: 'โลหะมีค่า', tabStocks: 'หุ้นและ ETF' }, vi: { navSections: 'Danh Mục', navCryptoDesc: '5000+ Coin • Giá Thời Gian Thực • AI', navExchDesc: '102 Sàn Toàn Cầu • Đăng Ký Trực Tiếp', navMetalsDesc: 'Vàng • Bạc • Bạch Kim • Palladium', navStocksDesc: 'Cổ Phiếu Token • ETF • Yahoo Finance', tabCommodities: 'Kim Loại Quý', tabStocks: 'Cổ Phiếu & ETF' }, id: { navSections: 'Bagian', navCryptoDesc: '5000+ Koin • Harga Real-time • AI', navExchDesc: '102 Bursa Global • Registrasi Langsung', navMetalsDesc: 'Emas • Perak • Platinum • Paladium', navStocksDesc: 'Saham Token • ETF • Yahoo Finance', tabCommodities: 'Logam Mulia', tabStocks: 'Saham & ETF' }, uk: { navSections: 'Розділи', navCryptoDesc: '5000+ Монет • Ціни в Реальному Часі • ШІ', navExchDesc: '102 Біржі • Пряма Реєстрація', navMetalsDesc: 'Золото • Срібло • Платина • Паладій', navStocksDesc: 'Токенізовані Акції • ETF • Yahoo Finance', tabCommodities: 'Дорогоцінні Метали', tabStocks: 'Акції та ETF' }, fa: { navSections: 'بخش‌ها', navCryptoDesc: '+5000 ارز • قیمت لحظه‌ای • تحلیل AI', navExchDesc: '102 صرافی • ثبت‌نام مستقیم', navMetalsDesc: 'طلا • نقره • پلاتین • پالادیوم', navStocksDesc: 'سهام توکنیزه • ETF • Yahoo Finance', tabCommodities: 'فلزات گرانبها', tabStocks: 'سهام و ETF' }, he: { navSections: 'מדורים', navCryptoDesc: '+5000 מטבעות • מחירים בזמן אמת • AI', navExchDesc: '102 בורסות • הרשמה ישירה', navMetalsDesc: 'זהב • כסף • פלטינה • פלדיום', navStocksDesc: 'מניות מטוקנות • ETF • Yahoo Finance', tabCommodities: 'מתכות יקרות', tabStocks: 'מניות ו-ETF' }, fi: { navSections: 'Osiot', navCryptoDesc: '5000+ Kolikkoa • Reaaliaikahinnat • AI', navExchDesc: '102 Pörssiä • Suorarekisteröinti', navMetalsDesc: 'Kulta • Hopea • Platina • Palladium', navStocksDesc: 'Tokenisoidut Osakkeet • ETF • Yahoo Finance', tabCommodities: 'Jalometallit', tabStocks: 'Osakkeet & ETF' } };
@@ -7233,7 +7250,7 @@
       if (!gsr) return;
 
       if (coins.length === 0 && exchanges.length === 0) {
-        gsr.innerHTML = '<div class="p-4 text-center text-t2 text-sm">لا توجد نتائج مطابقة</div>';
+        gsr.innerHTML = `<div class="p-4 text-center text-t2 text-sm">${t('noExchanges')}</div>`;
         gsr.classList.add('active');
         return;
       }
@@ -7242,7 +7259,7 @@
 
       // Coins Section
       if (coins.length > 0) {
-        html += '<div class="p-2 text-xs font-bold text-ac opacity-70 uppercase tracking-wider" style="background:var(--bg2)">العملات الرقمية</div>';
+        html += `<div class="p-2 text-xs font-bold text-ac opacity-70 uppercase tracking-wider" style="background:var(--bg2)">${t('tabCrypto')}</div>`;
         html += coins.map(c => {
           const chg = c.c24 || 0;
           return `<div class="gs-res-item" onclick="showEx('${c.id}','${c.nm.replace(/'/g, "\\'")}', '${c.sy}', '${c.img}'); closeSrch()">
@@ -7260,16 +7277,16 @@
 
       // Exchanges Section
       if (exchanges.length > 0) {
-        html += '<div class="p-2 text-xs font-bold text-ac opacity-70 uppercase tracking-wider" style="background:var(--bg2)">المنصات</div>';
+        html += `<div class="p-2 text-xs font-bold text-ac opacity-70 uppercase tracking-wider" style="background:var(--bg2)">${t('exchanges')}</div>`;
         html += exchanges.map(ex => {
           const ref = getRef(ex.n, ex.u.replace(/{s}/g, 'BTC').replace(/{sl}/g, 'btc'));
           return `<a href="${ref}" target="_blank" class="gs-res-item no-underline" onclick="closeSrch()">
           <img src="${ex.l}" class="gs-res-img" onerror="this.onerror=null;this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2232%22 height=%2232%22><rect width=%2232%22 height=%2232%22 fill=%22%23ccc%22/></svg>'">
             <div class="gs-res-info">
               <div class="gs-res-name">${ex.n}</div>
-              <span class="text-xs text-t2">الترتيب: #${ex.t}/10</span>
+              <span class="text-xs text-t2">${t('rank')}: #${ex.t}/10</span>
             </div>
-            <div class="text-ac font-bold text-xs">تداول ←</div>
+            <div class="text-ac font-bold text-xs">${t('colTrade')} &larr;</div>
           </a>`;
         }).join('');
       }
@@ -8326,6 +8343,64 @@
     window.addEventListener('beforeunload', () => { _CM.destroy(); if (bWs) bWs.close(); if (uInt) clearInterval(uInt); if (_mtWs) _mtWs.close(); if (_mtPollId) clearInterval(_mtPollId) });
 
     // === JS Block 2 ===
+
+    function updFG() {
+      if (!fgD) return;
+      const v = fgD.n;
+
+      const arc = document.getElementById('fgArc');
+      const need = document.getElementById('fgNeedle');
+      if (arc) {
+        arc.style.transition = 'stroke-dashoffset 1.5s cubic-bezier(0.4, 0, 0.2, 1)';
+        arc.style.strokeDashoffset = 377 - (v / 100) * 377;
+      }
+      if (need) {
+        need.style.transition = 'transform 1.5s cubic-bezier(0.4, 0, 0.2, 1)';
+        const deg = (v / 100) * 180 - 90;
+        need.setAttribute('transform', `rotate(${deg} 150 140)`);
+      }
+
+      const valEl = document.getElementById('fgV');
+      const lblEl = document.getElementById('fgL');
+      if (valEl) valEl.textContent = v;
+
+      let key = 'neutral';
+      let col = '#eab308';
+      if (v <= 24) { key = 'extremeFear'; col = '#ea3943'; }
+      else if (v <= 45) { key = 'fear'; col = '#f97316'; }
+      else if (v <= 54) { key = 'neutral'; col = '#eab308'; }
+      else if (v <= 74) { key = 'greed'; col = '#84cc16'; }
+      else { key = 'extremeGreed'; col = '#16c784'; }
+
+      if (lblEl) {
+        lblEl.textContent = t ? t(key) : key;
+        lblEl.style.color = col;
+      }
+      if (valEl) valEl.style.color = col;
+
+      const setHist = (idBase, val) => {
+        const bar = document.getElementById('fgB' + idBase);
+        const txt = document.getElementById('fgH' + idBase);
+        if (!bar || !txt) return;
+        bar.style.transition = 'width 1.5s ease-out';
+        setTimeout(() => { bar.style.width = val + '%'; }, 100);
+        txt.textContent = val;
+        let c = '#eab308';
+        if (val <= 24) c = '#ea3943';
+        else if (val <= 45) c = '#f97316';
+        else if (val <= 54) c = '#eab308';
+        else if (val <= 74) c = '#84cc16';
+        else c = '#16c784';
+        bar.style.background = c;
+        txt.style.color = c;
+      };
+
+      setHist('N', fgD.n);
+      setHist('Y', fgD.y);
+      setHist('W', fgD.w);
+      setHist('M', fgD.m);
+    }
+
     function toggleAnalysis() {
       var p = document.getElementById('analysisPanel');
       if (!p) return;
@@ -8333,6 +8408,8 @@
         p.style.display = 'block';
         p.style.animation = 'anlSlide .35s ease';
         p.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Trigger animation if panel is opened
+        if (fgD) setTimeout(updFG, 100);
       } else {
         p.style.display = 'none';
       }
