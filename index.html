@@ -4522,8 +4522,8 @@
 
 <body>
   <!-- Nav -->
-  <nav class="fixed w-full top-0 z-[9999] border-b"
-    style="background:var(--bg1);border-color:var(--bc);backdrop-filter:blur(12px)">
+  <nav class="fixed w-full top-0 z-[9999] border-b" style="border-color:var(--bc)">
+    <div style="position:absolute;inset:0;z-index:-1;background:var(--bg1);border-bottom:1px solid var(--bc);backdrop-filter:blur(12px)"></div>
     <div class="max-w-7xl mx-auto px-4 py-2.5">
       <div class="flex justify-between items-center">
         <div class="flex items-center gap-2.5">
@@ -4579,7 +4579,67 @@
                 class="hidden sm:inline text-xs font-bold" data-i18n="navSections" style="color:var(--t1)">Site
                 Sections</span><i class="fas fa-chevron-down" style="font-size:9px"></i></button>
 
-            
+
+          
+<div class="stats-panel" id="statsPanel">
+    <div class="stats-panel-hd"
+      style="background:linear-gradient(135deg,#0f172a 0%,#1e1b4b 40%,#312e81 70%,#4338ca 100%);padding:20px;position:relative;overflow:hidden">
+      <div
+        style="position:absolute;top:-20px;right:-20px;width:100px;height:100px;background:radial-gradient(circle,rgba(255,255,255,.08),transparent 70%);border-radius:50%">
+      </div><span class="sp-ico"
+        style="background:rgba(255,255,255,.15);backdrop-filter:blur(8px);width:32px;height:32px;border-radius:10px"><i
+          class="fas fa-rocket" style="font-size:14px"></i></span> <span data-i18n="navSections"
+        style="font-size:13px;letter-spacing:1px">أقسام الموقع</span>
+    </div>
+    <a class="nav-item" onclick="navTo('crypto');return false" href="#">
+      <div class="nav-ico" style="background:linear-gradient(135deg,#3861fb,#6c5ce7);color:#fff"><i
+          class="fas fa-coins"></i></div>
+      <div style="flex: 1;">
+        <div class="nav-title" data-i18n="tabCrypto">العملات الرقمية</div>
+      </div>
+      <span class="nav-badge" style="background:rgba(56,97,251,.1);color:var(--ac)" id="navCryptoBadge">--</span>
+      <i class="fas fa-chevron-left nav-arrow"></i>
+    </a>
+    <a class="nav-item" onclick="navTo('exchanges');return false" href="#"
+      style="background: linear-gradient(90deg, transparent, rgba(240,185,11,0.05)); border-right: 3px solid #f0b90b;">
+      <div class="nav-ico"
+        style="background:linear-gradient(135deg,#f0b90b,#f5d04e);color:#1a1a2e;box-shadow: 0 4px 15px rgba(240,185,11,0.3);">
+        <i class="fas fa-crown"></i>
+      </div>
+      <div style="flex: 1;">
+        <div class="nav-title" data-i18n="tabExchanges"
+          style="color: #f0b90b; font-size: 14px; display: flex; align-items: center; gap: 6px;">جميع المنصات
+          <i class="fas fa-fire" style="font-size: 10px; color: #f0b90b;"></i>
+        </div>
+      </div>
+      <span class="nav-badge"
+        style="background:rgba(240,185,11,.15);color:#f0b90b; border: 1px solid rgba(240,185,11,0.3); display: flex; align-items: center; gap: 4px;"><i
+          class="fas fa-star" style="font-size: 8px;"></i>102</span>
+      <i class="fas fa-chevron-left nav-arrow" style="color: #f0b90b;"></i>
+    </a>
+    <a class="nav-item" onclick="navTo('commodities');return false" href="#">
+      <div class="nav-ico" style="background:linear-gradient(135deg,#FFD700,#FFA000);color:#fff"><i
+          class="fas fa-gem"></i></div>
+      <div style="flex: 1;">
+        <div class="nav-title" data-i18n="tabCommodities">المعادن الثمينة</div>
+      </div>
+      <span class="nav-badge" style="background:rgba(255,215,0,.1);color:#d4a017"><span class="ld"
+          style="width:5px;height:5px"></span> <span data-i18n="live">مباشر</span></span>
+      <i class="fas fa-chevron-left nav-arrow"></i>
+    </a>
+    <a class="nav-item" onclick="navTo('stocks');return false" href="#">
+      <div class="nav-ico" style="background:linear-gradient(135deg,#16c784,#0ea5e9);color:#fff"><i
+          class="fas fa-chart-line"></i></div>
+      <div style="flex: 1;">
+        <div class="nav-title" data-i18n="tabStocks">الأسهم وETF</div>
+      </div>
+      <span class="nav-badge" style="background:rgba(22,199,132,.1);color:var(--gn)"><span class="ld"
+          style="width:5px;height:5px"></span> <span data-i18n="live">مباشر</span></span>
+      <i class="fas fa-chevron-left nav-arrow"></i>
+    </a>
+    <div class="stats-panel-ft"><i class="fas fa-shield-halved"></i> CryptoHub <span>•</span> <span
+        data-i18n="secure">آمن</span></div>
+  </div>
           </div>
 
           <button onclick="toggleAnalysis()" class="ddb" id="navAnlBtn" title="التحليل الفني"
@@ -4598,66 +4658,7 @@
       </div>
     </div>
   </nav>
-  <div class="stats-panel" id="statsPanel">
-              <div class="stats-panel-hd"
-                style="background:linear-gradient(135deg,#0f172a 0%,#1e1b4b 40%,#312e81 70%,#4338ca 100%);padding:20px;position:relative;overflow:hidden">
-                <div
-                  style="position:absolute;top:-20px;right:-20px;width:100px;height:100px;background:radial-gradient(circle,rgba(255,255,255,.08),transparent 70%);border-radius:50%">
-                </div><span class="sp-ico"
-                  style="background:rgba(255,255,255,.15);backdrop-filter:blur(8px);width:32px;height:32px;border-radius:10px"><i
-                    class="fas fa-rocket" style="font-size:14px"></i></span> <span data-i18n="navSections"
-                  style="font-size:13px;letter-spacing:1px">أقسام الموقع</span>
-              </div>
-              <a class="nav-item" onclick="navTo('crypto');return false" href="#">
-                <div class="nav-ico" style="background:linear-gradient(135deg,#3861fb,#6c5ce7);color:#fff"><i
-                    class="fas fa-coins"></i></div>
-                <div style="flex: 1;">
-                  <div class="nav-title" data-i18n="tabCrypto">العملات الرقمية</div>
-                </div>
-                <span class="nav-badge" style="background:rgba(56,97,251,.1);color:var(--ac)"
-                  id="navCryptoBadge">--</span>
-                <i class="fas fa-chevron-left nav-arrow"></i>
-              </a>
-              <a class="nav-item" onclick="navTo('exchanges');return false" href="#"
-                style="background: linear-gradient(90deg, transparent, rgba(240,185,11,0.05)); border-right: 3px solid #f0b90b;">
-                <div class="nav-ico"
-                  style="background:linear-gradient(135deg,#f0b90b,#f5d04e);color:#1a1a2e;box-shadow: 0 4px 15px rgba(240,185,11,0.3);">
-                  <i class="fas fa-crown"></i>
-                </div>
-                <div style="flex: 1;">
-                  <div class="nav-title" data-i18n="tabExchanges"
-                    style="color: #f0b90b; font-size: 14px; display: flex; align-items: center; gap: 6px;">جميع المنصات
-                    <i class="fas fa-fire" style="font-size: 10px; color: #f0b90b;"></i>
-                  </div>
-                </div>
-                <span class="nav-badge"
-                  style="background:rgba(240,185,11,.15);color:#f0b90b; border: 1px solid rgba(240,185,11,0.3); display: flex; align-items: center; gap: 4px;"><i
-                    class="fas fa-star" style="font-size: 8px;"></i>102</span>
-                <i class="fas fa-chevron-left nav-arrow" style="color: #f0b90b;"></i>
-              </a>
-              <a class="nav-item" onclick="navTo('commodities');return false" href="#">
-                <div class="nav-ico" style="background:linear-gradient(135deg,#FFD700,#FFA000);color:#fff"><i
-                    class="fas fa-gem"></i></div>
-                <div style="flex: 1;">
-                  <div class="nav-title" data-i18n="tabCommodities">المعادن الثمينة</div>
-                </div>
-                <span class="nav-badge" style="background:rgba(255,215,0,.1);color:#d4a017"><span class="ld"
-                    style="width:5px;height:5px"></span> <span data-i18n="live">مباشر</span></span>
-                <i class="fas fa-chevron-left nav-arrow"></i>
-              </a>
-              <a class="nav-item" onclick="navTo('stocks');return false" href="#">
-                <div class="nav-ico" style="background:linear-gradient(135deg,#16c784,#0ea5e9);color:#fff"><i
-                    class="fas fa-chart-line"></i></div>
-                <div style="flex: 1;">
-                  <div class="nav-title" data-i18n="tabStocks">الأسهم وETF</div>
-                </div>
-                <span class="nav-badge" style="background:rgba(22,199,132,.1);color:var(--gn)"><span class="ld"
-                    style="width:5px;height:5px"></span> <span data-i18n="live">مباشر</span></span>
-                <i class="fas fa-chevron-left nav-arrow"></i>
-              </a>
-              <div class="stats-panel-ft"><i class="fas fa-shield-halved"></i> CryptoHub <span>•</span> <span
-                  data-i18n="secure">آمن</span></div>
-            </div>
+  
 
   <main class="pt-16 max-w-7xl mx-auto px-4 py-5">
     <input type="text" id="search" style="display:none">
@@ -5790,7 +5791,8 @@
       <!-- Header -->
       <div class="cd-hd">
         <div style="display:flex;align-items:center;gap:12px;min-width:0">
-          <img id="mLogo" src="" class="cd-logo">
+          <img id="mLogo" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+            class="cd-logo">
           <div style="min-width:0">
             <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span id="mName"
                 style="font-size:20px;font-weight:800">--</span><span id="mSym" class="cd-badge">--</span><span
@@ -5890,7 +5892,6 @@
       </div>
     </div>
   </div>
-  </div>
 
 
   <script>
@@ -5986,10 +5987,10 @@
     function setLang(c) { cLang = c; localStorage.setItem('lang', c); closeDD(); applyLang() }
     function buildLM() { $('lMenu').innerHTML = LANGS.map(l => `<div class="ddi ${l.c === cLang ? 'active' : ''}" data-lang="${l.c}" onclick="setLang('${l.c}')"><span class="flag">${l.f}</span><span>${l.l}</span><i class="fas fa-check ck"></i></div>`).join('') }
     function buildNS() { $('netSel').innerHTML = `<option value="all">${t('allNetworks')}</option>` + NETS.map(n => `<option value="${n.id}">${n.i} ${n.n}</option>`).join('') }
-    function toggleDD(id) { const dd = $(id); let m = dd.querySelector('.ddm') || dd.querySelector('.stats-panel'); if (!m && id === 'statsDd') m = document.getElementById('statsPanel'); if (!m) return; const w = m.classList.contains('active'); closeDD(); if (!w) { m.classList.add('active') } }
+    function toggleDD(id) { const dd = $(id); const m = dd.querySelector('.ddm') || dd.querySelector('.stats-panel'); if (!m) return; const w = m.classList.contains('active'); closeDD(); if (!w) { m.classList.add('active') } }
     function closeDD() { document.querySelectorAll('.ddm,.stats-panel').forEach(m => m.classList.remove('active')) }
     function navTo(section) { closeDD(); swTab(section); setTimeout(() => { const el = $('tab_' + section); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }) }, 100); if (section === 'crypto' && $('navCryptoBadge')) $('navCryptoBadge').textContent = allC.length ? allC.length.toLocaleString() : '--' }
-    document.addEventListener('click', e => { if (!e.target.closest('.dropdown') && !e.target.closest('.stats-panel')) closeDD() });
+    document.addEventListener('click', e => { if (!e.target.closest('.dropdown')) closeDD() });
     document.addEventListener('keydown', e => { if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openSrch() } if (e.key === 'Escape') { closeSrch(); closeDD(); closeMod(); document.querySelectorAll('.legal-modal.active').forEach(m => m.classList.remove('active')) } });
     function toggleTheme() { const d = document.documentElement.classList.toggle('dark'); $('sI').classList.toggle('hidden', d); $('mI').classList.toggle('hidden', !d); localStorage.setItem('theme', d ? 'dark' : 'light') }
     if (localStorage.getItem('theme') === 'dark') { document.documentElement.classList.add('dark'); $('sI').classList.add('hidden'); $('mI').classList.remove('hidden') }
@@ -6690,7 +6691,7 @@
     }
 
     // AI Analysis (8 indicators + entry/exit) - Binance klines
-    function cRSI(p, n = 14) { if (p.length < n + 1) return null; let g = 0, l = 0; for (let i = 1; i <= n; i++) { const d = p[i] - p[i - 1]; d > 0 ? g += d : l += Math.abs(d) } const ag = g / n, al = l / n; return al === 0 ? 100 : 100 - (100 / (1 + (ag / al))) }
+    function cRSI(p, n = 14) { if (p.length < n + 1) return null; let g = 0, l = 0; for (let i = 1; i <= n; i++) { const d = p[i] - p[i - 1]; if (d > 0) { g += d; } else { l += Math.abs(d); } } const ag = g / n, al = l / n; return al === 0 ? 100 : 100 - (100 / (1 + (ag / al))); }
     function cEMA(p, n) { if (!p.length) return 0; const k = 2 / (n + 1); let e = p[0]; for (let i = 1; i < p.length; i++)e = (p[i] * k) + (e * (1 - k)); return e }
     function cStoch(p, n = 14) { const r = p.slice(-n); const lo = Math.min(...r), hi = Math.max(...r), c = r[r.length - 1]; return hi === lo ? 50 : ((c - lo) / (hi - lo)) * 100 }
     async function calcAI() {
@@ -8204,7 +8205,7 @@
 
     // ===== HOOK INTO EXISTING WS CALLBACKS =====
     const _origDoWS = doWS;
-    doWS = function () {
+    window.doWS = function () {
       _origDoWS();
       // Patch WS handlers for CM tracking
       setTimeout(() => {
@@ -8238,7 +8239,7 @@
 
     // Hook metal WS
     const _origConnectMtlWs = _connectMetalWs;
-    _connectMetalWs = function () {
+    window._connectMetalWs = function () {
       _origConnectMtlWs();
       setTimeout(() => {
         if (_mtWs) {
@@ -8588,7 +8589,7 @@
     <div class="ai-chat-body" id="aiChatBody">
       <div class="ai-chat-msg ai"
         style="font-size:15px;font-weight:500;line-height:1.6;font-family:'Cairo','Inter',sans-serif;">مرحباً بك في
-        CryptoHub! أنا مساعدك الذكي <span style='color:#3861fb;font-weight:700;'>Ask</span>.<br>بإمكاني مساعدتك في تحليل
+        CryptoHub! أنا مساعدك الذكي <span style="color:#3861fb;font-weight:700;">Ask</span>.<br>بإمكاني مساعدتك في تحليل
         بيانات السوق، الإجابة عن استفساراتك حول العملات، والمعادن، والأسهم المتاحة لدينا. تفضل، كيف يمكنني مساعدتك؟
       </div>
     </div>
