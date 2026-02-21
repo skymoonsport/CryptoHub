@@ -4579,7 +4579,26 @@
                 class="hidden sm:inline text-xs font-bold" data-i18n="navSections" style="color:var(--t1)">Site
                 Sections</span><i class="fas fa-chevron-down" style="font-size:9px"></i></button>
 
-            <div class="stats-panel" id="statsPanel">
+            
+          </div>
+
+          <button onclick="toggleAnalysis()" class="ddb" id="navAnlBtn" title="التحليل الفني"
+            style="padding:7px 10px;position:relative"><i class="fas fa-chart-line"
+              style="color:#a855f7;font-size:13px"></i><span class="hidden sm:inline text-xs font-bold"
+              style="color:var(--t1)">AI</span><span
+              style="position:absolute;top:2px;right:2px;width:7px;height:7px;border-radius:50%;background:#a855f7;border:1.5px solid var(--bg1)"></span></button>
+          <div class="dropdown" id="langDd"><button class="ddb" onclick="toggleDD('langDd')"><span
+                id="cFlag">🇸🇦</span><span id="cCode" class="text-xs font-bold">AR</span><i class="fas fa-chevron-down"
+                style="font-size:9px"></i></button>
+            <div class="ddm" id="lMenu" style="min-width:190px"></div>
+          </div>
+          <button onclick="toggleTheme()" class="ddb" style="padding:7px 9px"><i class="fas fa-sun text-yellow-500"
+              id="sI"></i><i class="fas fa-moon hidden" style="color:var(--ac)" id="mI"></i></button>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <div class="stats-panel" id="statsPanel">
               <div class="stats-panel-hd"
                 style="background:linear-gradient(135deg,#0f172a 0%,#1e1b4b 40%,#312e81 70%,#4338ca 100%);padding:20px;position:relative;overflow:hidden">
                 <div
@@ -4639,24 +4658,6 @@
               <div class="stats-panel-ft"><i class="fas fa-shield-halved"></i> CryptoHub <span>•</span> <span
                   data-i18n="secure">آمن</span></div>
             </div>
-          </div>
-
-          <button onclick="toggleAnalysis()" class="ddb" id="navAnlBtn" title="التحليل الفني"
-            style="padding:7px 10px;position:relative"><i class="fas fa-chart-line"
-              style="color:#a855f7;font-size:13px"></i><span class="hidden sm:inline text-xs font-bold"
-              style="color:var(--t1)">AI</span><span
-              style="position:absolute;top:2px;right:2px;width:7px;height:7px;border-radius:50%;background:#a855f7;border:1.5px solid var(--bg1)"></span></button>
-          <div class="dropdown" id="langDd"><button class="ddb" onclick="toggleDD('langDd')"><span
-                id="cFlag">🇸🇦</span><span id="cCode" class="text-xs font-bold">AR</span><i class="fas fa-chevron-down"
-                style="font-size:9px"></i></button>
-            <div class="ddm" id="lMenu" style="min-width:190px"></div>
-          </div>
-          <button onclick="toggleTheme()" class="ddb" style="padding:7px 9px"><i class="fas fa-sun text-yellow-500"
-              id="sI"></i><i class="fas fa-moon hidden" style="color:var(--ac)" id="mI"></i></button>
-        </div>
-      </div>
-    </div>
-  </nav>
 
   <main class="pt-16 max-w-7xl mx-auto px-4 py-5">
     <input type="text" id="search" style="display:none">
@@ -5985,10 +5986,10 @@
     function setLang(c) { cLang = c; localStorage.setItem('lang', c); closeDD(); applyLang() }
     function buildLM() { $('lMenu').innerHTML = LANGS.map(l => `<div class="ddi ${l.c === cLang ? 'active' : ''}" data-lang="${l.c}" onclick="setLang('${l.c}')"><span class="flag">${l.f}</span><span>${l.l}</span><i class="fas fa-check ck"></i></div>`).join('') }
     function buildNS() { $('netSel').innerHTML = `<option value="all">${t('allNetworks')}</option>` + NETS.map(n => `<option value="${n.id}">${n.i} ${n.n}</option>`).join('') }
-    function toggleDD(id) { const dd = $(id); const m = dd.querySelector('.ddm') || dd.querySelector('.stats-panel'); if (!m) return; const w = m.classList.contains('active'); closeDD(); if (!w) { m.classList.add('active') } }
+    function toggleDD(id) { const dd = $(id); let m = dd.querySelector('.ddm') || dd.querySelector('.stats-panel'); if (!m && id === 'statsDd') m = document.getElementById('statsPanel'); if (!m) return; const w = m.classList.contains('active'); closeDD(); if (!w) { m.classList.add('active') } }
     function closeDD() { document.querySelectorAll('.ddm,.stats-panel').forEach(m => m.classList.remove('active')) }
     function navTo(section) { closeDD(); swTab(section); setTimeout(() => { const el = $('tab_' + section); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }) }, 100); if (section === 'crypto' && $('navCryptoBadge')) $('navCryptoBadge').textContent = allC.length ? allC.length.toLocaleString() : '--' }
-    document.addEventListener('click', e => { if (!e.target.closest('.dropdown')) closeDD() });
+    document.addEventListener('click', e => { if (!e.target.closest('.dropdown') && !e.target.closest('.stats-panel')) closeDD() });
     document.addEventListener('keydown', e => { if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openSrch() } if (e.key === 'Escape') { closeSrch(); closeDD(); closeMod(); document.querySelectorAll('.legal-modal.active').forEach(m => m.classList.remove('active')) } });
     function toggleTheme() { const d = document.documentElement.classList.toggle('dark'); $('sI').classList.toggle('hidden', d); $('mI').classList.toggle('hidden', !d); localStorage.setItem('theme', d ? 'dark' : 'light') }
     if (localStorage.getItem('theme') === 'dark') { document.documentElement.classList.add('dark'); $('sI').classList.add('hidden'); $('mI').classList.remove('hidden') }
