@@ -1,4 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
- <url><loc>https://cryptohubcoin.com/</loc></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <url>
+    <loc>https://cryptohubcoin.com/</loc>
+    <lastmod>2026-02-23</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en"      href="https://cryptohubcoin.com/"/>
+    <xhtml:link rel="alternate" hreflang="ar"      href="https://cryptohubcoin.com/"/>
+    <xhtml:link rel="alternate" hreflang="zh"      href="https://cryptohubcoin.com/"/>
+    <xhtml:link rel="alternate" hreflang="es"      href="https://cryptohubcoin.com/"/>
+    <xhtml:link rel="alternate" hreflang="fr"      href="https://cryptohubcoin.com/"/>
+    <xhtml:link rel="alternate" hreflang="de"      href="https://cryptohubcoin.com/"/>
+    <xhtml:link rel="alternate" hreflang="ru"      href="https://cryptohubcoin.com/"/>
+    <xhtml:link rel="alternate" hreflang="tr"      href="https://cryptohubcoin.com/"/>
+    <xhtml:link rel="alternate" hreflang="ja"      href="https://cryptohubcoin.com/"/>
+    <xhtml:link rel="alternate" hreflang="ko"      href="https://cryptohubcoin.com/"/>
+    <xhtml:link rel="alternate" hreflang="pt"      href="https://cryptohubcoin.com/"/>
+    <xhtml:link rel="alternate" hreflang="hi"      href="https://cryptohubcoin.com/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cryptohubcoin.com/"/>
+    <image:image>
+      <image:loc>https://cryptohubcoin.com/logo.png</image:loc>
+      <image:title>CryptoHub - Cryptocurrency Tracker</image:title>
+      <image:caption>Free real-time crypto tracker for 5000+ coins with AI analysis</image:caption>
+    </image:image>
+  </url>
+
 </urlset>

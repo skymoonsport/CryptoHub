@@ -1,10 +1,103 @@
 Options -MultiViews
 RewriteEngine On
+RewriteBase /
 
-# Redirect .html to clean URL
+# ============================================================
+# FORCE HTTPS (SSL must be active on your server)
+# ============================================================
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# ============================================================
+# REMOVE WWW → non-www
+# ============================================================
+RewriteCond %{HTTP_HOST} ^www\.cryptohubcoin\.com [NC]
+RewriteRule ^(.*)$ https://cryptohubcoin.com/$1 [R=301,L]
+
+# ============================================================
+# ORIGINAL RULES (kept exactly as-is)
+# ============================================================
+
+# Force text/html for all extensionless files
+<FilesMatch "^[^\.]+$">
+    ForceType text/html
+</FilesMatch>
+
+# Remove .html extension from URL
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([^\.]+)$ $1.html [NC,L]
+
+# Redirect .html URLs to clean URLs (without .html)
 RewriteCond %{THE_REQUEST} \s/+(.*?)\.html[\s?] [NC]
 RewriteRule ^ /%1 [R=301,NE,L]
 
-# Internally serve .html for clean URLs
-RewriteCond %{REQUEST_FILENAME}.html -f
-RewriteRule ^(.+?)/?$ $1.html [L]
+# ============================================================
+# GZIP COMPRESSION
+# ============================================================
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html
+  AddOutputFilterByType DEFLATE text/css
+  AddOutputFilterByType DEFLATE text/javascript
+  AddOutputFilterByType DEFLATE application/javascript
+  AddOutputFilterByType DEFLATE application/json
+  AddOutputFilterByType DEFLATE application/xml
+  AddOutputFilterByType DEFLATE image/svg+xml
+  AddOutputFilterByType DEFLATE font/woff
+  AddOutputFilterByType DEFLATE font/woff2
+</IfModule>
+
+# ============================================================
+# BROWSER CACHING
+# ============================================================
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/html                  "access plus 1 hour"
+  ExpiresByType text/css                   "access plus 1 month"
+  ExpiresByType application/javascript     "access plus 1 month"
+  ExpiresByType image/png                  "access plus 6 months"
+  ExpiresByType image/jpeg                 "access plus 6 months"
+  ExpiresByType image/webp                 "access plus 6 months"
+  ExpiresByType image/svg+xml              "access plus 6 months"
+  ExpiresByType image/x-icon              "access plus 1 year"
+  ExpiresByType font/woff                  "access plus 1 year"
+  ExpiresByType font/woff2                 "access plus 1 year"
+  ExpiresByType application/json           "access plus 0 seconds"
+</IfModule>
+
+# ============================================================
+# SECURITY HEADERS
+# ============================================================
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set X-XSS-Protection "1; mode=block"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+  <FilesMatch "\.(ico|jpg|jpeg|png|gif|webp|svg|woff|woff2)$">
+    Header set Cache-Control "max-age=31536000, public, immutable"
+  </FilesMatch>
+  <FilesMatch "\.(css|js)$">
+    Header set Cache-Control "max-age=2592000, public"
+  </FilesMatch>
+  <FilesMatch "\.html$">
+    Header set Cache-Control "max-age=3600, public, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+# ============================================================
+# MIME TYPES
+# ============================================================
+<IfModule mod_mime.c>
+  AddType image/webp .webp
+  AddType font/woff .woff
+  AddType font/woff2 .woff2
+  AddType application/manifest+json .json
+  AddType application/xml .xml
+</IfModule>
+
+# ============================================================
+# CUSTOM ERROR PAGES
+# ============================================================
+ErrorDocument 404 /index.html
+ErrorDocument 403 /index.html
