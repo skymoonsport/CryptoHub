@@ -6346,12 +6346,7 @@
 
   <!-- Exchange Modal -->
   <div id="exMod" class="modal">
-    <!-- Mobile sticky back button -->
-    <div id="mobileBackBar" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:10001;padding:12px 16px;background:var(--bg1);border-top:1px solid var(--bc);box-shadow:0 -4px 20px rgba(0,0,0,.15)">
-      <button onclick="closeMod()" style="width:100%;padding:12px;background:linear-gradient(135deg,#3861fb,#6c5ce7);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px">
-        <i class="fas fa-arrow-left"></i> <span>رجوع / Back</span>
-      </button>
-    </div>
+
     <div class="mc"
       style="width:100%;max-width:100%;height:100vh;padding:0;border-radius:0;display:flex;flex-direction:column">
       <!-- Header -->
@@ -6453,7 +6448,11 @@
               <tbody id="exLst"></tbody>
             </table>
           </div>
-          <div id="exPagination" class="flex justify-center items-center gap-2 p-3 bg-bg2"></div>
+          <div id="exPaginationBar" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding:10px 14px;background:var(--bg2);border-top:1px solid var(--bc)">
+            <div id="exShowingInfo" style="font-size:12px;color:var(--t2);font-weight:500;min-width:100px"></div>
+            <div id="exPagination" style="display:flex;align-items:center;justify-content:center;gap:4px;flex:1"></div>
+            <div style="min-width:100px"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -6544,22 +6543,33 @@
 
     // Network token mapping
     const NET_TOKENS = {
-      'ethereum': ['ETH', 'USDT', 'USDC', 'DAI', 'LINK', 'UNI', 'AAVE', 'MKR', 'SNX', 'COMP', 'SUSHI', 'CRV', 'LDO', 'RPL', 'ENS', 'DYDX', '1INCH', 'GRT', 'FET', 'RNDR', 'IMX', 'MANA', 'SAND', 'AXS', 'APE', 'PEPE', 'SHIB', 'FLOKI', 'WLD', 'ARB', 'OP', 'BLUR', 'MASK', 'CHZ', 'BAT', 'ZRX', 'STORJ', 'ANKR', 'GNO'],
-      'binance-smart-chain': ['BNB', 'CAKE', 'XVS', 'BAKE', 'BURGER', 'SFP', 'TWT', 'ALPHA', 'LINA', 'RAMP', 'DEGO'],
-      'solana': ['SOL', 'RAY', 'SRM', 'STEP', 'ORCA', 'MNGO', 'FIDA', 'ATLAS', 'JTO', 'JUP', 'PYTH', 'BONK', 'WIF', 'BOME', 'POPCAT'],
-      'polygon-pos': ['MATIC', 'POL', 'QUICK', 'GHST', 'BAL', 'AAVEGOTCHI'],
-      'arbitrum-one': ['ARB', 'GMX', 'MAGIC', 'GNS', 'RDNT', 'PENDLE'],
-      'avalanche': ['AVAX', 'JOE', 'PNG', 'QI', 'XAVA', 'COQ'],
-      'tron': ['TRX', 'JST', 'SUN', 'BTT', 'WIN', 'NFT'],
-      'bitcoin': ['BTC', 'WBTC', 'RUNE', 'STX', 'ORDI', 'SATS'],
-      'cardano': ['ADA', 'SUNDAE', 'MIN', 'DJED'],
-      'polkadot': ['DOT', 'GLMR', 'ASTR', 'ACA', 'PHA'],
-      'cosmos': ['ATOM', 'OSMO', 'INJ', 'SEI', 'TIA', 'DYM', 'CELESTIA'],
-      'near-protocol': ['NEAR', 'OCT', 'REF', 'AURORA'],
-      'sui': ['SUI', 'NAVX', 'CETUS'],
-      'aptos': ['APT', 'GUI'],
-      'base': ['BRETT', 'DEGEN', 'AERO', 'TOSHI'],
-      'optimistic-ethereum': ['OP', 'VELO', 'THALES', 'LYRA']
+      'ethereum': ['ETH','USDT','USDC','DAI','WBTC','STETH','WSTETH','LINK','UNI','AAVE','MKR','SNX','COMP','SUSHI','CRV','LDO','RPL','ENS','DYDX','1INCH','GRT','FET','RNDR','IMX','MANA','SAND','AXS','APE','PEPE','SHIB','FLOKI','WLD','ARB','OP','BLUR','MASK','CHZ','BAT','ZRX','STORJ','ANKR','GNO','YFI','BAL','OCEAN','BAND','NMR','PERP','OMG','SKL','CELR','RLC','OXT','PAXG','FRAX','LUSD','PYUSD','AMPL','OHM','FXS','CVX','INDEX','DFI','REQ','POWR','KNC','ANT','ZIL','WOO','DODO','API3','BADGER','CREAM','ALPHA','PICKLE','IDEX','BNT','TORN','HOPR'],
+      'binance-smart-chain': ['BNB','CAKE','XVS','BAKE','BURGER','SFP','TWT','ALPHA','LINA','RAMP','DEGO','BELT','BUNNY','EPS','AUTO','MDX','BIFI','BABY','BTT','WIN','SHIB','BABYDOGE','NAOS','BSW','CHESS','DERI','FRONT','SWINGBY','MATH','O3','SKILL','MBOX','HERO','SANTOS','PSG','BAR','JUV','ACM','LAZIO','CITY','SPS','BFG','SFUND','MONI','LOOKS','GAL','DF','SOUL','NRV'],
+      'solana': ['SOL','RAY','SRM','STEP','ORCA','MNGO','FIDA','ATLAS','POLIS','JTO','JUP','PYTH','BONK','WIF','BOME','POPCAT','MEW','SLERF','JITO','MSOL','STSOL','GUAC','RENDER','HNT','MOBILE','IOT','SAMO','COPE','MAPS','LIKE','TULIP','PORT','SUNNY','LARIX','ROPE','MEDIA','KARMA','MER','KIN','GRAPE','SONAR','NOS','GOFX','SNY','UXD','USH','SBR','SLND'],
+      'polygon-pos': ['MATIC','POL','QUICK','GHST','BAL','AAVEGOTCHI','DG','NEXO','FISH','SPHERE','RELAY','PYR','REVV','TOWER','GAME','NFTL','GEL','ORBS','POLYDOGE','BICO','UMBR','INSUR','DFYN','AKRO','COMBO'],
+      'arbitrum-one': ['ARB','GMX','MAGIC','GNS','RDNT','PENDLE','GRAIL','WINR','FOREX','JONES','DPX','VSTA','SPA','HOP','PREMIA','FACTOR','FRXETH'],
+      'optimistic-ethereum': ['OP','VELO','THALES','LYRA','PERP','SONNE','KWENTA','SNX','AELIN','FRAX','LUSD'],
+      'avalanche': ['AVAX','JOE','PNG','QI','XAVA','COQ','BENQI','YAK','WOO','YYAVAX','SAVAX'],
+      'tron': ['TRX','JST','SUN','BTT','WIN','USDD','TUSD','USDT','WTRX','USDJ','JUST'],
+      'bitcoin': ['BTC','WBTC','RENBTC','HBTC','SBTC','TBTC','RUNE','STX','ORDI','SATS','RATS','MUBI'],
+      'cardano': ['ADA','SUNDAE','MIN','DJED','SHEN','LENFI','AGIX','MELD','WMT','HOSKY','ERG'],
+      'polkadot': ['DOT','GLMR','ASTR','ACA','PHA','LIT','CLV','KSM','MOVR','KINT','OTP','TUR','SDN'],
+      'cosmos': ['ATOM','OSMO','INJ','SEI','TIA','DYM','STARS','JUNO','EVMOS','SCRT','AKT','REGEN','DVPN','CMDX','IRIS','LUNA','LUNC','UMEE','HUAHUA','ROWAN','ION','RAW','NETA','MNTL'],
+      'near-protocol': ['NEAR','OCT','REF','AURORA','META','JUMBO','PARAS','BANANA','USN','CHEDDAR','LINEAR'],
+      'sui': ['SUI','NAVX','CETUS','TURBOS','AFTERMATH','MOVE','BLUEMOVE','SCALLOP'],
+      'aptos': ['APT','GUI','TORTUGA','DITTO','ABEL','PONTEM'],
+      'base': ['BRETT','DEGEN','AERO','TOSHI','BASED','NORMIE','MOCHI','ENJOY','CBETH','USDBC','BALD','TPOT','RDNT'],
+      'fantom': ['FTM','SPIRIT','BEETS','TAROT','REAPER','SCREAM','GEIST','LQDR','TOMB','TSHARE','FRAX','MULTI','WOO','BOO'],
+      'cronos': ['CRO','VVS','CRONA','SINGLE','MMF'],
+      'algorand': ['ALGO','USDC','YLDY','OPUL','TINY','PLANET'],
+      'stellar': ['XLM','USDC','AQUA','SHX'],
+      'celo': ['CELO','CUSD','CEUR','CREAL','MOBI','PACT'],
+      'mantle': ['MNT','WMNT','USDC','USDT','METH'],
+      'zksync': ['ETH','USDC','USDT','WBTC','MUTE','ZK'],
+      'blast': ['BLAST','USDB','ETH','WETH','RING','JUICE'],
+      'kava': ['KAVA','HARD','USDX','SWP'],
+      'osmosis': ['OSMO','ION','SCRT','REGEN','JUNO','STARS','AKT','DVPN','CMDX'],
+      'moonbeam': ['GLMR','USDC','USDT','XCKSM','XCDOT','WBTC']
     };
 
     let cLang = 'en', allC = [], filtC = [], cPage = 1, iPP = window.innerWidth <= 768 ? 50 : 100,
@@ -6976,42 +6986,183 @@
       cacheSet('cryptohub_coins', allC.slice(0, 3000));
     }
 
-    // ===== ENRICH MARKET CAP - Optimized (no individual lookups) =====
+    // ===== ENRICH MARKET CAP & SUPPLY - CoinGecko live data =====
     async function enrichMarketCap() {
-      console.log('Starting Market Cap enrichment...');
+      console.log('Starting Supply enrichment from CoinGecko...');
       let totalFixed = 0;
-      const symIdx = new Map(); allC.forEach(c => symIdx.set(c.sy, c));
+      const symIdx = new Map(); allC.forEach(c => symIdx.set(c.sy.toUpperCase(), c));
 
-      // SOURCE 1: Supply DB (instant - no API calls)
+      // SOURCE 1: CoinGecko /coins/markets — live circulating + total + max supply
       try {
-        const SUPPLY_DB = { BTC: 19800000, ETH: 120400000, BNB: 145900000, SOL: 470000000, XRP: 57200000000, DOGE: 147000000000, ADA: 35900000000, AVAX: 416000000, DOT: 1420000000, LINK: 627000000, MATIC: 10000000000, UNI: 753700000, SHIB: 589300000000000, LTC: 74600000, TRX: 88700000000, TON: 3470000000, NEAR: 1190000000, ICP: 473000000, FIL: 560000000, APT: 490000000, ARB: 3480000000, OP: 1340000000, SUI: 2900000000, SEI: 4100000000, TIA: 280000000, INJ: 93000000, ATOM: 395000000, FTM: 2800000000, ALGO: 8200000000, XLM: 30000000000, VET: 72700000000, HBAR: 38000000000, THETA: 1000000000, EOS: 1150000000, XTZ: 990000000, FLOW: 1530000000, MINA: 1120000000, NEO: 70540000, EGLD: 27000000, KAVA: 1060000000, ONE: 13700000000, ROSE: 6800000000, CKB: 45000000000, KAS: 25000000000, PEPE: 420690000000000, FLOKI: 9700000000000, WIF: 999000000, BONK: 76000000000000, WLD: 470000000, STX: 1510000000, RUNE: 340000000, IMX: 1600000000, MKR: 920000, AAVE: 15100000, GRT: 9600000000, SAND: 2180000000, MANA: 1880000000, AXS: 147000000, CAKE: 280000000, CRV: 1350000000, BCH: 19700000, DASH: 11600000, DYDX: 275000000, ENJ: 1000000000, COMP: 9400000, GNO: 2600000, ICX: 960000000, IOTA: 3300000000, MASK: 100000000, OCEAN: 613000000, OMG: 140000000, ONT: 1230000000, PAXG: 80000, QNT: 14600000, QTUM: 105000000, SC: 57600000000, SKL: 7200000000, STORJ: 440000000, SUSHI: 275000000, YFI: 33800, ZEC: 16200000, ZIL: 19000000000, ZRX: 1000000000, SNX: 328000000, LDO: 893000000, RPL: 20000000, ENS: 31500000, APE: 610000000, BOME: 69000000000, DYM: 260000000, LINA: 5800000000, BAT: 1500000000, BAND: 145000000, AR: 66500000, ANKR: 10000000000, CHZ: 8900000000, GMT: 6200000000, CFX: 4800000000, JASMY: 50000000000, BLUR: 3200000000, GMX: 9400000, PENDLE: 162000000, JTO: 135000000, PYTH: 3660000000, RAY: 300000000, ORDI: 21000000, ETC: 146000000, RNDR: 382000000, FET: 2550000000, TAO: 7300000 };
-        let fixed = 0;
-        allC.forEach(c => {
-          if ((!c.mc || c.mc === 0) && SUPPLY_DB[c.sy] && c.pr > 0) {
-            c.mc = SUPPLY_DB[c.sy] * c.pr; c.sup = SUPPLY_DB[c.sy]; fixed++;
-          }
-        });
-        if (fixed > 0) { totalFixed += fixed; filtC = [...allC]; doSortArr(); render(); updateGlobalFromData() }
-        console.log('Supply DB:', fixed);
-      } catch (e) { }
+        for (const page of [1, 2, 3, 4]) {
+          try {
+            const r = await fetch(
+              `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=${page}&sparkline=false`,
+              { signal: AbortSignal.timeout(10000) }
+            );
+            if (!r.ok) { if (r.status === 429) await new Promise(w => setTimeout(w, 3000)); break; }
+            const data = await r.json();
+            if (!Array.isArray(data)) break;
+            let fixed = 0;
+            data.forEach(cg => {
+              const sym = cg.symbol ? cg.symbol.toUpperCase() : null;
+              if (!sym) return;
+              const coin = symIdx.get(sym);
+              if (!coin) return;
+              if (cg.circulating_supply > 0) coin.sup = cg.circulating_supply;
+              if (cg.total_supply > 0) coin.ts = cg.total_supply;
+              if (cg.max_supply > 0) coin.ms = cg.max_supply;
+              else if (cg.max_supply === null) coin.ms = -1; // -1 = confirmed unlimited
+              if (cg.market_cap > 0 && (!coin.mc || coin.mc === 0)) { coin.mc = cg.market_cap; fixed++; }
+              if (!coin.img || coin.img.includes('/0.png')) coin.img = cg.image;
+            });
+            if (fixed > 0) { totalFixed += fixed; filtC = [...allC]; doSortArr(); render(); updateGlobalFromData(); }
+            console.log(`CoinGecko page ${page}: ${data.length} coins`);
+            if (data.length < 250) break;
+            await new Promise(w => setTimeout(w, 1200));
+          } catch (e) { break; }
+        }
+      } catch (e) { console.warn('CoinGecko supply err:', e); }
 
-      // SOURCE 2: CoinCap bulk (single request, 2000 coins)
+      // SOURCE 2: CoinCap bulk — fills remaining gaps
       try {
         const r = await fetch('https://api.coincap.io/v2/assets?limit=2000&offset=0', { signal: AbortSignal.timeout(8000) });
         if (r.ok) {
           const d = await r.json();
           if (d.data) {
-            let fixed = 0;
+            // SUPPLY_DB placeholder to fix missing entries in old code
+            const SUPPLY_DB = {
+          // sym: [circulating, total, max]
+          BTC:  [19800000,        21000000,        21000000],
+          ETH:  [120400000,       120400000,       null],
+          BNB:  [145900000,       145900000,       200000000],
+          SOL:  [470000000,       588000000,       null],
+          XRP:  [57200000000,     99988314000,     100000000000],
+          DOGE: [147000000000,    147000000000,    null],
+          ADA:  [35900000000,     37500000000,     45000000000],
+          AVAX: [416000000,       440000000,       720000000],
+          DOT:  [1420000000,      1420000000,      null],
+          LINK: [627000000,       1000000000,      1000000000],
+          MATIC:[10000000000,     10000000000,     10000000000],
+          UNI:  [753700000,       1000000000,      1000000000],
+          SHIB: [589300000000000, 589300000000000, 999990000000000000],
+          LTC:  [74600000,        84000000,        84000000],
+          TRX:  [88700000000,     88700000000,     null],
+          TON:  [3470000000,      5107000000,      null],
+          NEAR: [1190000000,      1190000000,      null],
+          ICP:  [473000000,       473000000,       null],
+          FIL:  [560000000,       2000000000,      null],
+          APT:  [490000000,       1110000000,      null],
+          ARB:  [3480000000,      10000000000,     10000000000],
+          OP:   [1340000000,      4294967000,      4294967000],
+          SUI:  [2900000000,      10000000000,     10000000000],
+          SEI:  [4100000000,      10000000000,     10000000000],
+          TIA:  [280000000,       1070000000,      null],
+          INJ:  [93000000,        100000000,       100000000],
+          ATOM: [395000000,       395000000,       null],
+          FTM:  [2800000000,      3175000000,      3175000000],
+          ALGO: [8200000000,      8200000000,      10000000000],
+          XLM:  [30000000000,     50001787000,     50001787000],
+          VET:  [72700000000,     86712634466,     86712634466],
+          HBAR: [38000000000,     50000000000,     50000000000],
+          THETA:[1000000000,      1000000000,      1000000000],
+          EOS:  [1150000000,      2099000000,      null],
+          XTZ:  [990000000,       990000000,       null],
+          FLOW: [1530000000,      1530000000,      null],
+          MINA: [1120000000,      1120000000,      null],
+          NEO:  [70540000,        100000000,       100000000],
+          EGLD: [27000000,        31415000,        null],
+          KAVA: [1060000000,      1060000000,      null],
+          ONE:  [13700000000,     13700000000,     null],
+          ROSE: [6800000000,      10000000000,     10000000000],
+          CKB:  [45000000000,     45000000000,     null],
+          KAS:  [25000000000,     28700000000,     28700000000],
+          PEPE: [420690000000000, 420690000000000, 420690000000000],
+          FLOKI:[9700000000000,   10000000000000,  10000000000000],
+          WIF:  [999000000,       999000000,       999000000],
+          BONK: [76000000000000,  93700000000000,  null],
+          WLD:  [470000000,       10000000000,     10000000000],
+          STX:  [1510000000,      1818000000,      1818000000],
+          RUNE: [340000000,       500000000,       500000000],
+          IMX:  [1600000000,      2000000000,      2000000000],
+          MKR:  [920000,          977631,          1005577],
+          AAVE: [15100000,        16000000,        16000000],
+          GRT:  [9600000000,      10800000000,     10800000000],
+          SAND: [2180000000,      3000000000,      3000000000],
+          MANA: [1880000000,      2193000000,      null],
+          AXS:  [147000000,       270000000,       270000000],
+          CAKE: [280000000,       450000000,       750000000],
+          CRV:  [1350000000,      2110000000,      3030000000],
+          BCH:  [19700000,        21000000,        21000000],
+          DASH: [11600000,        18900000,        18900000],
+          DYDX: [275000000,       1000000000,      1000000000],
+          ENJ:  [1000000000,      1000000000,      1000000000],
+          COMP: [9400000,         10000000,        10000000],
+          GNO:  [2600000,         3000000,         null],
+          ICX:  [960000000,       960000000,       null],
+          IOTA: [3300000000,      4600000000,      4600000000],
+          MASK: [100000000,       100000000,       100000000],
+          OCEAN:[613000000,       1410000000,      1410000000],
+          OMG:  [140000000,       140000000,       140000000],
+          ONT:  [1230000000,      1000000000,      1000000000],
+          PAXG: [80000,           null,            null],
+          QNT:  [14600000,        14612493,        14612493],
+          QTUM: [105000000,       107822406,       107822406],
+          SC:   [57600000000,     57600000000,     null],
+          SKL:  [7200000000,      7000000000,      7000000000],
+          STORJ:[440000000,       425000000,       null],
+          SUSHI:[275000000,       250000000,       250000000],
+          YFI:  [33800,           36666,           36666],
+          ZEC:  [16200000,        21000000,        21000000],
+          ZIL:  [19000000000,     21000000000,     21000000000],
+          ZRX:  [1000000000,      1000000000,      1000000000],
+          SNX:  [328000000,       309400000,       null],
+          LDO:  [893000000,       1000000000,      1000000000],
+          RPL:  [20000000,        null,            null],
+          ENS:  [31500000,        100000000,       100000000],
+          APE:  [610000000,       1000000000,      1000000000],
+          BOME: [69000000000,     69000000000,     69000000000],
+          DYM:  [260000000,       1000000000,      null],
+          LINA: [5800000000,      10000000000,     10000000000],
+          BAT:  [1500000000,      1500000000,      1500000000],
+          BAND: [145000000,       100000000,       null],
+          AR:   [66500000,        66000000,        66000000],
+          ANKR: [10000000000,     10000000000,     10000000000],
+          CHZ:  [8900000000,      8888888000,      8888888888],
+          GMT:  [6200000000,      6000000000,      6000000000],
+          CFX:  [4800000000,      5000000000,      null],
+          JASMY:[50000000000,     50000000000,     50000000000],
+          BLUR: [3200000000,      4000000000,      null],
+          GMX:  [9400000,         13250000,        13250000],
+          PENDLE:[162000000,      258000000,       null],
+          JTO:  [135000000,       1000000000,      1000000000],
+          PYTH: [3660000000,      10000000000,     10000000000],
+          RAY:  [300000000,       555000000,       555000000],
+          ORDI: [21000000,        21000000,        21000000],
+          ETC:  [146000000,       210700000,       210700000],
+          RNDR: [382000000,       531000000,       531000000],
+          FET:  [2550000000,      2630000000,      2630000000],
+          TAO:  [7300000,         21000000,        21000000],
+          USDT: [120000000000,    120000000000,    null],
+          USDC: [45000000000,     45000000000,     null],
+          DAI:  [5400000000,      5400000000,      null],
+          BNB:  [145900000,       145900000,       200000000],
+          BUSD: [null,            null,            null],
+          STETH:[null,            null,            null],
+          WBTC: [null,            null,            21000000],
+          WETH: [null,            null,            null],
+        }; // end SUPPLY_DB (kept for reference, overridden by live data)
+            let fixed2 = 0;
             d.data.forEach(a => {
               const coin = symIdx.get(a.symbol.toUpperCase());
               if (!coin) return;
               const mc = parseFloat(a.marketCapUsd) || 0;
-              if (mc > 0 && (!coin.mc || coin.mc === 0)) { coin.mc = mc; fixed++ }
+              if (mc > 0 && (!coin.mc || coin.mc === 0)) { coin.mc = mc; fixed2++; }
               const sup = parseFloat(a.supply) || 0;
               if (sup > 0 && (!coin.sup || coin.sup === 0)) coin.sup = sup;
             });
-            if (fixed > 0) { totalFixed += fixed; filtC = [...allC]; doSortArr(); render(); updateGlobalFromData() }
-            console.log('CoinCap:', fixed);
+            if (fixed2 > 0) { totalFixed += fixed2; filtC = [...allC]; doSortArr(); render(); updateGlobalFromData(); }
+            console.log('CoinCap fallback:', fixed2);
           }
         }
       } catch (e) { }
@@ -7025,14 +7176,13 @@
             const ratios = known.map(c => c.mc / c.vol).sort((a, b) => a - b);
             const med = ratios[Math.floor(ratios.length / 2)];
             let fixed = 0;
-            final.forEach(c => { if (c.vol > 0) { c.mc = c.vol * med; fixed++; totalFixed++ } });
-            if (fixed > 0) { filtC = [...allC]; doSortArr(); render(); updateGlobalFromData() }
-            console.log('Volume ratio:', fixed);
+            final.forEach(c => { if (c.vol > 0) { c.mc = c.vol * med; fixed++; totalFixed++; } });
+            if (fixed > 0) { filtC = [...allC]; doSortArr(); render(); updateGlobalFromData(); }
           }
         }
       } catch (e) { }
 
-      console.log('MC enrichment done. Fixed:', totalFixed);
+      console.log('Supply enrichment done. Fixed:', totalFixed);
       cacheSet('cryptohub_coins', allC.slice(0, 3000));
     }
 
@@ -7360,12 +7510,19 @@
     function sig(id, tp, lb) { const el = $(id + 'S'); const ic = tp === 'b' ? 'fa-arrow-up' : tp === 's' ? 'fa-arrow-down' : 'fa-minus'; const cl = tp === 'b' ? 'sbb' : tp === 's' ? 'sbs' : 'sbn'; el.className = 'sb ' + cl; el.innerHTML = `<i class="fas ${ic}"></i> ${lb}` }
     function sct(id, tp) { const c = $(id); c.classList.remove('buy', 'sell', 'hold'); c.classList.add(tp) }
 
-    // Network filter
+    // Network filter — checks platform slug, tags, and known token list
     function chkNet(c, nid) {
       if (c.plat === nid) return true;
-      if (c.tags && c.tags.includes(nid + '-ecosystem')) return true;
+      if (c.plat && c.plat.includes(nid)) return true;
+      if (c.tags) {
+        if (c.tags.includes(nid) || c.tags.includes(nid + '-ecosystem')) return true;
+        if (nid === 'ethereum' && (c.tags.includes('erc-20') || c.tags.includes('ethereum-ecosystem'))) return true;
+        if (nid === 'binance-smart-chain' && (c.tags.includes('bep-20') || c.tags.includes('bnb-chain'))) return true;
+        if (nid === 'tron' && c.tags.includes('trc-20')) return true;
+        if (nid === 'solana' && (c.tags.includes('spl-token') || c.tags.includes('solana-ecosystem'))) return true;
+      }
       const tokens = NET_TOKENS[nid];
-      if (tokens && tokens.includes(c.sy)) return true;
+      if (tokens && tokens.includes(c.sy.toUpperCase())) return true;
       return false;
     }
 
@@ -7516,13 +7673,75 @@
     }
 
     // ===== SMART COIN DETAILS FETCHER =====
+    // Known supply facts for top coins — used as instant fallback before API responds
+    // Format: [circulating, total_supply, max_supply]
+    // max_supply: null = unlimited (∞), number = capped
+    const KNOWN_SUPPLY = {
+      ETH:  [null, null,           null],   // Unlimited — no max supply
+      BTC:  [null, 21000000,       21000000],
+      BNB:  [null, 200000000,      200000000],
+      SOL:  [null, null,           null],   // Unlimited
+      XRP:  [null, 99988314000,    100000000000],
+      DOGE: [null, null,           null],   // Unlimited
+      ADA:  [null, 37000000000,    45000000000],
+      TRX:  [null, null,           null],   // Unlimited
+      DOT:  [null, null,           null],   // Unlimited (inflationary)
+      TON:  [null, null,           null],   // Unlimited
+      AVAX: [null, 440000000,      720000000],
+      NEAR: [null, null,           null],   // Unlimited
+      MATIC:[null, 10000000000,    10000000000],
+      LTC:  [null, 84000000,       84000000],
+      LINK: [null, 1000000000,     1000000000],
+      UNI:  [null, 1000000000,     1000000000],
+      ATOM: [null, null,           null],   // Unlimited (inflationary)
+      ALGO: [null, 8200000000,     10000000000],
+      XLM:  [null, 50001787000,    50001787000],
+      HBAR: [null, 50000000000,    50000000000],
+      FTM:  [null, 3175000000,     3175000000],
+      VET:  [null, 86712634466,    86712634466],
+      ICP:  [null, null,           null],   // Unlimited
+      FIL:  [null, null,           null],   // Unlimited
+      SHIB: [null, 589346717684,   999990000000000000],
+      PEPE: [null, 420690000000000,420690000000000],
+      WIF:  [null, 998926392,      999000000],
+      BONK: [null, null,           null],   // Unlimited
+      ARB:  [null, 10000000000,    10000000000],
+      OP:   [null, 4294967296,     4294967296],
+      SUI:  [null, 10000000000,    10000000000],
+      INJ:  [null, 100000000,      100000000],
+      SEI:  [null, 10000000000,    10000000000],
+      TIA:  [null, null,           null],   // Unlimited
+      APT:  [null, null,           null],   // Unlimited (inflationary)
+      MKR:  [null, 1005577,        1005577],
+      AAVE: [null, 16000000,       16000000],
+      CRV:  [null, 2062000000,     3030000000],
+      LDO:  [null, 1000000000,     1000000000],
+      GRT:  [null, 10800000000,    10800000000],
+      SNX:  [null, 309400000,      null],   // Unlimited
+      SAND: [null, 3000000000,     3000000000],
+      MANA: [null, null,           null],   // Unlimited
+      AXS:  [null, 270000000,      270000000],
+      BCH:  [null, 21000000,       21000000],
+      ETC:  [null, 210700000,      210700000],
+      ZEC:  [null, 21000000,       21000000],
+      DASH: [null, 18900000,       18900000],
+    };
+
     async function fetchCoinDetails(coin) {
-      if (coin.sup > 0 && coin.ts > 0 && coin.ms > 0) return; // Already have data
+      // Apply known supply data instantly (before API) for top coins
+      const ks = KNOWN_SUPPLY[coin.sy.toUpperCase()];
+      if (ks) {
+        if (ks[1] !== null && (!coin.ts || coin.ts === 0)) coin.ts = ks[1];
+        if (ks[2] !== null) coin.ms = ks[2]; // Always set ms from known data
+        else coin.ms = -1;                   // null = confirmed unlimited
+      }
+      // Always fetch from CoinGecko to ensure accuracy (especially for total_supply / max_supply)
 
       const updateUI = () => {
         if ($('mSym').textContent === coin.sy) { // Only update if modal is still open for this coin
-          const fdv = (coin.ms || coin.ts || 0) * coin.pr;
-          _fillSup(coin.sup, coin.ts, coin.ms, fdv, coin.sy);
+          const _fdvBase = coin.ms > 0 ? coin.ms : (coin.ts > 0 ? coin.ts : (coin.sup > 0 ? coin.sup : 0));
+          const fdv = _fdvBase > 0 && coin.pr > 0 ? _fdvBase * coin.pr : 0;
+          _fillSup(coin.sup || 0, coin.ts || 0, (coin.ms !== undefined ? coin.ms : 0), fdv, coin.sy);
         }
       };
 
@@ -7546,9 +7765,14 @@
 
         if (d && d.market_data) {
           const m = d.market_data;
-          if (m.circulating_supply && (!coin.sup || coin.sup === 0)) coin.sup = m.circulating_supply;
-          if (m.total_supply && (!coin.ts || coin.ts === 0)) coin.ts = m.total_supply;
-          if (m.max_supply && (!coin.ms || coin.ms === 0)) coin.ms = m.max_supply;
+          // Always overwrite with CoinGecko live data — most accurate source
+          if (m.circulating_supply > 0) coin.sup = m.circulating_supply;
+          if (m.total_supply > 0)       coin.ts = m.total_supply;
+          else if (m.total_supply === null) coin.ts = 0; // explicitly no total supply data
+          // max_supply: null = confirmed no cap → -1, number = capped, missing/0 = unknown → 0
+          if (m.max_supply > 0)                               coin.ms = m.max_supply;
+          else if ('max_supply' in m && m.max_supply === null) coin.ms = -1;
+          else                                                 coin.ms = 0;
           // Update Links if available
           if (d.links) updateLinks(d.links);
           updateUI();
@@ -7561,8 +7785,10 @@
         const r = await fetchJSON(`https://api.coincap.io/v2/assets/${coin.id}`, 2000);
         if (r && r.data) {
           const d = r.data;
-          if (!coin.sup || coin.sup === 0) coin.sup = parseFloat(d.supply) || 0;
-          if (!coin.ms || coin.ms === 0) coin.ms = parseFloat(d.maxSupply) || 0;
+          const sup = parseFloat(d.supply) || 0;
+          const ms = parseFloat(d.maxSupply) || 0;
+          if (sup > 0) coin.sup = sup;
+          if (ms > 0) coin.ms = ms;
           updateUI();
           return;
         }
@@ -7595,7 +7821,7 @@
       document.documentElement.style.overflow = 'hidden';
       document.body.style.overflow = 'hidden';
       // Show mobile sticky back button
-      if(window.innerWidth <= 768) { var mbb = document.getElementById('mobileBackBar'); if(mbb) mbb.style.display = 'block'; }
+      
       $('mRank').textContent = '#' + cd.rk;
       $('cdMktName').textContent = cn;
 
@@ -7612,8 +7838,9 @@
       }
 
       // Supply Data - Use Cached First
-      const fdv = (cd.ms || cd.ts || (cd.mc / cd.pr * 1.2) || 0) * cd.pr; // Approx FDV if missing
-      _fillSup(cd.sup || 0, cd.ts || 0, cd.ms || 0, fdv, cs);
+      const _fdvBase = cd.ms > 0 ? cd.ms : (cd.ts > 0 ? cd.ts : (cd.sup > 0 ? cd.sup : 0));
+      const fdv = _fdvBase > 0 && cd.pr > 0 ? _fdvBase * cd.pr : 0;
+      _fillSup(cd.sup || 0, cd.ts || 0, (cd.ms !== undefined ? cd.ms : 0), fdv, cs);
 
       // Trigger Smart Fetch for missing data
       fetchCoinDetails(cd);
@@ -7635,48 +7862,32 @@
       // Real-time Ex List updates
       if (window.exUpdTimer) { clearInterval(window.exUpdTimer); }
       window.exUpdTimer = setInterval(() => {
-        if (!$('exMod').classList.contains('active')) {
-          clearInterval(window.exUpdTimer); return;
-        }
+        if (!$('exMod').classList.contains('active')) { clearInterval(window.exUpdTimer); return; }
         if (typeof exData !== 'undefined' && exData && exData.length > 0) {
           const liveCoin = allC.find(c => c.id === cid);
           if (liveCoin && liveCoin.pr > 0) {
-            let needsReRender = false;
             exData.forEach(r => {
-              if (r.isSim || Math.random() > 0.5) {
-                const varPr = (Math.random() * 20 - 10) / 10000; // ±0.1% dynamic variance
-                r.pr = r.isSim ? liveCoin.pr * (1 + varPr) : r.pr * (1 + varPr);
-                if (r.isSim && liveCoin.vol > 0) {
-                  const dbEx = EX_DB.find(e => e.id === r.eid);
-                  const trust = dbEx ? dbEx.t : 5;
-                  const volMult = (trust / 10) * (trust / 10) * 0.05;
-                  const varVol = (Math.random() * 20 + 90) / 100; // ±10% variation over time
-                  r.vol = liveCoin.vol * volMult * varVol;
-                } else if (!r.isSim && r.vol > 0) {
-                  r.vol = r.vol * (1 + (Math.random() * 10 - 5) / 1000); // ±0.5% micro change
-                }
-                needsReRender = true;
-              }
+              const v = (Math.random() * 10 - 5) / 10000; // ±0.05% micro drift
+              r.pr = r.pr > 0 ? r.pr * (1 + v) : liveCoin.pr * (1 + v);
+              if (!r.isSim && r.vol > 0) r.vol = r.vol * (1 + (Math.random() * 4 - 2) / 1000);
             });
-
-            // Re-sort internally occasionally so ranks change naturally
-            if (Math.random() > 0.7) exData.sort((a, b) => b.vol - a.vol);
-
-            if (needsReRender) {
-              const totalVol = exData.reduce((s, r) => s + (r.vol > 0 ? r.vol : 0), 0);
-              $('exTotVol').innerHTML = totalVol > 0 ? `💰 Total Volume: <b>$${fN(totalVol)}</b>` : '';
-              renderExLst();
-            }
+            const totalVol = exData.reduce((s,r) => s + (r.vol > 0 ? r.vol : 0), 0);
+            $('exTotVol').innerHTML = totalVol > 0 ? `💰 Total Volume: <b>$${fN(totalVol)}</b>` : '';
+            renderExLst();
           }
         }
-      }, 2500);
+      }, 3000);
     }
 
     function _fillSup(circ, total, maxS, fdv, sym) {
       $('cdFdv').textContent = fdv > 0 ? fN(fdv) : '--';
       $('cdCirc').textContent = circ > 0 ? Math.round(circ).toLocaleString() + ' ' + sym : '--';
-      $('cdTotal').textContent = total > 0 ? Math.round(total).toLocaleString() + ' ' + sym : (circ > 0 ? Math.round(circ).toLocaleString() + '+' : '--');
-      $('cdMax').textContent = maxS > 0 ? Math.round(maxS).toLocaleString() + ' ' + sym : '∞';
+      $('cdTotal').textContent = total > 0 ? Math.round(total).toLocaleString() + ' ' + sym : (circ > 0 ? Math.round(circ).toLocaleString() + ' ' + sym : '--');
+      // Max supply: show ∞ only for coins explicitly known to have no cap (ETH, DOGE, etc.)
+      // If maxS is 0 but circ > 0, we can't be sure - show '--' instead of misleading ∞
+      if (maxS > 0) $('cdMax').textContent = Math.round(maxS).toLocaleString() + ' ' + sym;
+      else if (maxS === -1) $('cdMax').textContent = '∞';
+      else $('cdMax').textContent = '?';
 
       const den = maxS > 0 ? maxS : (total > 0 ? total : 0);
       if (circ > 0 && den > 0) {
@@ -7690,45 +7901,56 @@
     }
 
     // Split Exchange fetching to keep code clean
+    // Clean trading pair display — removes contract addresses
+    function cleanPair(base, target, sym) {
+      const isAddr = s => /^0x[0-9a-fA-F]{10,}$/i.test(s) || (s.length > 20 && /^[0-9A-F]+$/i.test(s));
+      const b = isAddr(base)   ? sym.toUpperCase() : base.toUpperCase();
+      const q = isAddr(target) ? 'USDT'            : target.toUpperCase();
+      return b + '/' + q;
+    }
+
     async function loadExchangesForCoin(cid, cn, cs) {
       try {
         const sym = cs.toUpperCase();
         const results = [];
-        const eidMap = new Map();
+        const eidMap  = new Map();
+        const nameMap = new Map();
+        const normN   = n => n.toLowerCase().replace(/[\s\-.]+/g, '');
 
-        function addResult(eid, name, pair, pr, vol) {
-          if (eidMap.has(eid)) {
-            const ex = results[eidMap.get(eid)];
-            if (vol > ex.vol) ex.vol = vol;
+        function addResult(eid, name, pair, pr, vol, isSim) {
+          const parts = pair.split('/');
+          const cleanedPair = parts.length === 2 ? cleanPair(parts[0], parts[1], sym) : sym + '/USDT';
+          const nn = normN(name);
+          const dupIdx = eidMap.has(eid) ? eidMap.get(eid) : (nameMap.has(nn) ? nameMap.get(nn) : -1);
+          if (dupIdx >= 0) {
+            if (vol > results[dupIdx].vol) { results[dupIdx].vol = vol; results[dupIdx].pr = pr || results[dupIdx].pr; results[dupIdx].pair = cleanedPair; }
             return;
           }
-          results.push({ n: name, eid: eid, pair: pair, pr: pr, vol: vol });
-          eidMap.set(eid, results.length - 1);
+          const idx = results.length;
+          results.push({ n: name, eid, pair: cleanedPair, pr: pr || 0, vol: vol || 0, isSim: !!isSim });
+          eidMap.set(eid, idx);
+          nameMap.set(nn, idx);
         }
 
-        // Parallel Fetching for Exchanges
         const slug = cid.toLowerCase();
         const [ccR, cgR] = await Promise.all([
           fetchJSON(`https://api.coincap.io/v2/assets/${slug}/markets?limit=150`).catch(() => null),
           fetchJSON(`https://api.coingecko.com/api/v3/coins/${slug}/tickers?depth=false&order=volume_desc&per_page=100`).catch(() => null)
         ]);
 
-        // Process CoinCap
-        if (ccR && ccR.data) {
-          ccR.data.forEach(m => {
-            addResult(mapEid(m.exchangeId), m.exchangeId, m.baseSymbol + '/' + m.quoteSymbol, parseFloat(m.priceUsd) || 0, parseFloat(m.volumeUsd24Hr) || 0);
-          });
-        }
-
-        // Process CoinGecko
+        // CoinGecko first (higher quality)
         if (cgR && cgR.tickers) {
           cgR.tickers.forEach(tk => {
             const eid = mapEid(tk.market?.identifier || '');
-            if (eid) addResult(eid, tk.market?.name || eid, tk.base + '/' + tk.target, tk.converted_last?.usd || 0, tk.converted_volume?.usd || 0);
+            if (!eid) return;
+            addResult(eid, tk.market?.name || eid, tk.base + '/' + tk.target, tk.converted_last?.usd || 0, tk.converted_volume?.usd || 0);
           });
         }
+        // CoinCap fills gaps
+        if (ccR && ccR.data) {
+          ccR.data.forEach(m => addResult(mapEid(m.exchangeId), m.exchangeId, m.baseSymbol+'/'+m.quoteSymbol, parseFloat(m.priceUsd)||0, parseFloat(m.volumeUsd24Hr)||0));
+        }
 
-        // Live Exchange Rates (Top Tier)
         const [binR, mexR, gateR, bybitR, okxR] = await Promise.all([
           fetchJSON(`https://api.binance.com/api/v3/ticker/24hr?symbol=${sym}USDT`).catch(() => null),
           fetchJSON(`https://api.mexc.com/api/v3/ticker/24hr?symbol=${sym}USDT`).catch(() => null),
@@ -7737,34 +7959,30 @@
           fetchJSON(`https://www.okx.com/api/v5/market/ticker?instId=${sym}-USDT`).catch(() => null)
         ]);
 
-        if (binR?.lastPrice) addResult('binance', 'Binance', sym + '/USDT', parseFloat(binR.lastPrice), parseFloat(binR.quoteVolume) || 0);
-        if (mexR?.lastPrice) addResult('mexc', 'MEXC', sym + '/USDT', parseFloat(mexR.lastPrice), parseFloat(mexR.quoteVolume) || 0);
-        if (gateR?.[0]?.last) addResult('gate', 'Gate.io', sym + '/USDT', parseFloat(gateR[0].last), parseFloat(gateR[0].quote_volume) || 0);
-        if (bybitR?.result?.list?.[0]) addResult('bybit', 'Bybit', sym + '/USDT', parseFloat(bybitR.result.list[0].lastPrice), parseFloat(bybitR.result.list[0].turnover24h) || 0);
-        if (okxR?.data?.[0]) { const o = okxR.data[0]; addResult('okx', 'OKX', sym + '/USDT', parseFloat(o.last), parseFloat(o.vol24h) * parseFloat(o.last) || 0); }
+        if (binR?.lastPrice)           addResult('binance','Binance', sym+'/USDT', parseFloat(binR.lastPrice),              parseFloat(binR.quoteVolume)||0);
+        if (mexR?.lastPrice)           addResult('mexc',   'MEXC',    sym+'/USDT', parseFloat(mexR.lastPrice),              parseFloat(mexR.quoteVolume)||0);
+        if (gateR?.[0]?.last)          addResult('gate',   'Gate.io', sym+'/USDT', parseFloat(gateR[0].last),               parseFloat(gateR[0].quote_volume)||0);
+        if (bybitR?.result?.list?.[0]) addResult('bybit',  'Bybit',   sym+'/USDT', parseFloat(bybitR.result.list[0].lastPrice), parseFloat(bybitR.result.list[0].turnover24h)||0);
+        if (okxR?.data?.[0])           { const o=okxR.data[0]; addResult('okx','OKX',sym+'/USDT',parseFloat(o.last),parseFloat(o.vol24h)*parseFloat(o.last)||0); }
 
-        // Final Fill: Add from EX_DB if not already present (ensure all 102 platforms are potential entries)
+        // Only simulate for trust ≥ 7 exchanges (avoids clutter)
         const cd = allC.find(c => c.id === cid);
         const basePrice = cd ? cd.pr : 0;
-        const baseVol = cd && cd.vol > 0 ? cd.vol : 1000000;
-
-        EX_DB.forEach(dbEx => {
-          if (!eidMap.has(dbEx.id)) {
-            const trust = dbEx.t || 5;
-            const hash = dbEx.n.charCodeAt(0) + (dbEx.n.length);
-            const varPr = (hash % 30 - 15) / 10000; // ±0.15%
-            const pr = basePrice > 0 ? basePrice * (1 + varPr) : 0;
-            const volMult = (trust / 10) * (trust / 10) * 0.05; // Max 5% of total volume for 10/10 trust
-            const varVol = (hash % 40 + 80) / 100; // 0.8x to 1.2x
-            const vol = baseVol > 0 ? baseVol * volMult * varVol : 0;
-
-            results.push({ n: dbEx.n, eid: dbEx.id, pair: sym + '/USDT', pr, vol, isSim: true, hash });
-            eidMap.set(dbEx.id, results.length - 1);
-          }
+        const baseVol   = cd && cd.vol > 0 ? cd.vol : 1000000;
+        EX_DB.filter(e => e.t >= 7).forEach(dbEx => {
+          if (eidMap.has(dbEx.id)) return;
+          const trust = dbEx.t, hash = dbEx.n.split('').reduce((a,ch)=>a+ch.charCodeAt(0),0);
+          const varPr = (hash % 20 - 10) / 10000;
+          const pr    = basePrice > 0 ? basePrice * (1 + varPr) : 0;
+          const vol   = baseVol  > 0 ? baseVol * Math.pow(trust/10, 2) * 0.08 * ((hash%30+85)/100) : 0;
+          addResult(dbEx.id, dbEx.n, sym+'/USDT', pr, vol, true);
         });
 
-        const final = results.filter(r => r.vol !== 0).sort((a, b) => b.vol - a.vol);
-        const totalVol = final.reduce((s, r) => s + (r.vol > 0 ? r.vol : 0), 0);
+        // Real data first, then simulated — both sorted by volume desc
+        const realData = results.filter(r => !r.isSim && r.vol > 0).sort((a,b) => b.vol - a.vol);
+        const simData  = results.filter(r =>  r.isSim && r.vol > 0).sort((a,b) => b.vol - a.vol);
+        const final    = [...realData, ...simData];
+        const totalVol = final.reduce((s,r) => s + (r.vol > 0 ? r.vol : 0), 0);
 
         exData = final; exPage = 1;
         $('exCt').textContent = final.length;
@@ -7802,23 +8020,40 @@
     }
 
     function renderExPages() {
-      const tot = Math.ceil(exData.length / exIPP), p = $('exPagination');
-      if (tot <= 1) { p.innerHTML = ''; return }
-      let h = `<button onclick="exPage=Math.max(1,exPage-1);renderExLst()" class="cm-hd-btn" ${exPage === 1 ? 'disabled' : ''}><i class="fas fa-chevron-left"></i></button>`;
-
-      let start = Math.max(1, exPage - 2);
-      let end = Math.min(tot, start + 4);
-      if (end === tot) start = Math.max(1, tot - 4);
-
-      for (let i = start; i <= end; i++) {
-        h += `<button onclick="exPage=${i};renderExLst()" class="cm-hd-btn ${i === exPage ? 'active' : ''}" style="${i === exPage ? 'background:var(--ac);color:#fff' : ''}">${i}</button>`;
+      const tot = Math.ceil(exData.length / exIPP);
+      const p = $('exPagination');
+      const si = $('exShowingInfo');
+      if (si) {
+        const from = (exPage - 1) * exIPP + 1;
+        const to   = Math.min(exPage * exIPP, exData.length);
+        si.textContent = `Showing ${from}–${to} of ${exData.length}`;
       }
-
-      h += `<button onclick="exPage=Math.min(${tot},exPage+1);renderExLst()" class="cm-hd-btn" ${exPage === tot ? 'disabled' : ''}><i class="fas fa-chevron-right"></i></button>`;
-      p.innerHTML = h;
+      if (tot <= 1) { if (p) p.innerHTML = ''; return; }
+      const btnS = (active, disabled) => {
+        let s = 'display:inline-flex;align-items:center;justify-content:center;min-width:32px;height:32px;padding:0 6px;border-radius:8px;border:1px solid var(--bc);background:var(--bg1);color:var(--t1);font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;';
+        if (disabled) return s + 'opacity:.35;cursor:default;pointer-events:none;';
+        if (active)   return s + 'background:var(--ac);color:#fff;border-color:var(--ac);box-shadow:0 2px 8px rgba(56,97,251,.35);';
+        return s + 'color:var(--t2);';
+      };
+      const dots = '<span style="display:inline-flex;align-items:center;color:var(--t2);font-size:13px;padding:0 2px">···</span>';
+      const isMob = window.innerWidth <= 480;
+      let h = `<button onclick="exPage=Math.max(1,exPage-1);renderExLst()" style="${btnS(false,exPage===1)}"><i class="fas fa-chevron-left" style="font-size:11px"></i></button>`;
+      if (isMob) {
+        const pages = [...new Set([1,exPage-1,exPage,exPage+1,tot].filter(n=>n>=1&&n<=tot))].sort((a,b)=>a-b);
+        let prev=0; pages.forEach(i=>{if(i-prev>1)h+=dots;h+=`<button onclick="exPage=${i};renderExLst()" style="${btnS(i===exPage,false)}">${i}</button>`;prev=i;});
+      } else {
+        const ws=Math.max(2,exPage-1), we=Math.min(tot-1,exPage+1);
+        h+=`<button onclick="exPage=1;renderExLst()" style="${btnS(exPage===1,false)}">1</button>`;
+        if(ws>2)h+=dots;
+        for(let i=ws;i<=we;i++)h+=`<button onclick="exPage=${i};renderExLst()" style="${btnS(i===exPage,false)}">${i}</button>`;
+        if(we<tot-1)h+=dots;
+        if(tot>1)h+=`<button onclick="exPage=${tot};renderExLst()" style="${btnS(exPage===tot,false)}">${tot}</button>`;
+      }
+      h+=`<button onclick="exPage=Math.min(${tot},exPage+1);renderExLst()" style="${btnS(false,exPage===tot)}"><i class="fas fa-chevron-right" style="font-size:11px"></i></button>`;
+      if(p)p.innerHTML=h;
     }
 
-    function closeMod() { $('exMod').classList.remove('active'); document.documentElement.style.overflow = ''; document.body.style.overflow = ''; if (window.exUpdTimer) clearInterval(window.exUpdTimer); var mbb = document.getElementById('mobileBackBar'); if(mbb) mbb.style.display = 'none'; }
+    function closeMod() { $('exMod').classList.remove('active'); document.documentElement.style.overflow = ''; document.body.style.overflow = ''; if (window.exUpdTimer) clearInterval(window.exUpdTimer); }
     function openSrch() {
       const gsr = $('gsResults');
       if (gsr) gsr.classList.add('active');
