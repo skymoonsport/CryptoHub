@@ -6577,7 +6577,7 @@
       exData = [], exPage = 1, exIPP = 10;
     /* iPP: 50 on mobile, 100 on desktop */
     // Clear old truncated cache (v2 upgrade)
-    try { const ov = sessionStorage.getItem('cryptohub_v'); if (ov !== '2') { sessionStorage.removeItem('cryptohub_coins'); sessionStorage.setItem('cryptohub_v', '2') } } catch (e) { }
+    try { const ov = sessionStorage.getItem('cryptohub_v'); if (ov !== '3') { sessionStorage.removeItem('cryptohub_coins'); sessionStorage.setItem('cryptohub_v', '3') } } catch (e) { }
 
     function $(id) { return document.getElementById(id) }
     function t(k) { return (T[cLang] && T[cLang][k]) || T.en[k] || k }
@@ -6658,6 +6658,76 @@
       return null;
     }
 
+    // ── Hard-coded supply facts — these ALWAYS override API data ──────────────
+    // Format: { SYM: [total_supply, max_supply] }
+    // null = confirmed unlimited (∞), number = capped amount
+    const HARD_SUPPLY = {
+      // No max supply (unlimited / inflationary)
+      ETH:  [null, null],   // Proof-of-stake, no cap
+      SOL:  [null, null],   // Inflationary
+      DOGE: [null, null],   // Inflationary (5B/yr)
+      TRX:  [null, null],   // No hard cap
+      DOT:  [null, null],   // Inflationary NPoS
+      TON:  [null, null],   // Inflationary
+      NEAR: [null, null],   // 5% annual inflation
+      ICP:  [null, null],   // No hard cap
+      FIL:  [null, null],   // No hard cap
+      APT:  [null, null],   // Inflationary
+      TIA:  [null, null],   // No hard cap
+      ATOM: [null, null],   // Inflationary
+      MANA: [null, null],   // No hard cap
+      SNX:  [null, null],   // No hard cap
+      BONK: [null, null],   // No hard cap
+      // Capped supply
+      BTC:  [21000000,         21000000],
+      BNB:  [200000000,        200000000],
+      XRP:  [99988314000,      100000000000],
+      ADA:  [37000000000,      45000000000],
+      AVAX: [440000000,        720000000],
+      LTC:  [84000000,         84000000],
+      LINK: [1000000000,       1000000000],
+      UNI:  [1000000000,       1000000000],
+      ALGO: [8200000000,       10000000000],
+      XLM:  [50001787000,      50001787000],
+      HBAR: [50000000000,      50000000000],
+      VET:  [86712634466,      86712634466],
+      FTM:  [3175000000,       3175000000],
+      MATIC:[10000000000,      10000000000],
+      SHIB: [589346717684000,  999990000000000000],
+      PEPE: [420690000000000,  420690000000000],
+      WIF:  [998926392,        998926392],
+      ARB:  [10000000000,      10000000000],
+      OP:   [4294967296,       4294967296],
+      SUI:  [10000000000,      10000000000],
+      INJ:  [100000000,        100000000],
+      SEI:  [10000000000,      10000000000],
+      MKR:  [1005577,          1005577],
+      AAVE: [16000000,         16000000],
+      CRV:  [2062000000,       3030000000],
+      LDO:  [1000000000,       1000000000],
+      GRT:  [10800000000,      10800000000],
+      SAND: [3000000000,       3000000000],
+      AXS:  [270000000,        270000000],
+      BCH:  [21000000,         21000000],
+      ETC:  [210700000,        210700000],
+      ZEC:  [21000000,         21000000],
+      DASH: [18900000,         18900000],
+      XMR:  [null,             null],   // Tail emission, no hard cap
+      EOS:  [null,             null],   // Inflationary
+      XTZ:  [null,             null],   // Inflationary
+    };
+
+    function applyKnownSupply(coins) {
+      coins.forEach(coin => {
+        const hs = HARD_SUPPLY[coin.sy];
+        if (!hs) return;
+        // total_supply: null means no cap exists, use circ as total
+        coin.ts = (hs[0] !== null) ? hs[0] : (coin.sup > 0 ? coin.sup : coin.ts);
+        // max_supply: null = unlimited → sentinel -1, number = capped
+        coin.ms = (hs[1] !== null) ? hs[1] : -1;
+      });
+    }
+
     // sessionStorage cache helpers
     function cacheSet(k, v) {
       try { sessionStorage.setItem(k, JSON.stringify(v)); return true } catch (e) {
@@ -6682,6 +6752,8 @@
         const cached = cacheGet('cryptohub_coins');
         if (cached && cached.length > 50) {
           cached.forEach(c => { allC.push(c); symMap.set(c.sy, c); });
+          // Fix any bad supply data in cache immediately
+          applyKnownSupply(allC);
           $('pFill').style.width = '100%';
           cBatch = 2; filtC = [...allC]; render(); buildTrending(); buildTicker();
           $('lProg').classList.add('hidden');
@@ -6854,15 +6926,15 @@
                   if (qt.percentChange1h && existing.c1 === 0) existing.c1 = qt.percentChange1h;
                   if (qt.percentChange7d && existing.c7 === 0) existing.c7 = qt.percentChange7d;
                   if (coin.circulatingSupply && (!existing.sup || existing.sup === 0)) existing.sup = coin.circulatingSupply;
-                  if (coin.totalSupply) existing.ts = coin.totalSupply;
-                  if (coin.maxSupply) existing.ms = coin.maxSupply;
+                  // NOTE: Do NOT set ts/ms from CMC — CMC returns wrong values (BTC=1B, ETH=900M)
+                  // These are set correctly by KNOWN_SUPPLY and CoinGecko
                   if (!existing.img || existing.img.includes('/0.png')) existing.img = `https://s2.coinmarketcap.com/static/img/coins/64x64/${coin.id}.png`;
                   return;
                 }
                 // New coin from CMC not in any exchange
                 const vol = qt.volume24h || 0; const mc = qt.marketCap || 0;
                 if (vol < MIN_VOL && mc <= 0) return;
-                const nc = { id: coin.slug || sym.toLowerCase(), rk: allC.length + 1, nm: coin.name, sy: sym, pr: qt.price || 0, c1: qt.percentChange1h || 0, c4: 0, c24: qt.percentChange24h || 0, c7: qt.percentChange7d || 0, mc: mc, vol: vol, img: `https://s2.coinmarketcap.com/static/img/coins/64x64/${coin.id}.png`, ex: Math.floor(Math.random() * 50) + 10, sup: coin.circulatingSupply || 0, ts: coin.totalSupply || 0, ms: coin.maxSupply || 0, plat: coin.platform ? coin.platform.slug : null, tags: coin.tags || [] };
+                const nc = { id: coin.slug || sym.toLowerCase(), rk: allC.length + 1, nm: coin.name, sy: sym, pr: qt.price || 0, c1: qt.percentChange1h || 0, c4: 0, c24: qt.percentChange24h || 0, c7: qt.percentChange7d || 0, mc: mc, vol: vol, img: `https://s2.coinmarketcap.com/static/img/coins/64x64/${coin.id}.png`, ex: Math.floor(Math.random() * 50) + 10, sup: coin.circulatingSupply || 0, ts: 0, ms: 0, plat: coin.platform ? coin.platform.slug : null, tags: coin.tags || [] };
                 allC.push(nc); symMap.set(sym, nc); added++;
               });
               if (d.data.cryptoCurrencyList.length < 500) break;
@@ -7182,6 +7254,7 @@
         }
       } catch (e) { }
 
+      applyKnownSupply(allC); // Final correction — HARD_SUPPLY always wins
       console.log('Supply enrichment done. Fixed:', totalFixed);
       cacheSet('cryptohub_coins', allC.slice(0, 3000));
     }
@@ -7673,69 +7746,8 @@
     }
 
     // ===== SMART COIN DETAILS FETCHER =====
-    // Known supply facts for top coins — used as instant fallback before API responds
-    // Format: [circulating, total_supply, max_supply]
-    // max_supply: null = unlimited (∞), number = capped
-    const KNOWN_SUPPLY = {
-      ETH:  [null, null,           null],   // Unlimited — no max supply
-      BTC:  [null, 21000000,       21000000],
-      BNB:  [null, 200000000,      200000000],
-      SOL:  [null, null,           null],   // Unlimited
-      XRP:  [null, 99988314000,    100000000000],
-      DOGE: [null, null,           null],   // Unlimited
-      ADA:  [null, 37000000000,    45000000000],
-      TRX:  [null, null,           null],   // Unlimited
-      DOT:  [null, null,           null],   // Unlimited (inflationary)
-      TON:  [null, null,           null],   // Unlimited
-      AVAX: [null, 440000000,      720000000],
-      NEAR: [null, null,           null],   // Unlimited
-      MATIC:[null, 10000000000,    10000000000],
-      LTC:  [null, 84000000,       84000000],
-      LINK: [null, 1000000000,     1000000000],
-      UNI:  [null, 1000000000,     1000000000],
-      ATOM: [null, null,           null],   // Unlimited (inflationary)
-      ALGO: [null, 8200000000,     10000000000],
-      XLM:  [null, 50001787000,    50001787000],
-      HBAR: [null, 50000000000,    50000000000],
-      FTM:  [null, 3175000000,     3175000000],
-      VET:  [null, 86712634466,    86712634466],
-      ICP:  [null, null,           null],   // Unlimited
-      FIL:  [null, null,           null],   // Unlimited
-      SHIB: [null, 589346717684,   999990000000000000],
-      PEPE: [null, 420690000000000,420690000000000],
-      WIF:  [null, 998926392,      999000000],
-      BONK: [null, null,           null],   // Unlimited
-      ARB:  [null, 10000000000,    10000000000],
-      OP:   [null, 4294967296,     4294967296],
-      SUI:  [null, 10000000000,    10000000000],
-      INJ:  [null, 100000000,      100000000],
-      SEI:  [null, 10000000000,    10000000000],
-      TIA:  [null, null,           null],   // Unlimited
-      APT:  [null, null,           null],   // Unlimited (inflationary)
-      MKR:  [null, 1005577,        1005577],
-      AAVE: [null, 16000000,       16000000],
-      CRV:  [null, 2062000000,     3030000000],
-      LDO:  [null, 1000000000,     1000000000],
-      GRT:  [null, 10800000000,    10800000000],
-      SNX:  [null, 309400000,      null],   // Unlimited
-      SAND: [null, 3000000000,     3000000000],
-      MANA: [null, null,           null],   // Unlimited
-      AXS:  [null, 270000000,      270000000],
-      BCH:  [null, 21000000,       21000000],
-      ETC:  [null, 210700000,      210700000],
-      ZEC:  [null, 21000000,       21000000],
-      DASH: [null, 18900000,       18900000],
-    };
-
     async function fetchCoinDetails(coin) {
-      // Apply known supply data instantly (before API) for top coins
-      const ks = KNOWN_SUPPLY[coin.sy.toUpperCase()];
-      if (ks) {
-        if (ks[1] !== null && (!coin.ts || coin.ts === 0)) coin.ts = ks[1];
-        if (ks[2] !== null) coin.ms = ks[2]; // Always set ms from known data
-        else coin.ms = -1;                   // null = confirmed unlimited
-      }
-      // Always fetch from CoinGecko to ensure accuracy (especially for total_supply / max_supply)
+      // Always fetch live data — CoinGecko is authoritative for total/max supply
 
       const updateUI = () => {
         if ($('mSym').textContent === coin.sy) { // Only update if modal is still open for this coin
@@ -7765,14 +7777,15 @@
 
         if (d && d.market_data) {
           const m = d.market_data;
-          // Always overwrite with CoinGecko live data — most accurate source
+          // Always use fresh API data (more accurate than local DB)
           if (m.circulating_supply > 0) coin.sup = m.circulating_supply;
+          // Always overwrite ts/ms from CoinGecko — authoritative source
           if (m.total_supply > 0)       coin.ts = m.total_supply;
-          else if (m.total_supply === null) coin.ts = 0; // explicitly no total supply data
-          // max_supply: null = confirmed no cap → -1, number = capped, missing/0 = unknown → 0
-          if (m.max_supply > 0)                               coin.ms = m.max_supply;
+          if (m.max_supply > 0)                                coin.ms = m.max_supply;
           else if ('max_supply' in m && m.max_supply === null) coin.ms = -1;
-          else                                                 coin.ms = 0;
+          else if (!m.max_supply)                              coin.ms = 0;
+          // Apply HARD_SUPPLY as final override for known coins
+          applyKnownSupply([coin]);
           // Update Links if available
           if (d.links) updateLinks(d.links);
           updateUI();
