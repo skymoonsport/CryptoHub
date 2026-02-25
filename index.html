@@ -3589,6 +3589,13 @@
     }
 
     /* === CSS Block 3 === */
+
+    .nav-icon-btn.active-search {
+      background: rgba(0, 212, 255, 0.1);
+      border-color: var(--ac);
+      color: var(--ac);
+    }
+
     /* Top Gainers Belt */
     /* === CSS Block 3 === */
     /* Global Search */
@@ -3722,6 +3729,66 @@
     .gs-res-chg {
       font-size: 11px;
       font-weight: 700;
+    }
+
+
+    /* === NEW NAV ICON BUTTONS === */
+    .nav-icon-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      background: var(--bg3);
+      border: 1px solid var(--bc);
+      color: var(--t1);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      padding: 0;
+      flex-shrink: 0;
+    }
+
+    .nav-icon-btn:hover {
+      background: var(--bg2);
+      border-color: var(--ac);
+      color: var(--ac);
+    }
+
+    .nav-lang-btn {
+      width: auto;
+      padding: 0 8px;
+      gap: 4px;
+      font-size: 13px;
+    }
+
+    /* Hamburger lines */
+    .nav-hamburger {
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .ham-line {
+      display: block;
+      width: 16px;
+      height: 2px;
+      border-radius: 2px;
+      background: var(--t1);
+      transition: all 0.2s ease;
+    }
+
+    .nav-hamburger:hover .ham-line {
+      background: var(--ac);
+    }
+
+    .nav-hamburger.active .ham-line:nth-child(1) {
+      transform: translateY(6px) rotate(45deg);
+    }
+    .nav-hamburger.active .ham-line:nth-child(2) {
+      opacity: 0;
+    }
+    .nav-hamburger.active .ham-line:nth-child(3) {
+      transform: translateY(-6px) rotate(-45deg);
     }
 
     .gs-mobile-btn {
@@ -4831,7 +4898,7 @@
               class="hidden sm:inline">مباشر</span></span>
 
           <!-- Global Search (Desktop) -->
-          <div class="gs-wrap hidden lg:block">
+          <div class="gs-wrap hidden" id="gsWrap">
             <div class="gs-input-wrap">
               <i class="fas fa-search gs-icon"></i>
               <input type="text" class="gs-input" id="gsInput" data-i18n-ph="searchCoin" placeholder="Search coin..."
@@ -4842,15 +4909,21 @@
           </div>
         </div>
         <div class="flex items-center gap-2">
-          <!-- Mobile Search Trigger -->
-          <button class="gs-mobile-btn flex lg:hidden" onclick="toggleMobileSearch()">
-            <i class="fas fa-search"></i>
+          <!-- Search Icon Button (all screens) -->
+          <button class="nav-icon-btn" onclick="toggleMobileSearch()" title="بحث" id="navSearchBtn">
+            <i class="fas fa-search" style="font-size:15px"></i>
+          </button>
+          <!-- Dark Mode Icon Button -->
+          <button onclick="toggleTheme()" class="nav-icon-btn" title="Dark/Light Mode">
+            <i class="fas fa-sun text-yellow-500" id="sI"></i>
+            <i class="fas fa-moon hidden" style="color:var(--ac)" id="mI"></i>
           </button>
           <div class="dropdown" id="statsDd" style="display:flex;align-items:center;gap:8px;">
-            <button class="ddb" onclick="toggleDD('statsDd')" id="navSecBtn" title="أقسام الموقع"><i
-                class="fas fa-th-large" style="color:var(--ac);font-size:13px"></i><span
-                class="hidden sm:inline text-xs font-bold" data-i18n="navSections" style="color:var(--t1)">Site
-                Sections</span><i class="fas fa-chevron-down" style="font-size:9px"></i></button>
+            <button class="nav-icon-btn nav-hamburger" onclick="toggleDD('statsDd')" id="navSecBtn" title="Site Sections">
+              <span class="ham-line"></span>
+              <span class="ham-line"></span>
+              <span class="ham-line"></span>
+            </button>
 
 
 
@@ -4978,13 +5051,11 @@
           </div>
 
 
-          <div class="dropdown" id="langDd"><button class="ddb" onclick="toggleDD('langDd')"><span
-                id="cFlag">🇸🇦</span><span id="cCode" class="text-xs font-bold">AR</span><i class="fas fa-chevron-down"
-                style="font-size:9px"></i></button>
+          <div class="dropdown" id="langDd"><button class="nav-icon-btn nav-lang-btn" onclick="toggleDD('langDd')"><span
+                id="cFlag">🇸🇦</span><span id="cCode" class="text-xs font-bold" style="font-size:10px">AR</span><i class="fas fa-chevron-down"
+                style="font-size:8px;opacity:.6"></i></button>
             <div class="ddm" id="lMenu" style="min-width:190px"></div>
           </div>
-          <button onclick="toggleTheme()" class="ddb" style="padding:7px 9px"><i class="fas fa-sun text-yellow-500"
-              id="sI"></i><i class="fas fa-moon hidden" style="color:var(--ac)" id="mI"></i></button>
         </div>
       </div>
     </div>
@@ -6741,8 +6812,8 @@
     function setLang(c) { cLang = c; localStorage.setItem('lang', c); closeDD(); applyLang() }
     function buildLM() { $('lMenu').innerHTML = LANGS.map(l => `<div class="ddi ${l.c === cLang ? 'active' : ''}" data-lang="${l.c}" onclick="setLang('${l.c}')"><span class="flag">${l.f}</span><span>${l.l}</span><i class="fas fa-check ck"></i></div>`).join('') }
     function buildNS() { $('netSel').innerHTML = `<option value="all">${t('allNetworks')}</option>` + NETS.map(n => `<option value="${n.id}">${n.i} ${n.n}</option>`).join('') }
-    function toggleDD(id) { const dd = $(id); const m = dd.querySelector('.ddm') || dd.querySelector('.stats-panel'); if (!m) return; const w = m.classList.contains('active'); closeDD(); if (!w) { m.classList.add('active') } }
-    function closeDD() { document.querySelectorAll('.ddm,.stats-panel').forEach(m => m.classList.remove('active')) }
+    function toggleDD(id) { const dd = $(id); const m = dd.querySelector('.ddm') || dd.querySelector('.stats-panel'); if (!m) return; const w = m.classList.contains('active'); closeDD(); if (!w) { m.classList.add('active'); if(id==='statsDd'){const hb=dd.querySelector('.nav-hamburger');if(hb)hb.classList.add('active');} } }
+    function closeDD() { document.querySelectorAll('.ddm,.stats-panel').forEach(m => m.classList.remove('active')); document.querySelectorAll('.nav-hamburger').forEach(h=>h.classList.remove('active')) }
     function navTo(section) { closeDD(); swTab(section); setTimeout(() => { const el = $('tab_' + section); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }) }, 100); if (section === 'crypto' && $('navCryptoBadge')) $('navCryptoBadge').textContent = allC.length ? allC.length.toLocaleString() : '--' }
     document.addEventListener('click', e => { if (!e.target.closest('.dropdown')) closeDD() });
     document.addEventListener('keydown', e => { if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openSrch() } if (e.key === 'Escape') { closeSrch(); closeDD(); closeMod(); document.querySelectorAll('.legal-modal.active').forEach(m => m.classList.remove('active')) } });
@@ -8266,23 +8337,27 @@
 
     function toggleMobileSearch() {
       const gsw = document.querySelector('.gs-wrap');
+      const btn = document.getElementById('navSearchBtn');
       if (gsw) {
         const isHidden = gsw.classList.contains('hidden');
         if (isHidden) {
-          gsw.classList.remove('hidden', 'lg:block');
+          gsw.classList.remove('hidden');
           gsw.style.position = 'absolute';
           gsw.style.top = '100%';
           gsw.style.left = '0';
           gsw.style.right = '0';
           gsw.style.maxWidth = '100%';
           gsw.style.margin = '0';
-          gsw.style.padding = '10px';
+          gsw.style.padding = '8px 12px';
           gsw.style.background = 'var(--bg1)';
           gsw.style.borderBottom = '1px solid var(--bc)';
+          gsw.style.zIndex = '9998';
+          if(btn) btn.classList.add('active-search');
           $('gsInput').focus();
         } else {
-          gsw.classList.add('hidden', 'lg:block');
+          gsw.classList.add('hidden');
           gsw.removeAttribute('style');
+          if(btn) btn.classList.remove('active-search');
         }
       }
     }
@@ -8301,8 +8376,7 @@
           e.preventDefault();
           const gsi = $('gsInput');
           if (gsi) {
-            const mBtn = document.querySelector('.gs-mobile-btn');
-            if (window.getComputedStyle(mBtn).display !== 'none' && document.querySelector('.gs-wrap').classList.contains('hidden')) {
+              if (document.querySelector('.gs-wrap').classList.contains('hidden')) {
               toggleMobileSearch();
             } else {
               gsi.focus();
@@ -8315,7 +8389,13 @@
       // Global click listener to close search
       document.addEventListener('click', e => {
         const gsw = document.querySelector('.gs-wrap');
-        if (gsw && !gsw.contains(e.target)) closeSrch();
+        const searchBtn = document.getElementById('navSearchBtn');
+        if (gsw && !gsw.classList.contains('hidden') && !gsw.contains(e.target) && e.target !== searchBtn && !searchBtn.contains(e.target)) {
+          closeSrch();
+          gsw.classList.add('hidden');
+          gsw.removeAttribute('style');
+          if(searchBtn) searchBtn.classList.remove('active-search');
+        }
       });
     });
 
