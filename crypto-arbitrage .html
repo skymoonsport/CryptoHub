@@ -1,0 +1,1513 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ماسح فروقات العملات الرقمية | Crypto Arbitrage Scanner</title>
+    <meta name="description" content="أداة احترافية لمسح ومقارنة أسعار العملات الرقمية بين أكثر من 100 منصة تداول." />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+      :root {
+        --bg-dark: #07090f;
+        --bg-panel: rgba(22, 27, 34, 0.6);
+        --bg-panel-hover: rgba(30, 36, 46, 0.8);
+        --primary: #00f0ff;
+        --primary-glow: rgba(0, 240, 255, 0.4);
+        --secondary: #bc8cff;
+        --success: #3fb950;
+        --danger: #f85149;
+        --text-main: #f0f6fc;
+        --text-muted: #8b949e;
+        --border-light: rgba(255, 255, 255, 0.08);
+        --border-glow: rgba(0, 240, 255, 0.2);
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body {
+        font-family: "Cairo", "Inter", sans-serif;
+        background-color: var(--bg-dark);
+        color: var(--text-main);
+        min-height: 100vh;
+        background-image:
+          radial-gradient(circle at 15% 50%, rgba(0,240,255,0.03) 0%, transparent 50%),
+          radial-gradient(circle at 85% 30%, rgba(188,140,255,0.03) 0%, transparent 50%);
+        overflow-x: hidden;
+      }
+      .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+      header { text-align: center; margin-bottom: 3rem; animation: fadeInDown 0.8s ease-out; }
+      h1 {
+        font-size: 3rem; font-weight: 800; margin-bottom: 0.5rem;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text; background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      p.subtitle { color: var(--text-muted); font-size: 1.1rem; }
+      /* Back link */
+      .back-link {
+        display: inline-flex; align-items: center; gap: 0.5rem;
+        color: var(--primary); text-decoration: none; font-size: 0.9rem;
+        font-weight: 600; margin-bottom: 1.5rem;
+        padding: 0.4rem 0.8rem; border-radius: 8px;
+        border: 1px solid rgba(0,240,255,0.2);
+        transition: all 0.3s ease;
+      }
+      .back-link:hover { background: rgba(0,240,255,0.1); }
+      .search-container {
+        display: flex; justify-content: center; gap: 1rem;
+        margin-bottom: 3rem; position: relative; z-index: 10;
+      }
+      .search-input {
+        width: 100%; max-width: 500px; padding: 1rem 1.5rem;
+        font-size: 1.1rem; font-family: inherit;
+        background: var(--bg-panel); border: 1px solid var(--border-light);
+        border-radius: 12px; color: var(--text-main);
+        backdrop-filter: blur(10px); transition: all 0.3s ease;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      }
+      .search-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 20px var(--primary-glow); }
+      .search-btn {
+        padding: 1rem 2rem; font-size: 1.1rem; font-weight: 700;
+        font-family: inherit;
+        background: linear-gradient(135deg, var(--primary), #00add6);
+        color: var(--bg-dark); border: none; border-radius: 12px;
+        cursor: pointer; transition: all 0.3s ease;
+        box-shadow: 0 0 15px var(--primary-glow);
+        white-space: nowrap;
+      }
+      .search-btn:hover { transform: translateY(-2px); box-shadow: 0 0 25px var(--primary-glow); }
+      .search-btn:active { transform: translateY(0); }
+      .stats-grid {
+        display: none; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem; margin-bottom: 3rem; animation: fadeIn 0.5s ease-out;
+      }
+      .stats-grid.visible { display: grid; }
+      .stat-card {
+        background: var(--bg-panel); border: 1px solid var(--border-light);
+        border-radius: 16px; padding: 1.5rem; text-align: center;
+        backdrop-filter: blur(10px); transition: transform 0.3s ease, border-color 0.3s ease;
+      }
+      .stat-card:hover { transform: translateY(-5px); border-color: var(--border-glow); }
+      .stat-title { color: var(--text-muted); font-size: 1rem; margin-bottom: 0.5rem; }
+      .stat-value { font-size: 1.8rem; font-weight: 700; font-family: "Inter", sans-serif; color: var(--text-main); }
+      .stat-value.green { color: var(--success); }
+      .stat-value.red { color: var(--danger); }
+      .stat-value.primary { color: var(--primary); }
+      .stat-exchange { font-size: 0.9rem; color: var(--text-muted); margin-top: 0.5rem; display: block; }
+      .table-container {
+        display: none; background: var(--bg-panel);
+        border: 1px solid var(--border-light); border-radius: 12px;
+        backdrop-filter: blur(10px); overflow: hidden;
+        animation: fadeInUp 0.6s ease-out;
+      }
+      .table-container.visible { display: block; }
+      table { width: 100%; border-collapse: collapse; }
+      th, td { padding: 0.8rem 1rem; border-bottom: 1px solid var(--border-light); font-family: "Inter", sans-serif; }
+      th {
+        background: rgba(255,255,255,0.02); font-family: "Cairo", sans-serif;
+        font-weight: 600; color: var(--text-muted); text-transform: uppercase;
+        font-size: 0.8rem; letter-spacing: 0.5px;
+      }
+      td { font-size: 0.9rem; font-weight: 500; }
+      tr { transition: background 0.2s ease; }
+      tr:hover { background: var(--bg-panel-hover); }
+      tr:last-child td { border-bottom: none; }
+      .exchange-cell { display: flex; align-items: center; gap: 0.6rem; font-family: "Cairo","Inter",sans-serif; font-weight: 600; }
+      .exchange-logo { width: 20px; height: 20px; border-radius: 50%; object-fit: cover; background: #fff; }
+      .price-cell { font-weight: 700; }
+      .spread-badge { padding: 0.3rem 0.6rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; }
+      .spread-best { background: rgba(63,185,80,0.15); color: var(--success); border: 1px solid rgba(63,185,80,0.3); }
+      .spread-high { background: rgba(248,81,73,0.15); color: var(--danger); border: 1px solid rgba(248,81,73,0.3); }
+      .spread-neutral { background: rgba(255,255,255,0.1); color: var(--text-muted); }
+      .loader-container {
+        display: none; flex-direction: column; align-items: center;
+        justify-content: center; padding: 4rem 0; text-align: center;
+      }
+      .loader-container.visible { display: flex; }
+      .loader {
+        width: 50px; height: 50px; border: 3px solid rgba(0,240,255,0.1);
+        border-radius: 50%; border-top-color: var(--primary);
+        animation: spin 1s ease-in-out infinite; margin-bottom: 1rem;
+        box-shadow: 0 0 15px rgba(0,240,255,0.2);
+      }
+      .error-message {
+        display: none; color: var(--danger); text-align: center; padding: 2rem;
+        font-size: 1.1rem; background: rgba(248,81,73,0.1);
+        border: 1px solid rgba(248,81,73,0.3); border-radius: 12px;
+        margin-bottom: 2rem; animation: fadeIn 0.3s;
+      }
+      .error-message.visible { display: block; }
+      .coin-header {
+        display: none; align-items: center; justify-content: center;
+        gap: 1rem; margin-bottom: 2rem; animation: fadeIn 0.5s ease-out;
+      }
+      .coin-header.visible { display: flex; }
+      .coin-header img { width: 40px; height: 40px; border-radius: 50%; }
+      .coin-header h2 { font-size: 2rem; font-family: "Inter", sans-serif; }
+      #refreshTimer {
+        display: none; text-align: center; margin-bottom: 1.5rem;
+        color: var(--text-muted); font-size: 0.95rem; font-weight: 600;
+      }
+      #refreshTimer.visible { display: block; }
+      /* LTR lang table alignment */
+      html[dir="ltr"] table { text-align: left; }
+      html[dir="ltr"] .exchange-cell { flex-direction: row; }
+      @keyframes fadeInDown { from { opacity:0; transform:translateY(-20px); } to { opacity:1; transform:translateY(0); } }
+      @keyframes fadeInUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+      @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+      @keyframes spin { to { transform: rotate(360deg); } }
+      @media (max-width: 768px) {
+        .search-container { flex-direction: column; }
+        .search-input { max-width: 100%; }
+        .table-container { overflow-x: auto; }
+        th, td { padding: 1rem; font-size: 0.9rem; }
+        h1 { font-size: 2rem; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div>
+        <a href="/" class="back-link" id="backLink">
+          <i class="fas fa-arrow-right" id="backIcon"></i>
+          <span id="backText">العودة للموقع</span>
+        </a>
+      </div>
+
+      <header>
+        <h1 id="pageTitle">ماسح فروقات العملات</h1>
+        <p class="subtitle" id="pageSubtitle">قارن الأسعار بين أكثر من 100 منصة تداول في ثوانٍ لاكتشاف فرص المراجحة</p>
+      </header>
+
+      <div class="search-container">
+        <input type="text" id="coinInput" class="search-input"
+          placeholder="..."
+          autocomplete="off" />
+        <button id="searchBtn" class="search-btn">ابحث</button>
+      </div>
+
+      <div id="errorMsg" class="error-message"></div>
+
+      <div id="loader" class="loader-container">
+        <div class="loader"></div>
+        <p id="loaderText">...</p>
+      </div>
+
+      <div id="coinHeader" class="coin-header">
+        <img id="coinImage" src="" alt="Coin Logo" onerror="this.style.display='none'" />
+        <h2 id="coinNameTitle"></h2>
+      </div>
+
+      <div id="refreshTimer">
+        <i class="fas fa-sync-alt"></i> <span id="refreshText"></span>
+      </div>
+
+      <div id="statsGrid" class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-title" id="statMinTitle">أدنى سعر (للشراء)</div>
+          <div class="stat-value green" id="minPrice">$0.00</div>
+          <span class="stat-exchange" id="minExchange">---</span>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title" id="statMaxTitle">أعلى سعر (للبيع)</div>
+          <div class="stat-value red" id="maxPrice">$0.00</div>
+          <span class="stat-exchange" id="maxExchange">---</span>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title" id="statSpreadTitle">أكبر فرق سعر (Spread)</div>
+          <div class="stat-value primary" id="maxSpread">0.00%</div>
+          <span class="stat-exchange" id="statSpreadSub">إمكانية الربح المحتملة</span>
+        </div>
+      </div>
+
+      <div id="tableContainer" class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th id="thExchange">المنصة</th>
+              <th id="thPair">الزوج</th>
+              <th id="thPrice">السعر (USD)</th>
+              <th id="thVolume">الحجم 24س</th>
+              <th id="thSpread">الفرق</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <script>
+    // =====================
+    // TRANSLATIONS
+    // =====================
+    const LANGS = [
+      { c: 'ar', d: 'rtl', font: 'Cairo' }, { c: 'en', d: 'ltr', font: 'Inter' },
+      { c: 'zh', d: 'ltr', font: 'Inter' }, { c: 'es', d: 'ltr', font: 'Inter' },
+      { c: 'pt', d: 'ltr', font: 'Inter' }, { c: 'fr', d: 'ltr', font: 'Inter' },
+      { c: 'de', d: 'ltr', font: 'Inter' }, { c: 'it', d: 'ltr', font: 'Inter' },
+      { c: 'ru', d: 'ltr', font: 'Inter' }, { c: 'tr', d: 'ltr', font: 'Inter' },
+      { c: 'ja', d: 'ltr', font: 'Inter' }, { c: 'ko', d: 'ltr', font: 'Inter' },
+      { c: 'hi', d: 'ltr', font: 'Cairo' }, { c: 'nl', d: 'ltr', font: 'Inter' },
+      { c: 'pl', d: 'ltr', font: 'Inter' }, { c: 'th', d: 'ltr', font: 'Inter' },
+      { c: 'vi', d: 'ltr', font: 'Inter' }, { c: 'id', d: 'ltr', font: 'Inter' },
+      { c: 'uk', d: 'ltr', font: 'Inter' }, { c: 'cs', d: 'ltr', font: 'Inter' },
+      { c: 'ro', d: 'ltr', font: 'Inter' }, { c: 'el', d: 'ltr', font: 'Inter' },
+      { c: 'sv', d: 'ltr', font: 'Inter' }, { c: 'da', d: 'ltr', font: 'Inter' },
+      { c: 'fi', d: 'ltr', font: 'Inter' }, { c: 'ms', d: 'ltr', font: 'Inter' },
+      { c: 'fa', d: 'rtl', font: 'Cairo' }, { c: 'bn', d: 'ltr', font: 'Cairo' },
+      { c: 'sw', d: 'ltr', font: 'Inter' }, { c: 'he', d: 'rtl', font: 'Cairo' }
+    ];
+
+    const T = {
+      ar: {
+        pageTitle: 'ماسح فروقات العملات',
+        pageSubtitle: 'قارن الأسعار بين أكثر من 100 منصة تداول في ثوانٍ لاكتشاف فرص المراجحة',
+        backText: 'العودة للموقع',
+        searchPlaceholder: 'أدخل اسم العملة أو الرمز (مثل Bitcoin أو BTC)...',
+        searchBtn: 'ابحث عن الأسعار',
+        statMinTitle: 'أدنى سعر (للشراء)',
+        statMaxTitle: 'أعلى سعر (للبيع)',
+        statSpreadTitle: 'أكبر فرق سعر (Spread)',
+        statSpreadSub: 'إمكانية الربح المحتملة',
+        thExchange: 'المنصة',
+        thPair: 'الزوج',
+        thPrice: 'السعر (USD)',
+        thVolume: 'الحجم 24س',
+        thSpread: 'الفرق عن الأدنى',
+        loaderSearching: 'جاري البحث عن العملة: ',
+        loaderFetching: 'جاري جلب الأسعار لـ ',
+        loaderRefreshing: 'جاري تحديث الأسعار للوقت الفعلي...',
+        countdownText: 'تحديث الأسعار التلقائي بعد {s} ثانية...',
+        countdownRefreshing: 'جاري تحديث الأسعار...',
+        refreshFailed: 'فشل التحديث، سنحاول مرة أخرى...',
+        errNotFound: 'لم يتم العثور على العملة. تأكد من الاسم أو الرمز.',
+        errNoData: 'لا تتوفر بيانات تداول كافية لهذه العملة.',
+        errNoUSD: 'لا توجد بيانات تسعير بالدولار لهذه العملة.',
+        errServer: 'فشل الاتصال بالخادم. تحقق من اتصالك بالإنترنت.',
+        errUnexpected: 'حدث خطأ غير متوقع.',
+        spreadLowest: 'الأدنى ✓',
+      },
+      en: {
+        pageTitle: 'Crypto Arbitrage Scanner',
+        pageSubtitle: 'Compare prices across 100+ exchanges in seconds to discover arbitrage opportunities',
+        backText: 'Back to Site',
+        searchPlaceholder: 'Enter coin name or symbol (e.g. Bitcoin or BTC)...',
+        searchBtn: 'Search Prices',
+        statMinTitle: 'Lowest Price (Buy)',
+        statMaxTitle: 'Highest Price (Sell)',
+        statSpreadTitle: 'Max Price Spread',
+        statSpreadSub: 'Potential Profit Opportunity',
+        thExchange: 'Exchange',
+        thPair: 'Pair',
+        thPrice: 'Price (USD)',
+        thVolume: 'Volume 24h',
+        thSpread: 'Spread from Low',
+        loaderSearching: 'Searching for coin: ',
+        loaderFetching: 'Fetching prices for ',
+        loaderRefreshing: 'Refreshing real-time prices...',
+        countdownText: 'Auto-refresh in {s} seconds...',
+        countdownRefreshing: 'Refreshing prices...',
+        refreshFailed: 'Refresh failed, retrying soon...',
+        errNotFound: 'Coin not found. Check the name or symbol.',
+        errNoData: 'Insufficient trading data for this coin.',
+        errNoUSD: 'No USD pricing data for this coin.',
+        errServer: 'Server connection failed. Check your internet.',
+        errUnexpected: 'An unexpected error occurred.',
+        spreadLowest: 'Lowest ✓',
+      },
+      zh: {
+        pageTitle: '加密货币套利扫描器',
+        pageSubtitle: '在数秒内比较100多个交易所的价格，发现套利机会',
+        backText: '返回网站',
+        searchPlaceholder: '输入币种名称或符号（如 Bitcoin 或 BTC）...',
+        searchBtn: '搜索价格',
+        statMinTitle: '最低价格（买入）',
+        statMaxTitle: '最高价格（卖出）',
+        statSpreadTitle: '最大价差（Spread）',
+        statSpreadSub: '潜在套利机会',
+        thExchange: '交易所',
+        thPair: '交易对',
+        thPrice: '价格（USD）',
+        thVolume: '24小时成交量',
+        thSpread: '与最低价的差距',
+        loaderSearching: '正在搜索币种：',
+        loaderFetching: '正在获取价格：',
+        loaderRefreshing: '正在刷新实时价格...',
+        countdownText: '{s}秒后自动刷新...',
+        countdownRefreshing: '正在刷新价格...',
+        refreshFailed: '刷新失败，稍后重试...',
+        errNotFound: '未找到该币种，请检查名称或符号。',
+        errNoData: '该币种交易数据不足。',
+        errNoUSD: '该币种没有USD定价数据。',
+        errServer: '服务器连接失败，请检查您的网络连接。',
+        errUnexpected: '发生意外错误。',
+        spreadLowest: '最低 ✓',
+      },
+      es: {
+        pageTitle: 'Escáner de Arbitraje Cripto',
+        pageSubtitle: 'Compara precios en más de 100 exchanges en segundos para descubrir oportunidades de arbitraje',
+        backText: 'Volver al Sitio',
+        searchPlaceholder: 'Ingresa nombre o símbolo (ej. Bitcoin o BTC)...',
+        searchBtn: 'Buscar Precios',
+        statMinTitle: 'Precio Mínimo (Compra)',
+        statMaxTitle: 'Precio Máximo (Venta)',
+        statSpreadTitle: 'Spread Máximo de Precio',
+        statSpreadSub: 'Oportunidad de Beneficio Potencial',
+        thExchange: 'Exchange',
+        thPair: 'Par',
+        thPrice: 'Precio (USD)',
+        thVolume: 'Volumen 24h',
+        thSpread: 'Diferencia del Mínimo',
+        loaderSearching: 'Buscando moneda: ',
+        loaderFetching: 'Obteniendo precios para ',
+        loaderRefreshing: 'Actualizando precios en tiempo real...',
+        countdownText: 'Actualización automática en {s} segundos...',
+        countdownRefreshing: 'Actualizando precios...',
+        refreshFailed: 'Actualización fallida, reintentando...',
+        errNotFound: 'Moneda no encontrada. Verifica el nombre o símbolo.',
+        errNoData: 'Datos de trading insuficientes para esta moneda.',
+        errNoUSD: 'Sin datos de precio en USD para esta moneda.',
+        errServer: 'Error de conexión al servidor. Verifica tu internet.',
+        errUnexpected: 'Ocurrió un error inesperado.',
+        spreadLowest: 'Mínimo ✓',
+      },
+      pt: {
+        pageTitle: 'Scanner de Arbitragem Cripto',
+        pageSubtitle: 'Compare preços em mais de 100 exchanges em segundos para descobrir oportunidades de arbitragem',
+        backText: 'Voltar ao Site',
+        searchPlaceholder: 'Digite nome ou símbolo (ex. Bitcoin ou BTC)...',
+        searchBtn: 'Buscar Preços',
+        statMinTitle: 'Preço Mínimo (Compra)',
+        statMaxTitle: 'Preço Máximo (Venda)',
+        statSpreadTitle: 'Spread Máximo de Preço',
+        statSpreadSub: 'Oportunidade de Lucro Potencial',
+        thExchange: 'Exchange',
+        thPair: 'Par',
+        thPrice: 'Preço (USD)',
+        thVolume: 'Volume 24h',
+        thSpread: 'Diferença do Mínimo',
+        loaderSearching: 'Pesquisando moeda: ',
+        loaderFetching: 'Buscando preços para ',
+        loaderRefreshing: 'Atualizando preços em tempo real...',
+        countdownText: 'Atualização automática em {s} segundos...',
+        countdownRefreshing: 'Atualizando preços...',
+        refreshFailed: 'Atualização falhou, tentando novamente...',
+        errNotFound: 'Moeda não encontrada. Verifique o nome ou símbolo.',
+        errNoData: 'Dados de trading insuficientes para esta moeda.',
+        errNoUSD: 'Sem dados de preço em USD para esta moeda.',
+        errServer: 'Falha na conexão. Verifique sua internet.',
+        errUnexpected: 'Ocorreu um erro inesperado.',
+        spreadLowest: 'Mínimo ✓',
+      },
+      fr: {
+        pageTitle: 'Scanner d\'Arbitrage Crypto',
+        pageSubtitle: 'Comparez les prix sur plus de 100 plateformes en secondes pour découvrir des opportunités d\'arbitrage',
+        backText: 'Retour au Site',
+        searchPlaceholder: 'Entrez le nom ou symbole (ex. Bitcoin ou BTC)...',
+        searchBtn: 'Rechercher les Prix',
+        statMinTitle: 'Prix Minimum (Achat)',
+        statMaxTitle: 'Prix Maximum (Vente)',
+        statSpreadTitle: 'Spread de Prix Maximum',
+        statSpreadSub: 'Opportunité de Profit Potentielle',
+        thExchange: 'Plateforme',
+        thPair: 'Paire',
+        thPrice: 'Prix (USD)',
+        thVolume: 'Volume 24h',
+        thSpread: 'Écart du Minimum',
+        loaderSearching: 'Recherche de la crypto : ',
+        loaderFetching: 'Récupération des prix pour ',
+        loaderRefreshing: 'Mise à jour des prix en temps réel...',
+        countdownText: 'Actualisation automatique dans {s} secondes...',
+        countdownRefreshing: 'Actualisation des prix...',
+        refreshFailed: 'Actualisation échouée, nouvelle tentative...',
+        errNotFound: 'Crypto non trouvée. Vérifiez le nom ou le symbole.',
+        errNoData: 'Données de trading insuffisantes pour cette crypto.',
+        errNoUSD: 'Aucune donnée de prix en USD pour cette crypto.',
+        errServer: 'Échec de connexion au serveur. Vérifiez votre internet.',
+        errUnexpected: 'Une erreur inattendue s\'est produite.',
+        spreadLowest: 'Minimum ✓',
+      },
+      de: {
+        pageTitle: 'Krypto Arbitrage-Scanner',
+        pageSubtitle: 'Vergleiche Preise auf über 100 Börsen in Sekunden, um Arbitrage-Chancen zu entdecken',
+        backText: 'Zurück zur Website',
+        searchPlaceholder: 'Name oder Symbol eingeben (z.B. Bitcoin oder BTC)...',
+        searchBtn: 'Preise Suchen',
+        statMinTitle: 'Niedrigster Preis (Kaufen)',
+        statMaxTitle: 'Höchster Preis (Verkaufen)',
+        statSpreadTitle: 'Maximaler Preis-Spread',
+        statSpreadSub: 'Potenzielles Gewinnpotenzial',
+        thExchange: 'Börse',
+        thPair: 'Paar',
+        thPrice: 'Preis (USD)',
+        thVolume: 'Volumen 24h',
+        thSpread: 'Abstand vom Minimum',
+        loaderSearching: 'Suche nach Coin: ',
+        loaderFetching: 'Preise werden abgerufen für ',
+        loaderRefreshing: 'Echtzeit-Preise werden aktualisiert...',
+        countdownText: 'Automatische Aktualisierung in {s} Sekunden...',
+        countdownRefreshing: 'Preise werden aktualisiert...',
+        refreshFailed: 'Aktualisierung fehlgeschlagen, neuer Versuch...',
+        errNotFound: 'Coin nicht gefunden. Überprüfe Name oder Symbol.',
+        errNoData: 'Unzureichende Handelsdaten für diesen Coin.',
+        errNoUSD: 'Keine USD-Preisdaten für diesen Coin.',
+        errServer: 'Serververbindung fehlgeschlagen. Überprüfe dein Internet.',
+        errUnexpected: 'Ein unerwarteter Fehler ist aufgetreten.',
+        spreadLowest: 'Niedrigster ✓',
+      },
+      it: {
+        pageTitle: 'Scanner di Arbitraggio Crypto',
+        pageSubtitle: 'Confronta prezzi su oltre 100 exchange in secondi per scoprire opportunità di arbitraggio',
+        backText: 'Torna al Sito',
+        searchPlaceholder: 'Inserisci nome o simbolo (es. Bitcoin o BTC)...',
+        searchBtn: 'Cerca Prezzi',
+        statMinTitle: 'Prezzo Minimo (Acquisto)',
+        statMaxTitle: 'Prezzo Massimo (Vendita)',
+        statSpreadTitle: 'Spread Massimo di Prezzo',
+        statSpreadSub: 'Opportunità di Profitto Potenziale',
+        thExchange: 'Exchange',
+        thPair: 'Coppia',
+        thPrice: 'Prezzo (USD)',
+        thVolume: 'Volume 24h',
+        thSpread: 'Spread dal Minimo',
+        loaderSearching: 'Ricerca crypto: ',
+        loaderFetching: 'Recupero prezzi per ',
+        loaderRefreshing: 'Aggiornamento prezzi in tempo reale...',
+        countdownText: 'Aggiornamento automatico tra {s} secondi...',
+        countdownRefreshing: 'Aggiornamento prezzi...',
+        refreshFailed: 'Aggiornamento fallito, nuovo tentativo...',
+        errNotFound: 'Crypto non trovata. Verifica nome o simbolo.',
+        errNoData: 'Dati di trading insufficienti per questa crypto.',
+        errNoUSD: 'Nessun dato di prezzo in USD per questa crypto.',
+        errServer: 'Connessione al server fallita. Controlla la tua rete.',
+        errUnexpected: 'Si è verificato un errore imprevisto.',
+        spreadLowest: 'Minimo ✓',
+      },
+      ru: {
+        pageTitle: 'Арбитражный Сканер Криптовалют',
+        pageSubtitle: 'Сравнивайте цены на 100+ биржах за секунды для поиска арбитражных возможностей',
+        backText: 'Вернуться на сайт',
+        searchPlaceholder: 'Введите название или символ (напр. Bitcoin или BTC)...',
+        searchBtn: 'Найти цены',
+        statMinTitle: 'Минимальная цена (Купить)',
+        statMaxTitle: 'Максимальная цена (Продать)',
+        statSpreadTitle: 'Максимальный Спред',
+        statSpreadSub: 'Потенциальная возможность прибыли',
+        thExchange: 'Биржа',
+        thPair: 'Пара',
+        thPrice: 'Цена (USD)',
+        thVolume: 'Объём 24ч',
+        thSpread: 'Отклонение от минимума',
+        loaderSearching: 'Поиск монеты: ',
+        loaderFetching: 'Получение цен для ',
+        loaderRefreshing: 'Обновление цен в реальном времени...',
+        countdownText: 'Автообновление через {s} секунд...',
+        countdownRefreshing: 'Обновление цен...',
+        refreshFailed: 'Обновление не удалось, повторная попытка...',
+        errNotFound: 'Монета не найдена. Проверьте название или символ.',
+        errNoData: 'Недостаточно торговых данных для этой монеты.',
+        errNoUSD: 'Нет данных о ценах в USD для этой монеты.',
+        errServer: 'Ошибка подключения к серверу. Проверьте интернет.',
+        errUnexpected: 'Произошла непредвиденная ошибка.',
+        spreadLowest: 'Минимум ✓',
+      },
+      tr: {
+        pageTitle: 'Kripto Arbitraj Tarayıcı',
+        pageSubtitle: '100\'den fazla borsada fiyatları saniyeler içinde karşılaştır, arbitraj fırsatlarını keşfet',
+        backText: 'Siteye Dön',
+        searchPlaceholder: 'Coin adı veya sembolü girin (ör. Bitcoin veya BTC)...',
+        searchBtn: 'Fiyatları Ara',
+        statMinTitle: 'En Düşük Fiyat (Al)',
+        statMaxTitle: 'En Yüksek Fiyat (Sat)',
+        statSpreadTitle: 'Maksimum Fiyat Farkı',
+        statSpreadSub: 'Potansiyel Kâr Fırsatı',
+        thExchange: 'Borsa',
+        thPair: 'Parite',
+        thPrice: 'Fiyat (USD)',
+        thVolume: 'Hacim 24s',
+        thSpread: 'Minimumdan Fark',
+        loaderSearching: 'Coin aranıyor: ',
+        loaderFetching: 'Fiyatlar alınıyor: ',
+        loaderRefreshing: 'Gerçek zamanlı fiyatlar güncelleniyor...',
+        countdownText: 'Otomatik güncelleme {s} saniye sonra...',
+        countdownRefreshing: 'Fiyatlar güncelleniyor...',
+        refreshFailed: 'Güncelleme başarısız, yeniden deneniyor...',
+        errNotFound: 'Coin bulunamadı. Ad veya sembolü kontrol edin.',
+        errNoData: 'Bu coin için yeterli işlem verisi yok.',
+        errNoUSD: 'Bu coin için USD fiyat verisi yok.',
+        errServer: 'Sunucu bağlantısı başarısız. İnternet bağlantınızı kontrol edin.',
+        errUnexpected: 'Beklenmeyen bir hata oluştu.',
+        spreadLowest: 'En Düşük ✓',
+      },
+      ja: {
+        pageTitle: 'アービトラージスキャナー',
+        pageSubtitle: '100以上の取引所の価格を数秒で比較してアービトラージの機会を発見',
+        backText: 'サイトに戻る',
+        searchPlaceholder: 'コイン名またはシンボルを入力（例：Bitcoin または BTC）...',
+        searchBtn: '価格を検索',
+        statMinTitle: '最低価格（買い）',
+        statMaxTitle: '最高価格（売り）',
+        statSpreadTitle: '最大価格スプレッド',
+        statSpreadSub: '潜在的な利益機会',
+        thExchange: '取引所',
+        thPair: '取引ペア',
+        thPrice: '価格（USD）',
+        thVolume: '出来高 24h',
+        thSpread: '最安値からの差',
+        loaderSearching: 'コインを検索中：',
+        loaderFetching: '価格を取得中：',
+        loaderRefreshing: 'リアルタイム価格を更新中...',
+        countdownText: '{s}秒後に自動更新...',
+        countdownRefreshing: '価格を更新中...',
+        refreshFailed: '更新に失敗しました、再試行します...',
+        errNotFound: 'コインが見つかりません。名前またはシンボルを確認してください。',
+        errNoData: 'このコインの取引データが不十分です。',
+        errNoUSD: 'このコインのUSD価格データがありません。',
+        errServer: 'サーバー接続に失敗しました。インターネット接続を確認してください。',
+        errUnexpected: '予期しないエラーが発生しました。',
+        spreadLowest: '最安値 ✓',
+      },
+      ko: {
+        pageTitle: '암호화폐 차익거래 스캐너',
+        pageSubtitle: '100개 이상의 거래소 가격을 수초 내에 비교하여 차익거래 기회를 발견하세요',
+        backText: '사이트로 돌아가기',
+        searchPlaceholder: '코인 이름 또는 심볼 입력 (예: Bitcoin 또는 BTC)...',
+        searchBtn: '가격 검색',
+        statMinTitle: '최저가 (매수)',
+        statMaxTitle: '최고가 (매도)',
+        statSpreadTitle: '최대 가격 스프레드',
+        statSpreadSub: '잠재적 수익 기회',
+        thExchange: '거래소',
+        thPair: '거래 쌍',
+        thPrice: '가격 (USD)',
+        thVolume: '거래량 24h',
+        thSpread: '최저가 대비 차이',
+        loaderSearching: '코인 검색 중: ',
+        loaderFetching: '가격 가져오는 중: ',
+        loaderRefreshing: '실시간 가격 업데이트 중...',
+        countdownText: '{s}초 후 자동 갱신...',
+        countdownRefreshing: '가격 업데이트 중...',
+        refreshFailed: '갱신 실패, 재시도 중...',
+        errNotFound: '코인을 찾을 수 없습니다. 이름이나 심볼을 확인하세요.',
+        errNoData: '이 코인에 대한 거래 데이터가 부족합니다.',
+        errNoUSD: '이 코인에 대한 USD 가격 데이터가 없습니다.',
+        errServer: '서버 연결 실패. 인터넷 연결을 확인하세요.',
+        errUnexpected: '예기치 않은 오류가 발생했습니다.',
+        spreadLowest: '최저가 ✓',
+      },
+      hi: {
+        pageTitle: 'क्रिप्टो आर्बिट्रेज स्कैनर',
+        pageSubtitle: '100+ एक्सचेंजों पर कीमतें सेकंडों में तुलना करें और आर्बिट्रेज के अवसर खोजें',
+        backText: 'साइट पर वापस जाएं',
+        searchPlaceholder: 'कॉइन नाम या प्रतीक दर्ज करें (जैसे Bitcoin या BTC)...',
+        searchBtn: 'कीमतें खोजें',
+        statMinTitle: 'सबसे कम कीमत (खरीदें)',
+        statMaxTitle: 'सबसे ज्यादा कीमत (बेचें)',
+        statSpreadTitle: 'अधिकतम मूल्य स्प्रेड',
+        statSpreadSub: 'संभावित लाभ का अवसर',
+        thExchange: 'एक्सचेंज',
+        thPair: 'जोड़ी',
+        thPrice: 'कीमत (USD)',
+        thVolume: 'वॉल्यूम 24h',
+        thSpread: 'न्यूनतम से अंतर',
+        loaderSearching: 'कॉइन खोजा जा रहा है: ',
+        loaderFetching: 'कीमतें प्राप्त हो रही हैं: ',
+        loaderRefreshing: 'रीयल-टाइम कीमतें अपडेट हो रही हैं...',
+        countdownText: '{s} सेकंड में ऑटो-रिफ्रेश...',
+        countdownRefreshing: 'कीमतें अपडेट हो रही हैं...',
+        refreshFailed: 'अपडेट विफल, पुनः प्रयास...',
+        errNotFound: 'कॉइन नहीं मिली। नाम या प्रतीक जांचें।',
+        errNoData: 'इस कॉइन के लिए पर्याप्त ट्रेडिंग डेटा नहीं।',
+        errNoUSD: 'इस कॉइन के लिए USD मूल्य डेटा नहीं।',
+        errServer: 'सर्वर कनेक्शन विफल। अपना इंटरनेट जांचें।',
+        errUnexpected: 'एक अप्रत्याशित त्रुटि हुई।',
+        spreadLowest: 'सबसे कम ✓',
+      },
+      nl: {
+        pageTitle: 'Crypto Arbitrage Scanner',
+        pageSubtitle: 'Vergelijk prijzen op 100+ beurzen in seconden om arbitragemogelijkheden te ontdekken',
+        backText: 'Terug naar Site',
+        searchPlaceholder: 'Voer naam of symbool in (bijv. Bitcoin of BTC)...',
+        searchBtn: 'Zoek Prijzen',
+        statMinTitle: 'Laagste Prijs (Kopen)',
+        statMaxTitle: 'Hoogste Prijs (Verkopen)',
+        statSpreadTitle: 'Maximale Prijsspread',
+        statSpreadSub: 'Potentiële Winstmogelijkheid',
+        thExchange: 'Beurs',
+        thPair: 'Paar',
+        thPrice: 'Prijs (USD)',
+        thVolume: 'Volume 24u',
+        thSpread: 'Verschil van Laagste',
+        loaderSearching: 'Zoeken naar coin: ',
+        loaderFetching: 'Prijzen ophalen voor ',
+        loaderRefreshing: 'Realtime prijzen bijwerken...',
+        countdownText: 'Automatisch vernieuwen over {s} seconden...',
+        countdownRefreshing: 'Prijzen vernieuwen...',
+        refreshFailed: 'Vernieuwen mislukt, opnieuw proberen...',
+        errNotFound: 'Coin niet gevonden. Controleer naam of symbool.',
+        errNoData: 'Onvoldoende handelsgegevens voor deze coin.',
+        errNoUSD: 'Geen USD-prijsdata voor deze coin.',
+        errServer: 'Serververbinding mislukt. Controleer uw internet.',
+        errUnexpected: 'Er is een onverwachte fout opgetreden.',
+        spreadLowest: 'Laagste ✓',
+      },
+      pl: {
+        pageTitle: 'Skaner Arbitrażu Kryptowalut',
+        pageSubtitle: 'Porównaj ceny na ponad 100 giełdach w kilka sekund, aby odkryć możliwości arbitrażu',
+        backText: 'Powrót do Strony',
+        searchPlaceholder: 'Wpisz nazwę lub symbol (np. Bitcoin lub BTC)...',
+        searchBtn: 'Szukaj Cen',
+        statMinTitle: 'Najniższa Cena (Kup)',
+        statMaxTitle: 'Najwyższa Cena (Sprzedaj)',
+        statSpreadTitle: 'Maksymalny Spread Cenowy',
+        statSpreadSub: 'Potencjalna Możliwość Zysku',
+        thExchange: 'Giełda',
+        thPair: 'Para',
+        thPrice: 'Cena (USD)',
+        thVolume: 'Wolumen 24h',
+        thSpread: 'Odchylenie od Minimum',
+        loaderSearching: 'Szukam monety: ',
+        loaderFetching: 'Pobieranie cen dla ',
+        loaderRefreshing: 'Aktualizacja cen w czasie rzeczywistym...',
+        countdownText: 'Automatyczne odświeżenie za {s} sekund...',
+        countdownRefreshing: 'Aktualizowanie cen...',
+        refreshFailed: 'Aktualizacja nie powiodła się, ponawiam...',
+        errNotFound: 'Moneta nie znaleziona. Sprawdź nazwę lub symbol.',
+        errNoData: 'Niewystarczające dane handlowe dla tej monety.',
+        errNoUSD: 'Brak danych cenowych w USD dla tej monety.',
+        errServer: 'Połączenie z serwerem nie powiodło się.',
+        errUnexpected: 'Wystąpił nieoczekiwany błąd.',
+        spreadLowest: 'Najniższa ✓',
+      },
+      th: {
+        pageTitle: 'สแกนเนอร์อาร์บิทราจคริปโต',
+        pageSubtitle: 'เปรียบเทียบราคาในกว่า 100 แพลตฟอร์มในไม่กี่วินาทีเพื่อค้นหาโอกาสอาร์บิทราจ',
+        backText: 'กลับไปยังเว็บไซต์',
+        searchPlaceholder: 'ใส่ชื่อหรือสัญลักษณ์เหรียญ (เช่น Bitcoin หรือ BTC)...',
+        searchBtn: 'ค้นหาราคา',
+        statMinTitle: 'ราคาต่ำสุด (ซื้อ)',
+        statMaxTitle: 'ราคาสูงสุด (ขาย)',
+        statSpreadTitle: 'ส่วนต่างราคาสูงสุด',
+        statSpreadSub: 'โอกาสทำกำไรที่เป็นไปได้',
+        thExchange: 'แพลตฟอร์ม',
+        thPair: 'คู่เทรด',
+        thPrice: 'ราคา (USD)',
+        thVolume: 'ปริมาณ 24ชม.',
+        thSpread: 'ส่วนต่างจากราคาต่ำสุด',
+        loaderSearching: 'กำลังค้นหาเหรียญ: ',
+        loaderFetching: 'กำลังดึงราคา: ',
+        loaderRefreshing: 'กำลังอัปเดตราคาแบบเรียลไทม์...',
+        countdownText: 'รีเฟรชอัตโนมัติใน {s} วินาที...',
+        countdownRefreshing: 'กำลังอัปเดตราคา...',
+        refreshFailed: 'อัปเดตล้มเหลว กำลังลองใหม่...',
+        errNotFound: 'ไม่พบเหรียญ ตรวจสอบชื่อหรือสัญลักษณ์',
+        errNoData: 'ข้อมูลการซื้อขายไม่เพียงพอสำหรับเหรียญนี้',
+        errNoUSD: 'ไม่มีข้อมูลราคา USD สำหรับเหรียญนี้',
+        errServer: 'การเชื่อมต่อเซิร์ฟเวอร์ล้มเหลว ตรวจสอบอินเทอร์เน็ต',
+        errUnexpected: 'เกิดข้อผิดพลาดที่ไม่คาดคิด',
+        spreadLowest: 'ต่ำสุด ✓',
+      },
+      vi: {
+        pageTitle: 'Máy Quét Chênh Lệch Giá Crypto',
+        pageSubtitle: 'So sánh giá trên 100+ sàn giao dịch trong vài giây để khám phá cơ hội chênh lệch giá',
+        backText: 'Quay lại Trang Web',
+        searchPlaceholder: 'Nhập tên hoặc ký hiệu (ví dụ: Bitcoin hoặc BTC)...',
+        searchBtn: 'Tìm Kiếm Giá',
+        statMinTitle: 'Giá Thấp Nhất (Mua)',
+        statMaxTitle: 'Giá Cao Nhất (Bán)',
+        statSpreadTitle: 'Chênh Lệch Giá Tối Đa',
+        statSpreadSub: 'Cơ Hội Lợi Nhuận Tiềm Năng',
+        thExchange: 'Sàn',
+        thPair: 'Cặp',
+        thPrice: 'Giá (USD)',
+        thVolume: 'Khối Lượng 24h',
+        thSpread: 'Chênh Lệch Từ Thấp Nhất',
+        loaderSearching: 'Đang tìm kiếm coin: ',
+        loaderFetching: 'Đang lấy giá cho ',
+        loaderRefreshing: 'Đang cập nhật giá thời gian thực...',
+        countdownText: 'Tự động làm mới sau {s} giây...',
+        countdownRefreshing: 'Đang cập nhật giá...',
+        refreshFailed: 'Làm mới thất bại, đang thử lại...',
+        errNotFound: 'Không tìm thấy coin. Kiểm tra tên hoặc ký hiệu.',
+        errNoData: 'Dữ liệu giao dịch không đủ cho coin này.',
+        errNoUSD: 'Không có dữ liệu giá USD cho coin này.',
+        errServer: 'Kết nối máy chủ thất bại. Kiểm tra internet.',
+        errUnexpected: 'Đã xảy ra lỗi không mong đợi.',
+        spreadLowest: 'Thấp nhất ✓',
+      },
+      id: {
+        pageTitle: 'Pemindai Arbitrase Kripto',
+        pageSubtitle: 'Bandingkan harga di 100+ bursa dalam hitungan detik untuk menemukan peluang arbitrase',
+        backText: 'Kembali ke Situs',
+        searchPlaceholder: 'Masukkan nama atau simbol koin (mis. Bitcoin atau BTC)...',
+        searchBtn: 'Cari Harga',
+        statMinTitle: 'Harga Terendah (Beli)',
+        statMaxTitle: 'Harga Tertinggi (Jual)',
+        statSpreadTitle: 'Spread Harga Maksimum',
+        statSpreadSub: 'Potensi Peluang Keuntungan',
+        thExchange: 'Bursa',
+        thPair: 'Pasangan',
+        thPrice: 'Harga (USD)',
+        thVolume: 'Volume 24j',
+        thSpread: 'Selisih dari Terendah',
+        loaderSearching: 'Mencari koin: ',
+        loaderFetching: 'Mengambil harga untuk ',
+        loaderRefreshing: 'Memperbarui harga real-time...',
+        countdownText: 'Refresh otomatis dalam {s} detik...',
+        countdownRefreshing: 'Memperbarui harga...',
+        refreshFailed: 'Gagal memperbarui, mencoba lagi...',
+        errNotFound: 'Koin tidak ditemukan. Periksa nama atau simbol.',
+        errNoData: 'Data trading tidak mencukupi untuk koin ini.',
+        errNoUSD: 'Tidak ada data harga USD untuk koin ini.',
+        errServer: 'Koneksi server gagal. Periksa internet Anda.',
+        errUnexpected: 'Terjadi kesalahan tak terduga.',
+        spreadLowest: 'Terendah ✓',
+      },
+      uk: {
+        pageTitle: 'Арбітражний Сканер Криптовалют',
+        pageSubtitle: 'Порівнюйте ціни на 100+ біржах за секунди для пошуку арбітражних можливостей',
+        backText: 'Повернутися на сайт',
+        searchPlaceholder: 'Введіть назву або символ (напр. Bitcoin або BTC)...',
+        searchBtn: 'Знайти ціни',
+        statMinTitle: 'Мінімальна ціна (Купити)',
+        statMaxTitle: 'Максимальна ціна (Продати)',
+        statSpreadTitle: 'Максимальний Спред',
+        statSpreadSub: 'Потенційна можливість прибутку',
+        thExchange: 'Біржа',
+        thPair: 'Пара',
+        thPrice: 'Ціна (USD)',
+        thVolume: 'Обсяг 24г',
+        thSpread: 'Відхилення від мінімуму',
+        loaderSearching: 'Пошук монети: ',
+        loaderFetching: 'Отримання цін для ',
+        loaderRefreshing: 'Оновлення цін у реальному часі...',
+        countdownText: 'Автооновлення через {s} секунд...',
+        countdownRefreshing: 'Оновлення цін...',
+        refreshFailed: 'Оновлення не вдалося, повтор...',
+        errNotFound: 'Монету не знайдено. Перевірте назву або символ.',
+        errNoData: 'Недостатньо торгових даних для цієї монети.',
+        errNoUSD: 'Немає даних про ціни в USD для цієї монети.',
+        errServer: 'Помилка підключення до сервера. Перевірте інтернет.',
+        errUnexpected: 'Сталася непередбачена помилка.',
+        spreadLowest: 'Мінімум ✓',
+      },
+      cs: {
+        pageTitle: 'Arbitrážní Skener Kryptoměn',
+        pageSubtitle: 'Porovnejte ceny na 100+ burzách během sekund a objevte arbitrážní příležitosti',
+        backText: 'Zpět na web',
+        searchPlaceholder: 'Zadejte název nebo symbol (např. Bitcoin nebo BTC)...',
+        searchBtn: 'Hledat ceny',
+        statMinTitle: 'Nejnižší cena (Koupit)',
+        statMaxTitle: 'Nejvyšší cena (Prodat)',
+        statSpreadTitle: 'Maximální cenový spread',
+        statSpreadSub: 'Potenciální příležitost k zisku',
+        thExchange: 'Burza',
+        thPair: 'Pár',
+        thPrice: 'Cena (USD)',
+        thVolume: 'Objem 24h',
+        thSpread: 'Odchylka od minima',
+        loaderSearching: 'Hledám kryptoměnu: ',
+        loaderFetching: 'Načítám ceny pro ',
+        loaderRefreshing: 'Aktualizuji ceny v reálném čase...',
+        countdownText: 'Automatická aktualizace za {s} sekund...',
+        countdownRefreshing: 'Aktualizuji ceny...',
+        refreshFailed: 'Aktualizace selhala, zkouším znovu...',
+        errNotFound: 'Kryptoměna nenalezena. Zkontrolujte název nebo symbol.',
+        errNoData: 'Nedostatečná obchodní data pro tuto kryptoměnu.',
+        errNoUSD: 'Žádná data o ceně v USD pro tuto kryptoměnu.',
+        errServer: 'Připojení k serveru selhalo. Zkontrolujte internet.',
+        errUnexpected: 'Došlo k neočekávané chybě.',
+        spreadLowest: 'Nejnižší ✓',
+      },
+      ro: {
+        pageTitle: 'Scanner de Arbitraj Crypto',
+        pageSubtitle: 'Compară prețurile pe 100+ burse în câteva secunde pentru a descoperi oportunități de arbitraj',
+        backText: 'Înapoi la Site',
+        searchPlaceholder: 'Introduceți numele sau simbolul (ex. Bitcoin sau BTC)...',
+        searchBtn: 'Caută Prețuri',
+        statMinTitle: 'Preț Minim (Cumpără)',
+        statMaxTitle: 'Preț Maxim (Vinde)',
+        statSpreadTitle: 'Spread Maxim de Preț',
+        statSpreadSub: 'Oportunitate de Profit Potențial',
+        thExchange: 'Bursă',
+        thPair: 'Pereche',
+        thPrice: 'Preț (USD)',
+        thVolume: 'Volum 24h',
+        thSpread: 'Diferență față de Minim',
+        loaderSearching: 'Caut monedă: ',
+        loaderFetching: 'Obțin prețuri pentru ',
+        loaderRefreshing: 'Actualizez prețurile în timp real...',
+        countdownText: 'Actualizare automată în {s} secunde...',
+        countdownRefreshing: 'Actualizare prețuri...',
+        refreshFailed: 'Actualizare eșuată, reîncerc...',
+        errNotFound: 'Monedă negăsită. Verificați numele sau simbolul.',
+        errNoData: 'Date de tranzacționare insuficiente pentru această monedă.',
+        errNoUSD: 'Fără date de preț în USD pentru această monedă.',
+        errServer: 'Conexiune la server eșuată. Verificați internetul.',
+        errUnexpected: 'A apărut o eroare neașteptată.',
+        spreadLowest: 'Minim ✓',
+      },
+      el: {
+        pageTitle: 'Σαρωτής Αρμπιτράζ Κρυπτονομισμάτων',
+        pageSubtitle: 'Συγκρίνετε τιμές σε 100+ ανταλλακτήρια σε δευτερόλεπτα για να ανακαλύψετε ευκαιρίες αρμπιτράζ',
+        backText: 'Επιστροφή στον Ιστότοπο',
+        searchPlaceholder: 'Εισάγετε όνομα ή σύμβολο (π.χ. Bitcoin ή BTC)...',
+        searchBtn: 'Αναζήτηση Τιμών',
+        statMinTitle: 'Ελάχιστη Τιμή (Αγορά)',
+        statMaxTitle: 'Μέγιστη Τιμή (Πώληση)',
+        statSpreadTitle: 'Μέγιστο Spread Τιμής',
+        statSpreadSub: 'Δυνητική Ευκαιρία Κέρδους',
+        thExchange: 'Ανταλλακτήριο',
+        thPair: 'Ζεύγος',
+        thPrice: 'Τιμή (USD)',
+        thVolume: 'Όγκος 24ω',
+        thSpread: 'Απόκλιση από Ελάχιστο',
+        loaderSearching: 'Αναζήτηση κρυπτονομίσματος: ',
+        loaderFetching: 'Ανάκτηση τιμών για ',
+        loaderRefreshing: 'Ενημέρωση τιμών σε πραγματικό χρόνο...',
+        countdownText: 'Αυτόματη ενημέρωση σε {s} δευτερόλεπτα...',
+        countdownRefreshing: 'Ενημέρωση τιμών...',
+        refreshFailed: 'Αποτυχία ενημέρωσης, επανάληψη...',
+        errNotFound: 'Κρυπτονόμισμα δεν βρέθηκε. Ελέγξτε το όνομα ή σύμβολο.',
+        errNoData: 'Ανεπαρκή δεδομένα συναλλαγών για αυτό το κρυπτονόμισμα.',
+        errNoUSD: 'Δεν υπάρχουν δεδομένα τιμής USD για αυτό το κρυπτονόμισμα.',
+        errServer: 'Αποτυχία σύνδεσης στον διακομιστή. Ελέγξτε το internet σας.',
+        errUnexpected: 'Παρουσιάστηκε μη αναμενόμενο σφάλμα.',
+        spreadLowest: 'Ελάχιστο ✓',
+      },
+      sv: {
+        pageTitle: 'Krypto Arbitrageskanner',
+        pageSubtitle: 'Jämför priser på 100+ börser på sekunder för att hitta arbitragemöjligheter',
+        backText: 'Tillbaka till Webbplatsen',
+        searchPlaceholder: 'Ange namn eller symbol (t.ex. Bitcoin eller BTC)...',
+        searchBtn: 'Sök Priser',
+        statMinTitle: 'Lägsta Pris (Köp)',
+        statMaxTitle: 'Högsta Pris (Sälj)',
+        statSpreadTitle: 'Maximal Prisspread',
+        statSpreadSub: 'Potentiell Vinstmöjlighet',
+        thExchange: 'Börs',
+        thPair: 'Par',
+        thPrice: 'Pris (USD)',
+        thVolume: 'Volym 24h',
+        thSpread: 'Skillnad från Lägst',
+        loaderSearching: 'Söker efter kryptovaluta: ',
+        loaderFetching: 'Hämtar priser för ',
+        loaderRefreshing: 'Uppdaterar realtidspriser...',
+        countdownText: 'Automatisk uppdatering om {s} sekunder...',
+        countdownRefreshing: 'Uppdaterar priser...',
+        refreshFailed: 'Uppdatering misslyckades, försöker igen...',
+        errNotFound: 'Kryptovaluta hittades inte. Kontrollera namn eller symbol.',
+        errNoData: 'Otillräckliga handelsdata för denna kryptovaluta.',
+        errNoUSD: 'Inga USD-prisdata för denna kryptovaluta.',
+        errServer: 'Serveranslutning misslyckades. Kontrollera internet.',
+        errUnexpected: 'Ett oväntat fel uppstod.',
+        spreadLowest: 'Lägst ✓',
+      },
+      da: {
+        pageTitle: 'Krypto Arbitrage Scanner',
+        pageSubtitle: 'Sammenlign priser på 100+ børser på få sekunder for at opdage arbitragemuligheder',
+        backText: 'Tilbage til Hjemmesiden',
+        searchPlaceholder: 'Indtast navn eller symbol (f.eks. Bitcoin eller BTC)...',
+        searchBtn: 'Søg Priser',
+        statMinTitle: 'Laveste Pris (Køb)',
+        statMaxTitle: 'Højeste Pris (Sælg)',
+        statSpreadTitle: 'Maksimal Prisspread',
+        statSpreadSub: 'Potentiel Profitmulighed',
+        thExchange: 'Børs',
+        thPair: 'Par',
+        thPrice: 'Pris (USD)',
+        thVolume: 'Volumen 24t',
+        thSpread: 'Forskel fra Laveste',
+        loaderSearching: 'Søger efter kryptovaluta: ',
+        loaderFetching: 'Henter priser for ',
+        loaderRefreshing: 'Opdaterer realtidspriser...',
+        countdownText: 'Automatisk opdatering om {s} sekunder...',
+        countdownRefreshing: 'Opdaterer priser...',
+        refreshFailed: 'Opdatering mislykkedes, prøver igen...',
+        errNotFound: 'Kryptovaluta ikke fundet. Tjek navn eller symbol.',
+        errNoData: 'Utilstrækkelige handelsdata for denne kryptovaluta.',
+        errNoUSD: 'Ingen USD-prisdata for denne kryptovaluta.',
+        errServer: 'Serverforbindelsen mislykkedes. Tjek dit internet.',
+        errUnexpected: 'Der opstod en uventet fejl.',
+        spreadLowest: 'Lavest ✓',
+      },
+      fi: {
+        pageTitle: 'Krypto Arbitraasiskanneri',
+        pageSubtitle: 'Vertaa hintoja 100+ pörssissä sekunneissa löytääksesi arbitraasimahdollisuuksia',
+        backText: 'Takaisin Sivustolle',
+        searchPlaceholder: 'Syötä nimi tai symboli (esim. Bitcoin tai BTC)...',
+        searchBtn: 'Etsi Hintoja',
+        statMinTitle: 'Alhaisin Hinta (Osta)',
+        statMaxTitle: 'Korkein Hinta (Myy)',
+        statSpreadTitle: 'Maksimaalinen Hintaspread',
+        statSpreadSub: 'Potentiaalinen Voittomahdollisuus',
+        thExchange: 'Pörssi',
+        thPair: 'Pari',
+        thPrice: 'Hinta (USD)',
+        thVolume: 'Volyymi 24h',
+        thSpread: 'Ero Alhaisimmasta',
+        loaderSearching: 'Etsitään kryptovaluuttaa: ',
+        loaderFetching: 'Haetaan hintoja: ',
+        loaderRefreshing: 'Päivitetään reaaliaikaisia hintoja...',
+        countdownText: 'Automaattinen päivitys {s} sekunnin kuluttua...',
+        countdownRefreshing: 'Päivitetään hintoja...',
+        refreshFailed: 'Päivitys epäonnistui, yritetään uudelleen...',
+        errNotFound: 'Kryptovaluuttaa ei löydy. Tarkista nimi tai symboli.',
+        errNoData: 'Riittämättömät kaupankäyntitiedot tälle kryptovaluutalle.',
+        errNoUSD: 'Ei USD-hintadataa tälle kryptovaluutalle.',
+        errServer: 'Palvelinyhteys epäonnistui. Tarkista internet.',
+        errUnexpected: 'Odottamaton virhe tapahtui.',
+        spreadLowest: 'Alhaisin ✓',
+      },
+      ms: {
+        pageTitle: 'Pengimbas Arbitraj Kripto',
+        pageSubtitle: 'Bandingkan harga di 100+ bursa dalam beberapa saat untuk menemui peluang arbitraj',
+        backText: 'Kembali ke Laman Web',
+        searchPlaceholder: 'Masukkan nama atau simbol (cth. Bitcoin atau BTC)...',
+        searchBtn: 'Cari Harga',
+        statMinTitle: 'Harga Terendah (Beli)',
+        statMaxTitle: 'Harga Tertinggi (Jual)',
+        statSpreadTitle: 'Spread Harga Maksimum',
+        statSpreadSub: 'Peluang Keuntungan Berpotensi',
+        thExchange: 'Bursa',
+        thPair: 'Pasangan',
+        thPrice: 'Harga (USD)',
+        thVolume: 'Jumlah 24j',
+        thSpread: 'Perbezaan dari Terendah',
+        loaderSearching: 'Mencari syiling: ',
+        loaderFetching: 'Mendapatkan harga untuk ',
+        loaderRefreshing: 'Mengemas kini harga masa nyata...',
+        countdownText: 'Muat semula automatik dalam {s} saat...',
+        countdownRefreshing: 'Mengemas kini harga...',
+        refreshFailed: 'Muat semula gagal, mencuba semula...',
+        errNotFound: 'Syiling tidak dijumpai. Semak nama atau simbol.',
+        errNoData: 'Data perdagangan tidak mencukupi untuk syiling ini.',
+        errNoUSD: 'Tiada data harga USD untuk syiling ini.',
+        errServer: 'Sambungan pelayan gagal. Semak internet anda.',
+        errUnexpected: 'Ralat tidak dijangka berlaku.',
+        spreadLowest: 'Terendah ✓',
+      },
+      fa: {
+        pageTitle: 'اسکنر آربیتراژ رمزارز',
+        pageSubtitle: 'قیمت‌ها را در بیش از ۱۰۰ صرافی در چند ثانیه مقایسه کنید و فرصت‌های آربیتراژ را کشف کنید',
+        backText: 'بازگشت به سایت',
+        searchPlaceholder: 'نام یا نماد ارز را وارد کنید (مثل Bitcoin یا BTC)...',
+        searchBtn: 'جستجوی قیمت',
+        statMinTitle: 'کمترین قیمت (خرید)',
+        statMaxTitle: 'بیشترین قیمت (فروش)',
+        statSpreadTitle: 'حداکثر اختلاف قیمت',
+        statSpreadSub: 'فرصت سود بالقوه',
+        thExchange: 'صرافی',
+        thPair: 'جفت‌ارز',
+        thPrice: 'قیمت (USD)',
+        thVolume: 'حجم ۲۴ساعته',
+        thSpread: 'اختلاف از کمترین',
+        loaderSearching: 'جستجوی ارز: ',
+        loaderFetching: 'دریافت قیمت‌ها برای ',
+        loaderRefreshing: 'به‌روزرسانی قیمت‌های لحظه‌ای...',
+        countdownText: 'به‌روزرسانی خودکار در {s} ثانیه...',
+        countdownRefreshing: 'در حال به‌روزرسانی قیمت‌ها...',
+        refreshFailed: 'به‌روزرسانی ناموفق، تلاش مجدد...',
+        errNotFound: 'ارز یافت نشد. نام یا نماد را بررسی کنید.',
+        errNoData: 'داده‌های معاملاتی کافی برای این ارز وجود ندارد.',
+        errNoUSD: 'داده‌های قیمت USD برای این ارز وجود ندارد.',
+        errServer: 'اتصال به سرور ناموفق بود. اینترنت خود را بررسی کنید.',
+        errUnexpected: 'خطای غیرمنتظره‌ای رخ داد.',
+        spreadLowest: 'کمترین ✓',
+      },
+      bn: {
+        pageTitle: 'ক্রিপ্টো আর্বিট্রেজ স্ক্যানার',
+        pageSubtitle: '১০০+ এক্সচেঞ্জে সেকেন্ডের মধ্যে মূল্য তুলনা করুন এবং আর্বিট্রেজ সুযোগ খুঁজুন',
+        backText: 'সাইটে ফিরে যান',
+        searchPlaceholder: 'কয়েনের নাম বা প্রতীক লিখুন (যেমন Bitcoin বা BTC)...',
+        searchBtn: 'মূল্য খুঁজুন',
+        statMinTitle: 'সর্বনিম্ন মূল্য (কিনুন)',
+        statMaxTitle: 'সর্বোচ্চ মূল্য (বিক্রি করুন)',
+        statSpreadTitle: 'সর্বোচ্চ মূল্য স্প্রেড',
+        statSpreadSub: 'সম্ভাব্য মুনাফার সুযোগ',
+        thExchange: 'এক্সচেঞ্জ',
+        thPair: 'জোড়া',
+        thPrice: 'মূল্য (USD)',
+        thVolume: 'ভলিউম ২৪ঘ',
+        thSpread: 'সর্বনিম্ন থেকে পার্থক্য',
+        loaderSearching: 'কয়েন খোঁজা হচ্ছে: ',
+        loaderFetching: 'মূল্য নেওয়া হচ্ছে: ',
+        loaderRefreshing: 'রিয়েল-টাইম মূল্য আপডেট হচ্ছে...',
+        countdownText: '{s} সেকেন্ডে অটো-রিফ্রেশ...',
+        countdownRefreshing: 'মূল্য আপডেট হচ্ছে...',
+        refreshFailed: 'আপডেট ব্যর্থ, পুনরায় চেষ্টা হচ্ছে...',
+        errNotFound: 'কয়েন পাওয়া যায়নি। নাম বা প্রতীক পরীক্ষা করুন।',
+        errNoData: 'এই কয়েনের জন্য পর্যাপ্ত ট্রেডিং ডেটা নেই।',
+        errNoUSD: 'এই কয়েনের জন্য USD মূল্য ডেটা নেই।',
+        errServer: 'সার্ভার সংযোগ ব্যর্থ। আপনার ইন্টারনেট পরীক্ষা করুন।',
+        errUnexpected: 'একটি অপ্রত্যাশিত ত্রুটি ঘটেছে।',
+        spreadLowest: 'সর্বনিম্ন ✓',
+      },
+      sw: {
+        pageTitle: 'Kichunguzi cha Arbitrage ya Kripto',
+        pageSubtitle: 'Linganisha bei katika masoko 100+ kwa sekunde chache ili kugundua fursa za arbitrage',
+        backText: 'Rudi kwa Tovuti',
+        searchPlaceholder: 'Ingiza jina au alama ya sarafu (mfano Bitcoin au BTC)...',
+        searchBtn: 'Tafuta Bei',
+        statMinTitle: 'Bei ya Chini Kabisa (Nunua)',
+        statMaxTitle: 'Bei ya Juu Kabisa (Uza)',
+        statSpreadTitle: 'Tofauti Kubwa ya Bei',
+        statSpreadSub: 'Fursa ya Faida Inayowezekana',
+        thExchange: 'Soko',
+        thPair: 'Jozi',
+        thPrice: 'Bei (USD)',
+        thVolume: 'Kiasi 24s',
+        thSpread: 'Tofauti kutoka Chini',
+        loaderSearching: 'Inatafuta sarafu: ',
+        loaderFetching: 'Inapata bei za ',
+        loaderRefreshing: 'Inasasisha bei za wakati halisi...',
+        countdownText: 'Kisasisho cha moja kwa moja baada ya sekunde {s}...',
+        countdownRefreshing: 'Inasasisha bei...',
+        refreshFailed: 'Kusasisha kumeshindwa, inajaribu tena...',
+        errNotFound: 'Sarafu haikupatikana. Angalia jina au alama.',
+        errNoData: 'Data ya biashara haitoshi kwa sarafu hii.',
+        errNoUSD: 'Hakuna data ya bei ya USD kwa sarafu hii.',
+        errServer: 'Muunganisho wa seva umeshindwa. Angalia intaneti yako.',
+        errUnexpected: 'Kosa lisilotarajiwa lilitokea.',
+        spreadLowest: 'Chini kabisa ✓',
+      },
+      he: {
+        pageTitle: 'סורק ארביטראז\' קריפטו',
+        pageSubtitle: 'השווה מחירים ב-100+ בורסות בשניות כדי לגלות הזדמנויות ארביטראז\'',
+        backText: 'חזרה לאתר',
+        searchPlaceholder: 'הזן שם או סמל מטבע (לדוגמה Bitcoin או BTC)...',
+        searchBtn: 'חפש מחירים',
+        statMinTitle: 'מחיר מינימלי (קנייה)',
+        statMaxTitle: 'מחיר מקסימלי (מכירה)',
+        statSpreadTitle: 'ספרד מחיר מקסימלי',
+        statSpreadSub: 'הזדמנות רווח פוטנציאלית',
+        thExchange: 'בורסה',
+        thPair: 'זוג',
+        thPrice: 'מחיר (USD)',
+        thVolume: 'נפח 24ש',
+        thSpread: 'פער מהמינימום',
+        loaderSearching: 'מחפש מטבע: ',
+        loaderFetching: 'מאחזר מחירים עבור ',
+        loaderRefreshing: 'מעדכן מחירים בזמן אמת...',
+        countdownText: 'עדכון אוטומטי בעוד {s} שניות...',
+        countdownRefreshing: 'מעדכן מחירים...',
+        refreshFailed: 'העדכון נכשל, ניסיון נוסף...',
+        errNotFound: 'מטבע לא נמצא. בדוק את השם או הסמל.',
+        errNoData: 'נתוני מסחר לא מספיקים למטבע זה.',
+        errNoUSD: 'אין נתוני מחיר ב-USD למטבע זה.',
+        errServer: 'חיבור לשרת נכשל. בדוק את האינטרנט שלך.',
+        errUnexpected: 'אירעה שגיאה בלתי צפויה.',
+        spreadLowest: 'מינימום ✓',
+      },
+    };
+
+    // =====================
+    // Language Detection
+    // =====================
+    function detectLang() {
+      // Priority: URL param → localStorage → default 'ar'
+      const params = new URLSearchParams(window.location.search);
+      const urlLang = params.get('lang');
+      if (urlLang && T[urlLang]) return urlLang;
+
+      const stored = localStorage.getItem('lang');
+      if (stored && T[stored]) return stored;
+
+      return 'ar';
+    }
+
+    function applyLang(lang) {
+      const tr = T[lang] || T['ar'];
+      const langMeta = LANGS.find(l => l.c === lang) || LANGS[0];
+
+      // Set HTML attributes
+      document.documentElement.lang = lang;
+      document.documentElement.dir = langMeta.d;
+
+      // Update page title & meta
+      document.title = tr.pageTitle + ' | CryptoHub';
+
+      // Apply translations to static elements
+      document.getElementById('pageTitle').textContent      = tr.pageTitle;
+      document.getElementById('pageSubtitle').textContent   = tr.pageSubtitle;
+      document.getElementById('backText').textContent       = tr.backText;
+      document.getElementById('coinInput').placeholder      = tr.searchPlaceholder;
+      document.getElementById('searchBtn').textContent      = tr.searchBtn;
+      document.getElementById('statMinTitle').textContent   = tr.statMinTitle;
+      document.getElementById('statMaxTitle').textContent   = tr.statMaxTitle;
+      document.getElementById('statSpreadTitle').textContent= tr.statSpreadTitle;
+      document.getElementById('statSpreadSub').textContent  = tr.statSpreadSub;
+      document.getElementById('thExchange').textContent     = tr.thExchange;
+      document.getElementById('thPair').textContent         = tr.thPair;
+      document.getElementById('thPrice').textContent        = tr.thPrice;
+      document.getElementById('thVolume').textContent       = tr.thVolume;
+      document.getElementById('thSpread').textContent       = tr.thSpread;
+
+      // Back arrow direction
+      const backIcon = document.getElementById('backIcon');
+      backIcon.className = langMeta.d === 'rtl'
+        ? 'fas fa-arrow-right'
+        : 'fas fa-arrow-left';
+
+      // Font family
+      document.body.style.fontFamily = langMeta.d === 'rtl'
+        ? '"Cairo", "Inter", sans-serif'
+        : '"Inter", "Cairo", sans-serif';
+    }
+
+    // =====================
+    // Init Language
+    // =====================
+    const currentLang = detectLang();
+    applyLang(currentLang);
+
+    // =====================
+    // Translation Helper
+    // =====================
+    function t(key, vars) {
+      const tr = T[currentLang] || T['ar'];
+      let str = tr[key] || T['ar'][key] || key;
+      if (vars) {
+        Object.keys(vars).forEach(k => {
+          str = str.replace('{' + k + '}', vars[k]);
+        });
+      }
+      return str;
+    }
+
+    // =====================
+    // DOM Elements
+    // =====================
+    const searchBtn      = document.getElementById('searchBtn');
+    const coinInput      = document.getElementById('coinInput');
+    const loader         = document.getElementById('loader');
+    const loaderText     = document.getElementById('loaderText');
+    const errorMsg       = document.getElementById('errorMsg');
+    const statsGrid      = document.getElementById('statsGrid');
+    const tableContainer = document.getElementById('tableContainer');
+    const tableBody      = document.getElementById('tableBody');
+    const coinHeader     = document.getElementById('coinHeader');
+    const coinImage      = document.getElementById('coinImage');
+    const coinNameTitle  = document.getElementById('coinNameTitle');
+    const refreshTimer   = document.getElementById('refreshTimer');
+    const refreshText    = document.getElementById('refreshText');
+
+    // =====================
+    // State
+    // =====================
+    let countdownTimerId = null;
+    let currentCoinId    = null;
+    let currentCoinName  = null;
+
+    // =====================
+    // Event Listeners
+    // =====================
+    searchBtn.addEventListener('click', handleSearch);
+    coinInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') handleSearch();
+    });
+
+    // =====================
+    // Utility Functions
+    // =====================
+    function formatCurrency(value) {
+      if (value === null || value === undefined) return 'N/A';
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: value < 1 ? 6 : 2,
+      }).format(value);
+    }
+
+    function formatVolume(value) {
+      if (value === null || value === undefined) return 'N/A';
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        notation: 'compact',
+        maximumFractionDigits: 1,
+      }).format(value);
+    }
+
+    function formatPercent(value) {
+      return '+' + value.toFixed(2) + '%';
+    }
+
+    function shortenName(name) {
+      if (!name) return '';
+      if (name.length > 20) return name.slice(0, 8) + '...' + name.slice(name.length - 8);
+      return name;
+    }
+
+    // =====================
+    // UI State Helpers
+    // =====================
+    function hideAll() {
+      coinHeader.classList.remove('visible');
+      statsGrid.classList.remove('visible');
+      tableContainer.classList.remove('visible');
+      refreshTimer.classList.remove('visible');
+    }
+
+    function showLoader(message) {
+      loaderText.textContent = message || '...';
+      loader.classList.add('visible');
+    }
+
+    function hideLoader() {
+      loader.classList.remove('visible');
+    }
+
+    function showError(message) {
+      errorMsg.textContent = message;
+      errorMsg.classList.add('visible');
+    }
+
+    function hideError() {
+      errorMsg.classList.remove('visible');
+      errorMsg.textContent = '';
+    }
+
+    // =====================
+    // Fetch with Proxy fallback
+    // =====================
+    async function fetchWithProxy(url) {
+      const proxies = [
+        (u) => u,
+        (u) => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(u),
+        (u) => 'https://corsproxy.io/?' + encodeURIComponent(u),
+      ];
+
+      for (const makeUrl of proxies) {
+        try {
+          const finalUrl = makeUrl(url);
+          const response = await fetch(finalUrl, {
+            signal: AbortSignal.timeout(8000),
+          });
+          if (response.ok) {
+            return await response.json();
+          }
+        } catch (err) {
+          console.warn('Proxy attempt failed:', err.message);
+        }
+      }
+      throw new Error(t('errServer'));
+    }
+
+    // =====================
+    // Search Handler
+    // =====================
+    async function handleSearch() {
+      const query = coinInput.value.trim().toLowerCase();
+      if (!query) return;
+
+      clearInterval(countdownTimerId);
+      hideAll();
+      hideError();
+      showLoader(t('loaderSearching') + query);
+      currentCoinId = null;
+      currentCoinName = null;
+
+      try {
+        const searchUrl = 'https://api.coingecko.com/api/v3/search?query=' + encodeURIComponent(query);
+        const searchData = await fetchWithProxy(searchUrl);
+
+        if (!searchData || !searchData.coins || searchData.coins.length === 0) {
+          throw new Error(t('errNotFound'));
+        }
+
+        let coin = searchData.coins.find(c =>
+          c.symbol.toLowerCase() === query || c.id.toLowerCase() === query
+        );
+        if (!coin) coin = searchData.coins[0];
+
+        coinNameTitle.textContent = coin.name + ' (' + coin.symbol.toUpperCase() + ')';
+        if (coin.thumb) {
+          coinImage.src = coin.thumb;
+          coinImage.style.display = '';
+        } else {
+          coinImage.style.display = 'none';
+        }
+        coinHeader.classList.add('visible');
+
+        currentCoinId   = coin.id;
+        currentCoinName = coin.name;
+
+        await fetchTickersOnly(currentCoinId, currentCoinName, false);
+
+      } catch (err) {
+        hideLoader();
+        showError(err.message || t('errUnexpected'));
+      }
+    }
+
+    // =====================
+    // Fetch Tickers
+    // =====================
+    async function fetchTickersOnly(coinId, coinName, isRefresh = false) {
+      if (!isRefresh) {
+        showLoader(t('loaderFetching') + coinName + '...');
+        statsGrid.classList.remove('visible');
+        tableContainer.classList.remove('visible');
+      } else {
+        loaderText.textContent = t('loaderRefreshing');
+        loader.classList.add('visible');
+      }
+
+      try {
+        const tickersUrl = 'https://api.coingecko.com/api/v3/coins/' + coinId + '/tickers?include_exchange_logo=true&depth=false&page=1';
+        const data = await fetchWithProxy(tickersUrl);
+
+        if (!data || !data.tickers || data.tickers.length === 0) {
+          throw new Error(t('errNoData'));
+        }
+
+        processTickers(data.tickers);
+        startRefreshCountdown();
+
+      } catch (err) {
+        if (!isRefresh) {
+          showError(err.message || t('errUnexpected'));
+          hideAll();
+        } else {
+          refreshText.textContent = t('refreshFailed');
+          refreshTimer.classList.add('visible');
+          setTimeout(startRefreshCountdown, 20000);
+        }
+        console.error('Tickers error:', err);
+      } finally {
+        hideLoader();
+      }
+    }
+
+    // =====================
+    // Process and Render Tickers
+    // =====================
+    function processTickers(tickers) {
+      let filtered = tickers.filter(t => {
+        const target = (t.target || '').toUpperCase();
+        return (
+          t.last && t.last > 0 &&
+          t.converted_last &&
+          t.converted_last.usd &&
+          t.converted_last.usd > 0 &&
+          t.converted_volume &&
+          t.converted_volume.usd &&
+          t.converted_volume.usd > 0 &&
+          !t.is_anomaly &&
+          !t.is_stale &&
+          (target === 'USD' || target === 'USDT' || target === 'USDC' || target === 'BUSD' || target === 'DAI')
+        );
+      });
+
+      if (filtered.length === 0) {
+        filtered = tickers.filter(t =>
+          t.converted_last && t.converted_last.usd > 0 &&
+          t.converted_volume && t.converted_volume.usd > 0 &&
+          !t.is_anomaly && !t.is_stale
+        );
+      }
+
+      if (filtered.length === 0) {
+        showError(T[currentLang].errNoUSD || T['ar'].errNoUSD);
+        hideAll();
+        coinHeader.classList.add('visible');
+        return;
+      }
+
+      filtered.sort((a, b) => (b.converted_volume?.usd || 0) - (a.converted_volume?.usd || 0));
+      filtered = filtered.slice(0, 100);
+
+      let minPrice = Infinity, maxPrice = -Infinity;
+      let minTicker = null, maxTicker = null;
+
+      filtered.forEach(tk => {
+        const price = tk.converted_last.usd;
+        if (price < minPrice) { minPrice = price; minTicker = tk; }
+        if (price > maxPrice) { maxPrice = price; maxTicker = tk; }
+      });
+
+      const spreadPct = ((maxPrice - minPrice) / minPrice) * 100;
+
+      document.getElementById('minPrice').textContent   = formatCurrency(minPrice);
+      document.getElementById('minExchange').textContent = minTicker?.market?.name
+        ? minTicker.market.name + ' (' + minTicker.target + ')'
+        : '---';
+      document.getElementById('maxPrice').textContent   = formatCurrency(maxPrice);
+      document.getElementById('maxExchange').textContent = maxTicker?.market?.name
+        ? maxTicker.market.name + ' (' + maxTicker.target + ')'
+        : '---';
+      document.getElementById('maxSpread').textContent  = spreadPct > 0
+        ? spreadPct.toFixed(2) + '%'
+        : '0.00%';
+
+      filtered.sort((a, b) => a.converted_last.usd - b.converted_last.usd);
+
+      tableBody.innerHTML = '';
+      filtered.forEach((ticker, index) => {
+        const price   = ticker.converted_last.usd;
+        const volume  = ticker.converted_volume?.usd || 0;
+        const pctDiff = ((price - minPrice) / minPrice) * 100;
+
+        let badgeClass = 'spread-neutral';
+        let badgeText  = formatPercent(pctDiff);
+
+        if (pctDiff === 0) {
+          badgeClass = 'spread-best';
+          badgeText  = t('spreadLowest');
+        } else if (price === maxPrice && spreadPct > 0) {
+          badgeClass = 'spread-high';
+        }
+
+        const logoHtml = ticker.market?.logo
+          ? `<img class="exchange-logo" src="${ticker.market.logo}" alt="" onerror="this.style.display='none'">`
+          : '';
+
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${index + 1}</td>
+          <td><div class="exchange-cell">${logoHtml}${shortenName(ticker.market?.name || '---')}</div></td>
+          <td>${(ticker.base || '').toUpperCase()}/${(ticker.target || '').toUpperCase()}</td>
+          <td class="price-cell">${formatCurrency(price)}</td>
+          <td>${formatVolume(volume)}</td>
+          <td><span class="spread-badge ${badgeClass}">${badgeText}</span></td>
+        `;
+        tableBody.appendChild(row);
+      });
+
+      statsGrid.classList.add('visible');
+      tableContainer.classList.add('visible');
+      hideError();
+    }
+
+    // =====================
+    // Auto-refresh Countdown
+    // =====================
+    function startRefreshCountdown() {
+      clearInterval(countdownTimerId);
+      let seconds = 35;
+
+      refreshTimer.classList.add('visible');
+
+      function tick() {
+        refreshText.textContent = t('countdownText', { s: seconds });
+      }
+      tick();
+
+      countdownTimerId = setInterval(() => {
+        seconds--;
+        if (seconds <= 0) {
+          clearInterval(countdownTimerId);
+          refreshText.textContent = t('countdownRefreshing');
+          if (currentCoinId) {
+            fetchTickersOnly(currentCoinId, currentCoinName, true);
+          }
+        } else {
+          tick();
+        }
+      }, 1000);
+    }
+    </script>
+  </body>
+</html>
