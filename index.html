@@ -293,10 +293,9 @@
     });
   </script>
 
-  <script>
-    // Load Tailwind async to prevent render blocking
-    (function(){var s=document.createElement('script');s.src='https://cdn.tailwindcss.com';s.async=true;document.head.appendChild(s)})();
-  </script>
+  <!-- Tailwind must be blocking to prevent Flash of Unstyled Content (FOUC) -->
+  <script>document.documentElement.style.visibility='hidden';</script>
+  <script src="https://cdn.tailwindcss.com" onload="document.documentElement.style.visibility=''"></script>
   <link
     href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
     rel="stylesheet" media="print" onload="this.media='all'">
