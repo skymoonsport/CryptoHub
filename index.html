@@ -31,7 +31,7 @@
   <!--  ARABIC SEO META TAGS                                         -->
   <!-- ============================================================ -->
   <meta name="description" lang="ar"
-    content="كريبتوهاب: تتبع أسعار أكثر من 5000 عملة رقمية في الوقت الفعلي، تحليل السوق بالذكاء الاصطناعي، مؤشر الخوف والجشع، أسعار الذهب والفضة والأسهم. مجاني بدون تسجيل.">
+    content="cryptohub: تتبع أسعار أكثر من 5000 عملة رقمية في الوقت الفعلي، تحليل السوق بالذكاء الاصطناعي، مؤشر الخوف والجشع، أسعار الذهب والفضة والأسهم. مجاني بدون تسجيل.كريبتوهاب">
   <meta name="keywords" lang="ar"
     content="متتبع العملات الرقمية, أسعار البيتكوين, سعر الإيثيريوم, رأس مال السوق, مؤشر الخوف والجشع, موسم العملات البديلة, سعر الذهب, سعر الفضة, تحليل الكريبتو بالذكاء الاصطناعي, أسعار بينانس, محفظة العملات الرقمية, كريبتو مجاني">
   <meta name="language" content="Arabic" lang="ar">
@@ -284,7 +284,7 @@
 
   <!-- Google AdSense - deferred to not block rendering -->
   <script>
-    window.addEventListener('load', function() {
+    window.addEventListener('load', function () {
       var s = document.createElement('script');
       s.async = true;
       s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6273496386873741';
@@ -294,19 +294,24 @@
   </script>
 
   <!-- Tailwind must be blocking to prevent Flash of Unstyled Content (FOUC) -->
-  <script>document.documentElement.style.visibility='hidden';</script>
+  <script>document.documentElement.style.visibility = 'hidden';</script>
   <script src="https://cdn.tailwindcss.com" onload="document.documentElement.style.visibility=''"></script>
   <link
     href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
     rel="stylesheet" media="print" onload="this.media='all'">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+  <noscript>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet">
+  </noscript>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print"
+    onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  </noscript>
 
   <style>
-    /* === PERFORMANCE: Font display swap to prevent layout shift === */
-    @font-face { font-family: 'Cairo'; font-display: swap; }
-    @font-face { font-family: 'Inter'; font-display: swap; }
+    /* === PERFORMANCE: Font display swap handled by Google Fonts URL === */
 
     /* === CSS Block 1 === */
     * {
@@ -3831,9 +3836,11 @@
     .nav-hamburger.active .ham-line:nth-child(1) {
       transform: translateY(6px) rotate(45deg);
     }
+
     .nav-hamburger.active .ham-line:nth-child(2) {
       opacity: 0;
     }
+
     .nav-hamburger.active .ham-line:nth-child(3) {
       transform: translateY(-6px) rotate(-45deg);
     }
@@ -4502,11 +4509,15 @@
       height: auto;
       overflow: visible;
       padding-bottom: 20px;
-      min-height: 600px; /* Prevent CLS - reserve space for table */
+      min-height: 600px;
+      /* Prevent CLS - reserve space for table */
     }
 
     /* Skeleton loader to prevent layout shift */
-    .sk-row td { padding: 10px 16px; }
+    .sk-row td {
+      padding: 10px 16px;
+    }
+
     .sk-cell {
       background: linear-gradient(90deg, var(--bg2) 25%, var(--bg3) 50%, var(--bg2) 75%);
       background-size: 200% 100%;
@@ -4515,9 +4526,15 @@
       height: 14px;
       display: block;
     }
+
     @keyframes sk-shimmer {
-      0% { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
+      0% {
+        background-position: 200% 0;
+      }
+
+      100% {
+        background-position: -200% 0;
+      }
     }
 
     .ec-row td {
@@ -4932,7 +4949,8 @@
         <div class="flex items-center gap-2.5">
           <a href="#" onclick="location.reload();return false" class="flex items-center gap-2 no-underline"
             style="color:var(--t1)">
-            <img src="logo.png" alt="CryptoHub" style="height:36px;width:auto;object-fit:contain;border-radius:4px" fetchpriority="high" width="36" height="36">
+            <img src="logo.png" alt="CryptoHub" style="height:36px;width:auto;object-fit:contain;border-radius:4px"
+              fetchpriority="high" width="36" height="36">
             <h1 class="text-base font-bold" data-i18n="siteTitle">CryptoHub</h1>
           </a>
           <div class="dropdown" id="exDd"><button class="ddb" onclick="toggleDD('exDd')"><i class="fas fa-exchange-alt"
@@ -4982,7 +5000,8 @@
             <i class="fas fa-moon hidden" style="color:var(--ac)" id="mI"></i>
           </button>
           <div class="dropdown" id="statsDd" style="display:flex;align-items:center;gap:8px;">
-            <button class="nav-icon-btn nav-hamburger" onclick="toggleDD('statsDd')" id="navSecBtn" title="Site Sections">
+            <button class="nav-icon-btn nav-hamburger" onclick="toggleDD('statsDd')" id="navSecBtn"
+              title="Site Sections">
               <span class="ham-line"></span>
               <span class="ham-line"></span>
               <span class="ham-line"></span>
@@ -5114,8 +5133,8 @@
 
 
           <div class="dropdown" id="langDd"><button class="nav-icon-btn nav-lang-btn" onclick="toggleDD('langDd')"><span
-                id="cFlag">🇸🇦</span><span id="cCode" class="text-xs font-bold" style="font-size:10px">AR</span><i class="fas fa-chevron-down"
-                style="font-size:8px;opacity:.6"></i></button>
+                id="cFlag">🇸🇦</span><span id="cCode" class="text-xs font-bold" style="font-size:10px">AR</span><i
+                class="fas fa-chevron-down" style="font-size:8px;opacity:.6"></i></button>
             <div class="ddm" id="lMenu" style="min-width:190px"></div>
           </div>
         </div>
@@ -5491,12 +5510,18 @@
           <div class="cmc-net-scroll">
             <button class="cmc-net-btn cmc-net-active" data-net="all"><i class="fas fa-globe"
                 style="font-size:14px"></i> <span data-i18n="allNetworks">All Networks</span></button>
-            <button class="cmc-net-btn" data-net="ethereum"><img loading="lazy" width="20" height="20" src="https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png" alt="Ethereum"> Ethereum</button>
-            <button class="cmc-net-btn" data-net="binance-smart-chain"><img loading="lazy" width="20" height="20" src="https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png" alt="BSC"> BNB Chain</button>
-            <button class="cmc-net-btn" data-net="solana"><img loading="lazy" width="20" height="20" src="https://s2.coinmarketcap.com/static/img/coins/64x64/5426.png" alt="Solana"> Solana</button>
-            <button class="cmc-net-btn" data-net="base"><img loading="lazy" width="20" height="20" src="https://s2.coinmarketcap.com/static/img/coins/64x64/27716.png" alt="Base"> Base</button>
-            <button class="cmc-net-btn" data-net="polygon-pos"><img loading="lazy" width="20" height="20" src="https://s2.coinmarketcap.com/static/img/coins/64x64/3890.png" alt="Polygon"> Polygon</button>
-            <button class="cmc-net-btn" data-net="arbitrum-one"><img loading="lazy" width="20" height="20" src="https://s2.coinmarketcap.com/static/img/coins/64x64/11841.png" alt="Arbitrum"> Arbitrum</button>
+            <button class="cmc-net-btn" data-net="ethereum"><img loading="lazy" width="20" height="20"
+                src="https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png" alt="Ethereum"> Ethereum</button>
+            <button class="cmc-net-btn" data-net="binance-smart-chain"><img loading="lazy" width="20" height="20"
+                src="https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png" alt="BSC"> BNB Chain</button>
+            <button class="cmc-net-btn" data-net="solana"><img loading="lazy" width="20" height="20"
+                src="https://s2.coinmarketcap.com/static/img/coins/64x64/5426.png" alt="Solana"> Solana</button>
+            <button class="cmc-net-btn" data-net="base"><img loading="lazy" width="20" height="20"
+                src="https://s2.coinmarketcap.com/static/img/coins/64x64/27716.png" alt="Base"> Base</button>
+            <button class="cmc-net-btn" data-net="polygon-pos"><img loading="lazy" width="20" height="20"
+                src="https://s2.coinmarketcap.com/static/img/coins/64x64/3890.png" alt="Polygon"> Polygon</button>
+            <button class="cmc-net-btn" data-net="arbitrum-one"><img loading="lazy" width="20" height="20"
+                src="https://s2.coinmarketcap.com/static/img/coins/64x64/11841.png" alt="Arbitrum"> Arbitrum</button>
             <div style="flex-shrink:0;">
               <button class="cmc-net-btn cmc-net-more-btn" id="cmcMoreBtn">More <i class="fas fa-chevron-down"
                   id="cmcMoreChev" style="font-size:10px;transition:transform .3s"></i></button>
@@ -5513,30 +5538,54 @@
             <button class="cmc-mg-item cmc-mg-active" data-net="all"><i class="fas fa-globe"
                 style="width:24px;text-align:center;font-size:18px;color:var(--t2)"></i> <span>All
                 Networks</span></button>
-            <button class="cmc-mg-item" data-net="optimistic-ethereum"><img loading="lazy" width="24" height="24" src="https://s2.coinmarketcap.com/static/img/coins/64x64/11840.png"> <span>Optimism</span></button>
-            <button class="cmc-mg-item" data-net="avalanche"><img loading="lazy" width="24" height="24" src="https://s2.coinmarketcap.com/static/img/coins/64x64/5805.png"> <span>Avalanche</span></button>
-            <button class="cmc-mg-item" data-net="tron"><img loading="lazy" width="24" height="24" src="https://s2.coinmarketcap.com/static/img/coins/64x64/1958.png"> <span>TRON</span></button>
-            <button class="cmc-mg-item" data-net="fantom"><img loading="lazy" width="24" height="24" src="https://s2.coinmarketcap.com/static/img/coins/64x64/3513.png"> <span>Fantom</span></button>
-            <button class="cmc-mg-item" data-net="cronos"><img loading="lazy" width="24" height="24" src="https://s2.coinmarketcap.com/static/img/coins/64x64/3635.png"> <span>Cronos</span></button>
-            <button class="cmc-mg-item" data-net="bitcoin"><img loading="lazy" width="24" height="24" src="https://s2.coinmarketcap.com/static/img/coins/64x64/1.png"> <span>Bitcoin</span></button>
-            <button class="cmc-mg-item" data-net="cardano"><img loading="lazy" width="24" height="24" src="https://s2.coinmarketcap.com/static/img/coins/64x64/2010.png"> <span>Cardano</span></button>
-            <button class="cmc-mg-item" data-net="polkadot"><img loading="lazy" width="24" height="24" src="https://s2.coinmarketcap.com/static/img/coins/64x64/6636.png"> <span>Polkadot</span></button>
-            <button class="cmc-mg-item" data-net="cosmos"><img loading="lazy" width="24" height="24" src="https://s2.coinmarketcap.com/static/img/coins/64x64/3794.png"> <span>Cosmos</span></button>
-            <button class="cmc-mg-item" data-net="near-protocol"><img loading="lazy" width="24" height="24" src="https://s2.coinmarketcap.com/static/img/coins/64x64/6535.png"> <span>NEAR</span></button>
-            <button class="cmc-mg-item" data-net="sui"><img loading="lazy" width="24" height="24" src="https://s2.coinmarketcap.com/static/img/coins/64x64/20947.png"> <span>Sui</span></button>
-            <button class="cmc-mg-item" data-net="aptos"><img loading="lazy" width="24" height="24" src="https://s2.coinmarketcap.com/static/img/coins/64x64/21794.png"> <span>Aptos</span></button>
-            <button class="cmc-mg-item" data-net="algorand"><img loading="lazy" width="24" height="24" src="https://s2.coinmarketcap.com/static/img/coins/64x64/4030.png"> <span>Algorand</span></button>
-            <button class="cmc-mg-item" data-net="stellar"><img loading="lazy" width="24" height="24" src="https://s2.coinmarketcap.com/static/img/coins/64x64/512.png"> <span>Stellar</span></button>
-            <button class="cmc-mg-item" data-net="celo"><img loading="lazy" width="24" height="24" src="https://s2.coinmarketcap.com/static/img/coins/64x64/5567.png"> <span>Celo</span></button>
-            <button class="cmc-mg-item" data-net="moonbeam"><img loading="lazy" width="24" height="24" src="https://s2.coinmarketcap.com/static/img/coins/64x64/6836.png"> <span>Moonbeam</span></button>
-            <button class="cmc-mg-item" data-net="kava"><img loading="lazy" width="24" height="24" src="https://s2.coinmarketcap.com/static/img/coins/64x64/4846.png"> <span>Kava</span></button>
-            <button class="cmc-mg-item" data-net="osmosis"><img loading="lazy" width="24" height="24" src="https://s2.coinmarketcap.com/static/img/coins/64x64/12220.png"> <span>Osmosis</span></button>
-            <button class="cmc-mg-item" data-net="mantle"><img loading="lazy" width="24" height="24" src="https://s2.coinmarketcap.com/static/img/coins/64x64/27075.png"> <span>Mantle</span></button>
-            <button class="cmc-mg-item" data-net="linea"><img loading="lazy" width="24" height="24" src="https://s2.coinmarketcap.com/static/img/coins/64x64/27657.png"> <span>Linea</span></button>
-            <button class="cmc-mg-item" data-net="scroll"><img loading="lazy" width="24" height="24" src="https://s2.coinmarketcap.com/static/img/coins/64x64/26998.png"> <span>Scroll</span></button>
-            <button class="cmc-mg-item" data-net="zksync"><img loading="lazy" width="24" height="24" src="https://s2.coinmarketcap.com/static/img/coins/64x64/24091.png"> <span>zkSync</span></button>
-            <button class="cmc-mg-item" data-net="manta-pacific"><img loading="lazy" width="24" height="24" src="https://s2.coinmarketcap.com/static/img/coins/64x64/13631.png"> <span>Manta</span></button>
-            <button class="cmc-mg-item" data-net="blast"><img loading="lazy" width="24" height="24" src="https://s2.coinmarketcap.com/static/img/coins/64x64/28480.png"> <span>Blast</span></button>
+            <button class="cmc-mg-item" data-net="optimistic-ethereum"><img loading="lazy" width="24" height="24"
+                src="https://s2.coinmarketcap.com/static/img/coins/64x64/11840.png"> <span>Optimism</span></button>
+            <button class="cmc-mg-item" data-net="avalanche"><img loading="lazy" width="24" height="24"
+                src="https://s2.coinmarketcap.com/static/img/coins/64x64/5805.png"> <span>Avalanche</span></button>
+            <button class="cmc-mg-item" data-net="tron"><img loading="lazy" width="24" height="24"
+                src="https://s2.coinmarketcap.com/static/img/coins/64x64/1958.png"> <span>TRON</span></button>
+            <button class="cmc-mg-item" data-net="fantom"><img loading="lazy" width="24" height="24"
+                src="https://s2.coinmarketcap.com/static/img/coins/64x64/3513.png"> <span>Fantom</span></button>
+            <button class="cmc-mg-item" data-net="cronos"><img loading="lazy" width="24" height="24"
+                src="https://s2.coinmarketcap.com/static/img/coins/64x64/3635.png"> <span>Cronos</span></button>
+            <button class="cmc-mg-item" data-net="bitcoin"><img loading="lazy" width="24" height="24"
+                src="https://s2.coinmarketcap.com/static/img/coins/64x64/1.png"> <span>Bitcoin</span></button>
+            <button class="cmc-mg-item" data-net="cardano"><img loading="lazy" width="24" height="24"
+                src="https://s2.coinmarketcap.com/static/img/coins/64x64/2010.png"> <span>Cardano</span></button>
+            <button class="cmc-mg-item" data-net="polkadot"><img loading="lazy" width="24" height="24"
+                src="https://s2.coinmarketcap.com/static/img/coins/64x64/6636.png"> <span>Polkadot</span></button>
+            <button class="cmc-mg-item" data-net="cosmos"><img loading="lazy" width="24" height="24"
+                src="https://s2.coinmarketcap.com/static/img/coins/64x64/3794.png"> <span>Cosmos</span></button>
+            <button class="cmc-mg-item" data-net="near-protocol"><img loading="lazy" width="24" height="24"
+                src="https://s2.coinmarketcap.com/static/img/coins/64x64/6535.png"> <span>NEAR</span></button>
+            <button class="cmc-mg-item" data-net="sui"><img loading="lazy" width="24" height="24"
+                src="https://s2.coinmarketcap.com/static/img/coins/64x64/20947.png"> <span>Sui</span></button>
+            <button class="cmc-mg-item" data-net="aptos"><img loading="lazy" width="24" height="24"
+                src="https://s2.coinmarketcap.com/static/img/coins/64x64/21794.png"> <span>Aptos</span></button>
+            <button class="cmc-mg-item" data-net="algorand"><img loading="lazy" width="24" height="24"
+                src="https://s2.coinmarketcap.com/static/img/coins/64x64/4030.png"> <span>Algorand</span></button>
+            <button class="cmc-mg-item" data-net="stellar"><img loading="lazy" width="24" height="24"
+                src="https://s2.coinmarketcap.com/static/img/coins/64x64/512.png"> <span>Stellar</span></button>
+            <button class="cmc-mg-item" data-net="celo"><img loading="lazy" width="24" height="24"
+                src="https://s2.coinmarketcap.com/static/img/coins/64x64/5567.png"> <span>Celo</span></button>
+            <button class="cmc-mg-item" data-net="moonbeam"><img loading="lazy" width="24" height="24"
+                src="https://s2.coinmarketcap.com/static/img/coins/64x64/6836.png"> <span>Moonbeam</span></button>
+            <button class="cmc-mg-item" data-net="kava"><img loading="lazy" width="24" height="24"
+                src="https://s2.coinmarketcap.com/static/img/coins/64x64/4846.png"> <span>Kava</span></button>
+            <button class="cmc-mg-item" data-net="osmosis"><img loading="lazy" width="24" height="24"
+                src="https://s2.coinmarketcap.com/static/img/coins/64x64/12220.png"> <span>Osmosis</span></button>
+            <button class="cmc-mg-item" data-net="mantle"><img loading="lazy" width="24" height="24"
+                src="https://s2.coinmarketcap.com/static/img/coins/64x64/27075.png"> <span>Mantle</span></button>
+            <button class="cmc-mg-item" data-net="linea"><img loading="lazy" width="24" height="24"
+                src="https://s2.coinmarketcap.com/static/img/coins/64x64/27657.png"> <span>Linea</span></button>
+            <button class="cmc-mg-item" data-net="scroll"><img loading="lazy" width="24" height="24"
+                src="https://s2.coinmarketcap.com/static/img/coins/64x64/26998.png"> <span>Scroll</span></button>
+            <button class="cmc-mg-item" data-net="zksync"><img loading="lazy" width="24" height="24"
+                src="https://s2.coinmarketcap.com/static/img/coins/64x64/24091.png"> <span>zkSync</span></button>
+            <button class="cmc-mg-item" data-net="manta-pacific"><img loading="lazy" width="24" height="24"
+                src="https://s2.coinmarketcap.com/static/img/coins/64x64/13631.png"> <span>Manta</span></button>
+            <button class="cmc-mg-item" data-net="blast"><img loading="lazy" width="24" height="24"
+                src="https://s2.coinmarketcap.com/static/img/coins/64x64/28480.png"> <span>Blast</span></button>
           </div>
         </div>
 
@@ -5567,16 +5616,106 @@
           </thead>
           <tbody id="tBody">
             <!-- Skeleton rows prevent CLS by reserving exact table height -->
-            <tr class="sk-row"><td><span class="sk-cell" style="width:140px"></span></td><td><span class="sk-cell" style="width:70px;margin-left:auto"></span></td><td class="hidden sm:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td><td class="hidden sm:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td><td><span class="sk-cell" style="width:55px;margin-left:auto"></span></td><td class="hidden md:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td><td class="hidden lg:table-cell"><span class="sk-cell" style="width:85px;margin-left:auto"></span></td><td class="hidden lg:table-cell"><span class="sk-cell" style="width:85px;margin-left:auto"></span></td></tr>
-            <tr class="sk-row"><td><span class="sk-cell" style="width:120px"></span></td><td><span class="sk-cell" style="width:80px;margin-left:auto"></span></td><td class="hidden sm:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td><td class="hidden sm:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td><td><span class="sk-cell" style="width:55px;margin-left:auto"></span></td><td class="hidden md:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td><td class="hidden lg:table-cell"><span class="sk-cell" style="width:85px;margin-left:auto"></span></td><td class="hidden lg:table-cell"><span class="sk-cell" style="width:85px;margin-left:auto"></span></td></tr>
-            <tr class="sk-row"><td><span class="sk-cell" style="width:150px"></span></td><td><span class="sk-cell" style="width:65px;margin-left:auto"></span></td><td class="hidden sm:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td><td class="hidden sm:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td><td><span class="sk-cell" style="width:55px;margin-left:auto"></span></td><td class="hidden md:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td><td class="hidden lg:table-cell"><span class="sk-cell" style="width:85px;margin-left:auto"></span></td><td class="hidden lg:table-cell"><span class="sk-cell" style="width:85px;margin-left:auto"></span></td></tr>
-            <tr class="sk-row"><td><span class="sk-cell" style="width:100px"></span></td><td><span class="sk-cell" style="width:75px;margin-left:auto"></span></td><td class="hidden sm:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td><td class="hidden sm:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td><td><span class="sk-cell" style="width:55px;margin-left:auto"></span></td><td class="hidden md:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td><td class="hidden lg:table-cell"><span class="sk-cell" style="width:85px;margin-left:auto"></span></td><td class="hidden lg:table-cell"><span class="sk-cell" style="width:85px;margin-left:auto"></span></td></tr>
-            <tr class="sk-row"><td><span class="sk-cell" style="width:130px"></span></td><td><span class="sk-cell" style="width:72px;margin-left:auto"></span></td><td class="hidden sm:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td><td class="hidden sm:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td><td><span class="sk-cell" style="width:55px;margin-left:auto"></span></td><td class="hidden md:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td><td class="hidden lg:table-cell"><span class="sk-cell" style="width:85px;margin-left:auto"></span></td><td class="hidden lg:table-cell"><span class="sk-cell" style="width:85px;margin-left:auto"></span></td></tr>
-            <tr class="sk-row"><td><span class="sk-cell" style="width:110px"></span></td><td><span class="sk-cell" style="width:78px;margin-left:auto"></span></td><td class="hidden sm:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td><td class="hidden sm:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td><td><span class="sk-cell" style="width:55px;margin-left:auto"></span></td><td class="hidden md:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td><td class="hidden lg:table-cell"><span class="sk-cell" style="width:85px;margin-left:auto"></span></td><td class="hidden lg:table-cell"><span class="sk-cell" style="width:85px;margin-left:auto"></span></td></tr>
-            <tr class="sk-row"><td><span class="sk-cell" style="width:145px"></span></td><td><span class="sk-cell" style="width:68px;margin-left:auto"></span></td><td class="hidden sm:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td><td class="hidden sm:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td><td><span class="sk-cell" style="width:55px;margin-left:auto"></span></td><td class="hidden md:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td><td class="hidden lg:table-cell"><span class="sk-cell" style="width:85px;margin-left:auto"></span></td><td class="hidden lg:table-cell"><span class="sk-cell" style="width:85px;margin-left:auto"></span></td></tr>
-            <tr class="sk-row"><td><span class="sk-cell" style="width:125px"></span></td><td><span class="sk-cell" style="width:82px;margin-left:auto"></span></td><td class="hidden sm:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td><td class="hidden sm:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td><td><span class="sk-cell" style="width:55px;margin-left:auto"></span></td><td class="hidden md:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td><td class="hidden lg:table-cell"><span class="sk-cell" style="width:85px;margin-left:auto"></span></td><td class="hidden lg:table-cell"><span class="sk-cell" style="width:85px;margin-left:auto"></span></td></tr>
-            <tr class="sk-row"><td><span class="sk-cell" style="width:115px"></span></td><td><span class="sk-cell" style="width:76px;margin-left:auto"></span></td><td class="hidden sm:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td><td class="hidden sm:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td><td><span class="sk-cell" style="width:55px;margin-left:auto"></span></td><td class="hidden md:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td><td class="hidden lg:table-cell"><span class="sk-cell" style="width:85px;margin-left:auto"></span></td><td class="hidden lg:table-cell"><span class="sk-cell" style="width:85px;margin-left:auto"></span></td></tr>
-            <tr class="sk-row"><td><span class="sk-cell" style="width:135px"></span></td><td><span class="sk-cell" style="width:73px;margin-left:auto"></span></td><td class="hidden sm:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td><td class="hidden sm:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td><td><span class="sk-cell" style="width:55px;margin-left:auto"></span></td><td class="hidden md:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td><td class="hidden lg:table-cell"><span class="sk-cell" style="width:85px;margin-left:auto"></span></td><td class="hidden lg:table-cell"><span class="sk-cell" style="width:85px;margin-left:auto"></span></td></tr>
+            <tr class="sk-row">
+              <td><span class="sk-cell" style="width:140px"></span></td>
+              <td><span class="sk-cell" style="width:70px;margin-left:auto"></span></td>
+              <td class="hidden sm:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td>
+              <td class="hidden sm:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td>
+              <td><span class="sk-cell" style="width:55px;margin-left:auto"></span></td>
+              <td class="hidden md:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td>
+              <td class="hidden lg:table-cell"><span class="sk-cell" style="width:85px;margin-left:auto"></span></td>
+              <td class="hidden lg:table-cell"><span class="sk-cell" style="width:85px;margin-left:auto"></span></td>
+            </tr>
+            <tr class="sk-row">
+              <td><span class="sk-cell" style="width:120px"></span></td>
+              <td><span class="sk-cell" style="width:80px;margin-left:auto"></span></td>
+              <td class="hidden sm:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td>
+              <td class="hidden sm:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td>
+              <td><span class="sk-cell" style="width:55px;margin-left:auto"></span></td>
+              <td class="hidden md:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td>
+              <td class="hidden lg:table-cell"><span class="sk-cell" style="width:85px;margin-left:auto"></span></td>
+              <td class="hidden lg:table-cell"><span class="sk-cell" style="width:85px;margin-left:auto"></span></td>
+            </tr>
+            <tr class="sk-row">
+              <td><span class="sk-cell" style="width:150px"></span></td>
+              <td><span class="sk-cell" style="width:65px;margin-left:auto"></span></td>
+              <td class="hidden sm:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td>
+              <td class="hidden sm:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td>
+              <td><span class="sk-cell" style="width:55px;margin-left:auto"></span></td>
+              <td class="hidden md:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td>
+              <td class="hidden lg:table-cell"><span class="sk-cell" style="width:85px;margin-left:auto"></span></td>
+              <td class="hidden lg:table-cell"><span class="sk-cell" style="width:85px;margin-left:auto"></span></td>
+            </tr>
+            <tr class="sk-row">
+              <td><span class="sk-cell" style="width:100px"></span></td>
+              <td><span class="sk-cell" style="width:75px;margin-left:auto"></span></td>
+              <td class="hidden sm:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td>
+              <td class="hidden sm:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td>
+              <td><span class="sk-cell" style="width:55px;margin-left:auto"></span></td>
+              <td class="hidden md:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td>
+              <td class="hidden lg:table-cell"><span class="sk-cell" style="width:85px;margin-left:auto"></span></td>
+              <td class="hidden lg:table-cell"><span class="sk-cell" style="width:85px;margin-left:auto"></span></td>
+            </tr>
+            <tr class="sk-row">
+              <td><span class="sk-cell" style="width:130px"></span></td>
+              <td><span class="sk-cell" style="width:72px;margin-left:auto"></span></td>
+              <td class="hidden sm:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td>
+              <td class="hidden sm:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td>
+              <td><span class="sk-cell" style="width:55px;margin-left:auto"></span></td>
+              <td class="hidden md:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td>
+              <td class="hidden lg:table-cell"><span class="sk-cell" style="width:85px;margin-left:auto"></span></td>
+              <td class="hidden lg:table-cell"><span class="sk-cell" style="width:85px;margin-left:auto"></span></td>
+            </tr>
+            <tr class="sk-row">
+              <td><span class="sk-cell" style="width:110px"></span></td>
+              <td><span class="sk-cell" style="width:78px;margin-left:auto"></span></td>
+              <td class="hidden sm:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td>
+              <td class="hidden sm:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td>
+              <td><span class="sk-cell" style="width:55px;margin-left:auto"></span></td>
+              <td class="hidden md:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td>
+              <td class="hidden lg:table-cell"><span class="sk-cell" style="width:85px;margin-left:auto"></span></td>
+              <td class="hidden lg:table-cell"><span class="sk-cell" style="width:85px;margin-left:auto"></span></td>
+            </tr>
+            <tr class="sk-row">
+              <td><span class="sk-cell" style="width:145px"></span></td>
+              <td><span class="sk-cell" style="width:68px;margin-left:auto"></span></td>
+              <td class="hidden sm:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td>
+              <td class="hidden sm:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td>
+              <td><span class="sk-cell" style="width:55px;margin-left:auto"></span></td>
+              <td class="hidden md:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td>
+              <td class="hidden lg:table-cell"><span class="sk-cell" style="width:85px;margin-left:auto"></span></td>
+              <td class="hidden lg:table-cell"><span class="sk-cell" style="width:85px;margin-left:auto"></span></td>
+            </tr>
+            <tr class="sk-row">
+              <td><span class="sk-cell" style="width:125px"></span></td>
+              <td><span class="sk-cell" style="width:82px;margin-left:auto"></span></td>
+              <td class="hidden sm:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td>
+              <td class="hidden sm:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td>
+              <td><span class="sk-cell" style="width:55px;margin-left:auto"></span></td>
+              <td class="hidden md:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td>
+              <td class="hidden lg:table-cell"><span class="sk-cell" style="width:85px;margin-left:auto"></span></td>
+              <td class="hidden lg:table-cell"><span class="sk-cell" style="width:85px;margin-left:auto"></span></td>
+            </tr>
+            <tr class="sk-row">
+              <td><span class="sk-cell" style="width:115px"></span></td>
+              <td><span class="sk-cell" style="width:76px;margin-left:auto"></span></td>
+              <td class="hidden sm:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td>
+              <td class="hidden sm:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td>
+              <td><span class="sk-cell" style="width:55px;margin-left:auto"></span></td>
+              <td class="hidden md:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td>
+              <td class="hidden lg:table-cell"><span class="sk-cell" style="width:85px;margin-left:auto"></span></td>
+              <td class="hidden lg:table-cell"><span class="sk-cell" style="width:85px;margin-left:auto"></span></td>
+            </tr>
+            <tr class="sk-row">
+              <td><span class="sk-cell" style="width:135px"></span></td>
+              <td><span class="sk-cell" style="width:73px;margin-left:auto"></span></td>
+              <td class="hidden sm:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td>
+              <td class="hidden sm:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td>
+              <td><span class="sk-cell" style="width:55px;margin-left:auto"></span></td>
+              <td class="hidden md:table-cell"><span class="sk-cell" style="width:55px;margin-left:auto"></span></td>
+              <td class="hidden lg:table-cell"><span class="sk-cell" style="width:85px;margin-left:auto"></span></td>
+              <td class="hidden lg:table-cell"><span class="sk-cell" style="width:85px;margin-left:auto"></span></td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -6239,7 +6378,8 @@
         <div>
           <a href="#" onclick="location.reload();return false" class="flex items-center gap-3 mb-4 no-underline"
             style="color:#fff">
-            <img src="logo.png" alt="CryptoHub" style="height:40px;width:auto;object-fit:contain;border-radius:8px;" width="40" height="40" loading="lazy">
+            <img src="logo.png" alt="CryptoHub" style="height:40px;width:auto;object-fit:contain;border-radius:8px;"
+              width="40" height="40" loading="lazy">
             <div>
               <span class="font-bold text-xl block">CryptoHub</span>
               <span class="text-xs" style="color:#3b82f6;font-weight:700;letter-spacing:1px">CRYPTO TRACKER</span>
@@ -6849,8 +6989,8 @@
     function setLang(c) { cLang = c; localStorage.setItem('lang', c); closeDD(); applyLang() }
     function buildLM() { $('lMenu').innerHTML = LANGS.map(l => `<div class="ddi ${l.c === cLang ? 'active' : ''}" data-lang="${l.c}" onclick="setLang('${l.c}')"><span class="flag">${l.f}</span><span>${l.l}</span><i class="fas fa-check ck"></i></div>`).join('') }
     function buildNS() { $('netSel').innerHTML = `<option value="all">${t('allNetworks')}</option>` + NETS.map(n => `<option value="${n.id}">${n.i} ${n.n}</option>`).join('') }
-    function toggleDD(id) { const dd = $(id); const m = dd.querySelector('.ddm') || dd.querySelector('.stats-panel'); if (!m) return; const w = m.classList.contains('active'); closeDD(); if (!w) { m.classList.add('active'); if(id==='statsDd'){const hb=dd.querySelector('.nav-hamburger');if(hb)hb.classList.add('active');} } }
-    function closeDD() { document.querySelectorAll('.ddm,.stats-panel').forEach(m => m.classList.remove('active')); document.querySelectorAll('.nav-hamburger').forEach(h=>h.classList.remove('active')) }
+    function toggleDD(id) { const dd = $(id); const m = dd.querySelector('.ddm') || dd.querySelector('.stats-panel'); if (!m) return; const w = m.classList.contains('active'); closeDD(); if (!w) { m.classList.add('active'); if (id === 'statsDd') { const hb = dd.querySelector('.nav-hamburger'); if (hb) hb.classList.add('active'); } } }
+    function closeDD() { document.querySelectorAll('.ddm,.stats-panel').forEach(m => m.classList.remove('active')); document.querySelectorAll('.nav-hamburger').forEach(h => h.classList.remove('active')) }
     function navTo(section) { closeDD(); swTab(section); setTimeout(() => { const el = $('tab_' + section); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }) }, 100); if (section === 'crypto' && $('navCryptoBadge')) $('navCryptoBadge').textContent = allC.length ? allC.length.toLocaleString() : '--' }
     document.addEventListener('click', e => { if (!e.target.closest('.dropdown')) closeDD() });
     document.addEventListener('keydown', e => { if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openSrch() } if (e.key === 'Escape') { closeSrch(); closeDD(); closeMod(); document.querySelectorAll('.legal-modal.active').forEach(m => m.classList.remove('active')) } });
@@ -8389,12 +8529,12 @@
           gsw.style.background = 'var(--bg1)';
           gsw.style.borderBottom = '1px solid var(--bc)';
           gsw.style.zIndex = '9998';
-          if(btn) btn.classList.add('active-search');
+          if (btn) btn.classList.add('active-search');
           $('gsInput').focus();
         } else {
           gsw.classList.add('hidden');
           gsw.removeAttribute('style');
-          if(btn) btn.classList.remove('active-search');
+          if (btn) btn.classList.remove('active-search');
         }
       }
     }
@@ -8413,7 +8553,7 @@
           e.preventDefault();
           const gsi = $('gsInput');
           if (gsi) {
-              if (document.querySelector('.gs-wrap').classList.contains('hidden')) {
+            if (document.querySelector('.gs-wrap').classList.contains('hidden')) {
               toggleMobileSearch();
             } else {
               gsi.focus();
@@ -8431,7 +8571,7 @@
           closeSrch();
           gsw.classList.add('hidden');
           gsw.removeAttribute('style');
-          if(searchBtn) searchBtn.classList.remove('active-search');
+          if (searchBtn) searchBtn.classList.remove('active-search');
         }
       });
     });
