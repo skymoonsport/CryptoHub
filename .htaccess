@@ -110,3 +110,12 @@ RewriteRule ^ /crypto-arbitrage [R=301,L]
 
 RewriteCond %{REQUEST_URI} ^/crypto-analyzer\.html [NC]
 RewriteRule ^ /crypto-analyzer [R=301,L]
+
+# ============================================================
+# STRIP QUERY STRINGS FROM TOOL URLS → Clean URLs
+# ============================================================
+RewriteCond %{THE_REQUEST} \s/+(crypto-arbitrage)\.html\?[^\s]* [NC]
+RewriteRule ^ /crypto-arbitrage? [R=301,NE,L]
+
+RewriteCond %{THE_REQUEST} \s/+(crypto-analyzer)\.html\?[^\s]* [NC]
+RewriteRule ^ /crypto-analyzer? [R=301,NE,L]
