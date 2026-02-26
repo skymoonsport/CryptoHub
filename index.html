@@ -255,6 +255,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+  <!-- Preload critical assets for LCP -->
+  <link rel="preload" href="logo.png" as="image" fetchpriority="high">
 
   <link rel="dns-prefetch" href="https://api.binance.com">
   <link rel="dns-prefetch" href="https://api.bybit.com">
@@ -280,17 +282,33 @@
   <!-- PWA Manifest -->
   <link rel="manifest" href="/manifest.json">
 
-  <!-- Google AdSense -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6273496386873741"
-    crossorigin="anonymous"></script>
+  <!-- Google AdSense - deferred to not block rendering -->
+  <script>
+    window.addEventListener('load', function() {
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6273496386873741';
+      s.crossOrigin = 'anonymous';
+      document.head.appendChild(s);
+    });
+  </script>
 
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Load Tailwind async to prevent render blocking
+    (function(){var s=document.createElement('script');s.src='https://cdn.tailwindcss.com';s.async=true;document.head.appendChild(s)})();
+  </script>
   <link
     href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
-    rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 
   <style>
+    /* === PERFORMANCE: Font display swap to prevent layout shift === */
+    @font-face { font-family: 'Cairo'; font-display: swap; }
+    @font-face { font-family: 'Inter'; font-display: swap; }
+
     /* === CSS Block 1 === */
     * {
       scroll-behavior: smooth;
@@ -4899,7 +4917,7 @@
         <div class="flex items-center gap-2.5">
           <a href="#" onclick="location.reload();return false" class="flex items-center gap-2 no-underline"
             style="color:var(--t1)">
-            <img src="logo.png" alt="CryptoHub" style="height:36px;width:auto;object-fit:contain;border-radius:4px">
+            <img src="logo.png" alt="CryptoHub" style="height:36px;width:auto;object-fit:contain;border-radius:4px" fetchpriority="high" width="36" height="36">
             <h1 class="text-base font-bold" data-i18n="siteTitle">CryptoHub</h1>
           </a>
           <div class="dropdown" id="exDd"><button class="ddb" onclick="toggleDD('exDd')"><i class="fas fa-exchange-alt"
