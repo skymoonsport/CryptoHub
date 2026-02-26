@@ -101,3 +101,12 @@ RewriteRule ^ /%1 [R=301,NE,L]
 # ============================================================
 ErrorDocument 404 /index.html
 ErrorDocument 403 /index.html
+
+# ============================================================
+# TOOL REDIRECTS - Old URLs → Clean URLs
+# ============================================================
+RewriteCond %{REQUEST_URI} ^/Crypto%20Arbitrage%20\.html [NC]
+RewriteRule ^ /crypto-arbitrage [R=301,L]
+
+RewriteCond %{REQUEST_URI} ^/crypto-analyzer\.html [NC]
+RewriteRule ^ /crypto-analyzer [R=301,L]
