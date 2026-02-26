@@ -1117,6 +1117,22 @@
       left: 0
     }
 
+    [dir=rtl] .ddm {
+      left: auto;
+      right: 0
+    }
+
+    /* Language menu: LTR opens left, RTL opens right */
+    [dir=ltr] #lMenu {
+      right: 0 !important;
+      left: auto !important
+    }
+
+    [dir=rtl] #lMenu {
+      left: 0 !important;
+      right: auto !important
+    }
+
     .dark .ddm {
       box-shadow: 0 12px 40px rgba(0, 0, 0, .5)
     }
@@ -1155,9 +1171,7 @@
       align-items: center;
       gap: 9px;
       font-size: 13px;
-      color: var(--t1);
-      white-space: nowrap;
-      overflow: hidden;
+      color: var(--t1)
     }
 
     .ddi:hover {
@@ -5056,7 +5070,7 @@
           <div class="dropdown" id="langDd"><button class="nav-icon-btn nav-lang-btn" onclick="toggleDD('langDd')"><span
                 id="cFlag">🇸🇦</span><span id="cCode" class="text-xs font-bold" style="font-size:10px">AR</span><i class="fas fa-chevron-down"
                 style="font-size:8px;opacity:.6"></i></button>
-            <div class="ddm" id="lMenu" style="min-width:220px;right:0;left:auto"></div>
+            <div class="ddm" id="lMenu" style="min-width:190px"></div>
           </div>
         </div>
       </div>
