@@ -1155,7 +1155,9 @@
       align-items: center;
       gap: 9px;
       font-size: 13px;
-      color: var(--t1)
+      color: var(--t1);
+      white-space: nowrap;
+      overflow: hidden;
     }
 
     .ddi:hover {
@@ -5054,7 +5056,7 @@
           <div class="dropdown" id="langDd"><button class="nav-icon-btn nav-lang-btn" onclick="toggleDD('langDd')"><span
                 id="cFlag">🇸🇦</span><span id="cCode" class="text-xs font-bold" style="font-size:10px">AR</span><i class="fas fa-chevron-down"
                 style="font-size:8px;opacity:.6"></i></button>
-            <div class="ddm" id="lMenu" style="min-width:190px"></div>
+            <div class="ddm" id="lMenu" style="min-width:220px;right:0;left:auto"></div>
           </div>
         </div>
       </div>
