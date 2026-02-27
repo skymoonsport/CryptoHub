@@ -4,7 +4,6 @@
 User-agent: *
 Allow: /
 Disallow: /cdn-cgi/
-Disallow: /*.json$
 Crawl-delay: 1
 
 # Google
