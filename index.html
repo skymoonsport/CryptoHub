@@ -3,6 +3,14 @@
 
 <head>
   <meta charset="UTF-8">
+  <!-- Preconnect to critical origins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.tailwindcss.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="dns-prefetch" href="https://api.binance.com">
+  <link rel="dns-prefetch" href="https://pro-api.coinmarketcap.com">
+  <link rel="dns-prefetch" href="wss://stream.binance.com">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- ============================================================ -->
@@ -294,12 +302,45 @@
   </script>
 
   <!-- Tailwind must be blocking to prevent Flash of Unstyled Content (FOUC) -->
-  <script>document.documentElement.style.visibility='hidden';</script>
-  <script src="https://cdn.tailwindcss.com" onload="document.documentElement.style.visibility=''"></script>
+  <style>
+    /* === CLS PREVENTION === */
+    #tickerWrap { min-height: 110px; contain: layout style; }
+    #globalBar { min-height: 36px; contain: layout style; }
+    #metalsRow { min-height: 130px; contain: layout style; }
+    .cd-tbl-wrap { min-height: 600px; }
+    
+    /* Prevent font-related CLS */
+    body { font-display: swap; }
+    
+    /* Reserve space for skeleton */
+    #cryptoTable tbody:empty { min-height: 400px; display: block; }
+    
+    /* Prevent ticker layout shift */
+    .ticker-item img, .cmc-bar img { 
+      width: 20px; height: 20px; 
+      aspect-ratio: 1; 
+      object-fit: contain;
+    }
+    
+    /* Metals card skeleton */
+    .metal-card-placeholder {
+      min-height: 120px;
+      background: var(--bg2);
+      border-radius: 12px;
+      animation: shimmer 1.5s infinite;
+    }
+    
+    /* Prevent exchange logo CLS */
+    .exch-logo { width: 20px; height: 20px; aspect-ratio: 1; }
+    
+    /* Stable nav height */
+    nav { height: 56px; min-height: 56px; }
+</style>
+  <script src="https://cdn.tailwindcss.com"></script>
   <link
-    href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Inter:wght@400;600&display=swap"
     rel="stylesheet" media="print" onload="this.media='all'">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet"></noscript>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 
@@ -4932,7 +4973,7 @@
         <div class="flex items-center gap-2.5">
           <a href="#" onclick="location.reload();return false" class="flex items-center gap-2 no-underline"
             style="color:var(--t1)">
-            <img src="logo.png" alt="CryptoHub" style="height:36px;width:auto;object-fit:contain;border-radius:4px" fetchpriority="high" width="36" height="36">
+            <img src="logo.png" alt="CryptoHub" fetchpriority="high" style="height:36px;width:auto;object-fit:contain;border-radius:4px" fetchpriority="high" width="36" height="36">
             <h1 class="text-base font-bold" data-i18n="siteTitle">CryptoHub</h1>
           </a>
           <div class="dropdown" id="exDd"><button class="ddb" onclick="toggleDD('exDd')"><i class="fas fa-exchange-alt"
@@ -5451,7 +5492,7 @@
 
     <div class="tab-content active" id="tab_crypto">
       <!-- Top Gainers Orbital -->
-      <div class="tg-section" id="tickerWrap">
+      <div class="tg-section" id="tickerWrap" style="min-height:110px">
         <div class="tg-hdr"><i class="fas fa-fire" style="color:#f97316"></i> <span>Top 100 Gainers</span> <span
             class="tg-live"><span class="ld" style="width:5px;height:5px"></span> LIVE</span></div>
         <div class="tg-belt">
@@ -5615,7 +5656,7 @@
     </div>
 
     <!-- Tab: Commodities -->
-    <div class="tab-content" id="tab_commodities" style="content-visibility:auto;contain-intrinsic-size:0 800px">
+    <div class="tab-content" id="tab_commodities" style="min-height:160px" style="content-visibility:auto;contain-intrinsic-size:0 800px">
       <div class="card mb-4">
         <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
           <div>
@@ -6239,7 +6280,7 @@
         <div>
           <a href="#" onclick="location.reload();return false" class="flex items-center gap-3 mb-4 no-underline"
             style="color:#fff">
-            <img src="logo.png" alt="CryptoHub" style="height:40px;width:auto;object-fit:contain;border-radius:8px;" width="40" height="40" loading="lazy">
+            <img src="logo.png" alt="CryptoHub" fetchpriority="high" style="height:40px;width:auto;object-fit:contain;border-radius:8px;" width="40" height="40" loading="lazy">
             <div>
               <span class="font-bold text-xl block">CryptoHub</span>
               <span class="text-xs" style="color:#3b82f6;font-weight:700;letter-spacing:1px">CRYPTO TRACKER</span>
@@ -6993,7 +7034,7 @@
           if ($('ldSt')) $('ldSt').textContent = allC.length + ' ' + t('coins') + ' ✓';
           updateGlobalFromData(); initWS();
           setTimeout(refreshPrices, 1000);
-          setTimeout(loadMore1h7d, 3000);
+          setTimeout(loadMore1h7d, 6000);
           console.log('Loaded from cache:', allC.length);
           // Still run CMC enrichment in background to get MORE coins beyond cache
           setTimeout(() => {
@@ -7193,7 +7234,7 @@
         if ($('ldSt')) $('ldSt').textContent = allC.length + ' ' + t('coins') + ' ✓';
         updateGlobalFromData();
         initWS();
-        setTimeout(loadMore1h7d, 3000);
+        setTimeout(loadMore1h7d, 6000);
         setTimeout(enrichMarketCap, 8000);
         console.log('Visible coins:', allC.length);
       } catch (e) {
@@ -9409,7 +9450,7 @@
             _CM._execFetch('binance_ai'),
           ];
           await Promise.allSettled(auxLoads);
-        }, 2000);
+        }, 4000);
 
         // Phase 3: Metals deferred further (non-critical for initial render)
         setTimeout(() => {
