@@ -1617,6 +1617,480 @@
       transition: background .15s
     }
 
+    /* ===== ALL GLOBAL EXCHANGES — REDESIGN ===== */
+
+    .exg-shell {
+      background: var(--bg1);
+      border: 1px solid var(--bc);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, .08);
+      margin-bottom: 16px;
+    }
+
+    .dark .exg-shell {
+      box-shadow: 0 4px 32px rgba(0, 0, 0, .4);
+    }
+
+    /* Header */
+    .exg-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 20px 24px 16px;
+      border-bottom: 1px solid var(--bc);
+      flex-wrap: wrap;
+      background: var(--bg2);
+    }
+
+    .exg-header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .exg-header-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 10px;
+    }
+
+    .exg-title-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .exg-icon-wrap {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, rgba(56, 97, 251, .15), rgba(108, 92, 231, .1));
+      border: 1px solid rgba(56, 97, 251, .25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ac);
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .exg-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--t1);
+      margin: 0;
+    }
+
+    .exg-sub {
+      font-size: 11px;
+      color: var(--t2);
+      margin-top: 2px;
+    }
+
+    .exg-badges {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .exg-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .3px;
+    }
+
+    .exg-badge-blue {
+      background: rgba(56, 97, 251, .1);
+      color: var(--ac);
+      border: 1px solid rgba(56, 97, 251, .2);
+    }
+
+    .exg-badge-green {
+      background: rgba(22, 199, 132, .1);
+      color: var(--gn);
+      border: 1px solid rgba(22, 199, 132, .2);
+    }
+
+    .exg-badge-gold {
+      background: rgba(245, 158, 11, .1);
+      color: #f59e0b;
+      border: 1px solid rgba(245, 158, 11, .2);
+    }
+
+    .dark .exg-badge-blue {
+      background: rgba(56, 97, 251, .15);
+      border-color: rgba(56, 97, 251, .3);
+    }
+
+    .dark .exg-badge-green {
+      background: rgba(22, 199, 132, .12);
+      border-color: rgba(22, 199, 132, .3);
+    }
+
+    .dark .exg-badge-gold {
+      background: rgba(245, 158, 11, .12);
+      border-color: rgba(245, 158, 11, .3);
+    }
+
+    /* Live pill */
+    .exg-live-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      background: rgba(22, 199, 132, .08);
+      border: 1px solid rgba(22, 199, 132, .2);
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--gn);
+    }
+
+    .exg-live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--gn);
+      box-shadow: 0 0 0 0 rgba(22, 199, 132, .4);
+      animation: exg-pulse 2s infinite;
+    }
+
+    @keyframes exg-pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(22, 199, 132, .5);
+      }
+
+      70% {
+        box-shadow: 0 0 0 7px rgba(22, 199, 132, .0);
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(22, 199, 132, .0);
+      }
+    }
+
+    /* Search */
+    .exg-search-wrap {
+      position: relative;
+    }
+
+    .exg-search-icon {
+      position: absolute;
+      left: 11px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--t2);
+      font-size: 12px;
+      pointer-events: none;
+    }
+
+    .exg-search {
+      padding: 8px 12px 8px 32px;
+      font-size: 13px;
+      border-radius: 10px;
+      background: var(--bg1);
+      border: 1px solid var(--bc);
+      color: var(--t1);
+      outline: none;
+      width: 230px;
+      transition: border .2s, box-shadow .2s;
+      font-family: inherit;
+    }
+
+    .exg-search:focus {
+      border-color: var(--ac);
+      box-shadow: 0 0 0 3px rgba(56, 97, 251, .1);
+    }
+
+    .exg-search::placeholder {
+      color: var(--t2);
+    }
+
+    /* Table wrapper */
+    .exg-table-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Table */
+    .exg-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 820px;
+    }
+
+    .exg-th {
+      padding: 11px 16px;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: .6px;
+      text-transform: uppercase;
+      color: var(--t2);
+      background: var(--bg2);
+      border-bottom: 2px solid var(--bc);
+      white-space: nowrap;
+      user-select: none;
+    }
+
+    .dark .exg-th {
+      background: rgba(13, 18, 27, .7);
+    }
+
+    .exg-th-num {
+      width: 44px;
+      text-align: center;
+    }
+
+    .exg-th-left {
+      text-align: left;
+    }
+
+    .exg-th-right {
+      text-align: right;
+    }
+
+    .exg-th-center {
+      text-align: center;
+    }
+
+    /* Row tweaks — reuse ec-row from existing code */
+    #exGBody tr {
+      border-bottom: 1px solid var(--bc);
+    }
+
+    #exGBody tr:last-child {
+      border-bottom: none;
+    }
+
+    /* Rank number cell */
+    #exGBody td:first-child {
+      text-align: center !important;
+      color: var(--t2);
+      font-size: 12px;
+      font-weight: 600;
+      width: 44px;
+      padding: 14px 8px !important;
+    }
+
+    /* Exchange name cell */
+    #exGBody td:nth-child(2) {
+      text-align: left !important;
+    }
+
+    /* Trust score cell */
+    #exGBody td:nth-child(3) {
+      text-align: left !important;
+    }
+
+    /* Volume / right cols */
+    #exGBody td:nth-child(4),
+    #exGBody td:nth-child(5),
+    #exGBody td:nth-child(6),
+    #exGBody td:nth-child(7),
+    #exGBody td:nth-child(8) {
+      text-align: right !important;
+    }
+
+    /* Fiat cell */
+    #exGBody td:nth-child(9) {
+      text-align: left !important;
+    }
+
+    /* Footer */
+    .exg-footer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 20px;
+      border-top: 1px solid var(--bc);
+      background: var(--bg2);
+      gap: 8px;
+    }
+
+    .exg-page-info {
+      font-size: 12px;
+      color: var(--t2);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .exg-range {
+      color: var(--t1);
+      font-weight: 700;
+    }
+
+    .exg-pag {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+
+
+    /* =========================================
+       MOBILE RESPONSIVE — FULL AUDIT
+       768px → tablets/large phones
+       480px → small phones
+       380px → tiny phones (already handled above)
+    ========================================= */
+
+    /* ── EXCHANGES SECTION ── */
+    @media (max-width: 768px) {
+
+      /* Shell & Header */
+      .exg-shell { border-radius: 14px; overflow: hidden; }
+      .exg-header {
+        flex-direction: column;
+        gap: 10px;
+        padding: 14px 14px 12px;
+      }
+      .exg-header-left,
+      .exg-header-right { width: 100%; }
+      .exg-header-right {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .exg-title { font-size: 14px; }
+      .exg-sub   { font-size: 10px; }
+      .exg-badges { gap: 4px; flex-wrap: wrap; }
+      .exg-badge  { font-size: 9px; padding: 2px 7px; gap: 3px; }
+      .exg-icon-wrap { width: 32px; height: 32px; font-size: 14px; border-radius: 9px; flex-shrink: 0; }
+
+      /* Search */
+      .exg-search-wrap { flex: 1; min-width: 140px; }
+      .exg-search { width: 100%; font-size: 12px; padding: 7px 10px 7px 32px; }
+      .exg-search-icon { font-size: 11px; left: 10px; }
+
+      /* Table — hide heavy columns */
+      /* Col 5: Avg Liquidity, Col 6: Weekly Visits, Col 8: Coins, Col 9: Fiat */
+      .exg-table thead th:nth-child(5),
+      .exg-table thead th:nth-child(6),
+      .exg-table thead th:nth-child(8),
+      .exg-table thead th:nth-child(9),
+      #exGBody td:nth-child(5),
+      #exGBody td:nth-child(6),
+      #exGBody td:nth-child(8),
+      #exGBody td:nth-child(9) { display: none !important; }
+
+      /* Table padding */
+      .exg-th  { padding: 10px 10px; font-size: 10px; }
+      #exGBody td { padding: 10px 10px !important; font-size: 12px !important; }
+
+      /* Exchange logo in table */
+      #exGBody td:nth-child(2) > div > div:first-child {
+        width: 30px !important; height: 30px !important; border-radius: 8px !important;
+      }
+      #exGBody td:nth-child(2) > div > div:first-child img {
+        width: 22px !important; height: 22px !important;
+      }
+      #exGBody td:nth-child(2) > div > div:last-child > div:first-child {
+        font-size: 13px !important;
+      }
+
+      /* Footer pagination */
+      .exg-footer { padding: 12px 14px; gap: 8px; }
+      .exg-pag { gap: 3px; flex-wrap: wrap; justify-content: center; }
+      .exg-pag .pg-btn { min-width: 36px; height: 36px; font-size: 12px; border-radius: 8px; }
+      .exg-page-info { font-size: 11px; }
+    }
+
+    @media (max-width: 480px) {
+      /* Hide Markets column too on very small phones */
+      .exg-table thead th:nth-child(7),
+      #exGBody td:nth-child(7) { display: none !important; }
+
+      .exg-header { padding: 12px 12px 10px; }
+      #exGBody td { padding: 9px 8px !important; font-size: 11px !important; }
+      .exg-th { padding: 9px 8px; font-size: 9px; }
+      .exg-title { font-size: 13px; }
+      .exg-pag .pg-btn { min-width: 32px; height: 32px; font-size: 11px; }
+    }
+
+    /* ── CRYPTO COINS TABLE (supplement existing) ── */
+    @media (max-width: 768px) {
+      /* Coin name truncation */
+      #tBody .flex.items-center .font-semibold,
+      #tBody .flex.items-center .text-sm.font-semibold {
+        max-width: 90px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      /* Symbol badge */
+      #tBody .px-1\.5 { font-size: 8px !important; padding: 1px 3px !important; }
+
+      /* Pagination */
+      #cmcPag { justify-content: center; padding: 10px 0; gap: 4px; }
+      #cmcPag .pg-btn { min-width: 38px; height: 38px; }
+
+      /* Network bar */
+      .cmc-net-bar { padding: 0 8px; }
+      .cmc-net-scroll { gap: 5px; padding: 6px 0; }
+      .cmc-net-btn { padding: 5px 10px !important; font-size: 11px !important; }
+    }
+
+    @media (max-width: 480px) {
+      #tBody .flex.items-center .font-semibold,
+      #tBody .flex.items-center .text-sm.font-semibold { max-width: 68px; }
+      /* Hide rank number on tiny screens */
+      .ct td:first-child:not([colspan]) { padding-left: 6px !important; padding-right: 4px !important; }
+    }
+
+    /* ── METALS / STOCKS TABLES ── */
+    @media (max-width: 768px) {
+      .mtl-ex-table th { padding: 8px 6px; font-size: 10px; }
+      .mtl-ex-table td { padding: 9px 6px; font-size: 11px; }
+      .stk-table th { padding: 8px 6px; font-size: 10px; }
+      .stk-table td { padding: 9px 6px; font-size: 11px; }
+    }
+
+    /* ── COIN MODAL (exchange list inside) ── */
+    @media (max-width: 480px) {
+      .cd-hd { padding: 10px 12px !important; }
+      #cdPrice { font-size: 20px !important; }
+      .cd-st { font-size: 10px !important; padding: 5px 0 !important; }
+    }
+
+    /* ── AI SECTION ── */
+    @media (max-width: 480px) {
+      .aic { padding: 10px; }
+      .aic .text-2xl { font-size: 1rem !important; }
+      .ai-ring { width: 52px !important; height: 52px !important; }
+    }
+
+    /* ── TRENDING TICKER ── */
+    @media (max-width: 480px) {
+      .tg-card { width: 62px !important; padding: 4px 2px !important; }
+      .tg-sym  { font-size: 7px !important; }
+      .tg-chg  { font-size: 6px !important; padding: 1px 3px !important; }
+    }
+
+    /* ── GLOBAL STATS BAR ── */
+    @media (max-width: 480px) {
+      .cmc-bar { font-size: 10px; gap: 8px; }
+    }
+
+    /* ── METAL CARDS BAR ── */
+    @media (max-width: 360px) {
+      .mbar { grid-template-columns: 1fr 1fr; }
+      .mbc { padding: 7px; gap: 5px; }
+      .mbc .mbp { font-size: 10px; }
+      .mbc .mbn { font-size: 7px; }
+    }
+
     #exMod .mc {
       display: flex;
       flex-direction: column
@@ -5833,50 +6307,75 @@
 
     <!-- Tab: All Exchanges -->
     <div class="tab-content" id="tab_exchanges" style="content-visibility:auto;contain-intrinsic-size:0 800px">
-      <div class="card mb-4">
-        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
-          <div>
-            <h3 class="font-bold text-lg flex items-center gap-2"><i class="fas fa-building"
-                style="color:var(--ac)"></i> <span data-i18n="allExchangesTitle">جميع منصات التداول العالمية</span>
-            </h3>
-            <p class="text-xs mt-1" style="color:var(--t2)" data-i18n="allExchangesSub">500 منصة تداول عالمية مرخصة •
-              مرتبة حسب درجة الثقة • روابط تداول مباشرة</p>
+      <div class="exg-shell">
+
+        <!-- Header Row -->
+        <div class="exg-header">
+          <div class="exg-header-left">
+            <div class="exg-title-row">
+              <div class="exg-icon-wrap"><i class="fas fa-globe"></i></div>
+              <div>
+                <h3 class="exg-title" data-i18n="allExchangesTitle">All Global Exchanges</h3>
+                <p class="exg-sub" data-i18n="allExchangesSub">500+ Licensed Exchanges • Ranked by Trust • Direct Links
+                </p>
+              </div>
+            </div>
+            <div class="exg-badges">
+              <span class="exg-badge exg-badge-blue"><i class="fas fa-shield-alt"></i> <span
+                  data-i18n="trustScore">Trust Score</span></span>
+              <span class="exg-badge exg-badge-green"><i class="fas fa-clock"></i> 4h Refresh</span>
+              <span class="exg-badge exg-badge-gold"><i class="fas fa-link"></i> <span
+                  data-i18n="colTrade">Trade</span></span>
+            </div>
           </div>
-          <input type="text" id="exSrch2" data-i18n-ph="searchExchange" placeholder="ابحث عن منصة..." class="tsrch"
-            oninput="filterExG(this.value)">
+          <div class="exg-header-right">
+            <div class="exg-live-pill"><span class="exg-live-dot"></span><span data-i18n="live">Live</span></div>
+            <div class="exg-search-wrap">
+              <i class="fas fa-search exg-search-icon"></i>
+              <input type="text" id="exSrch2" class="exg-search" data-i18n-ph="searchExchange"
+                placeholder="Search exchange..." oninput="filterExG(this.value)">
+            </div>
+          </div>
         </div>
-        <div class="ct" style="overflow-x: auto; width: 100%; display: block;">
-          <table class="w-full" style="min-width: 800px;">
+
+        <!-- Table -->
+        <div class="exg-table-wrap">
+          <table class="exg-table">
             <thead>
-              <tr style="border-bottom: 2px solid var(--bc);">
-                <th class="text-start pl-4" style="width: 50px;">#</th>
-                <th class="text-start" data-i18n="colExchange2">المنصة</th>
-                <th class="text-start" data-i18n="trustScore">Trust Score</th>
-                <th class="text-end" data-i18n="volume">Volume (24h)</th>
-                <th class="text-end">Avg. Liquidity</th>
-                <th class="text-end">Weekly Visits</th>
-                <th class="text-end">Markets</th>
-                <th class="text-end">Coins</th>
-                <th class="text-start pl-4">Fiat Supported</th>
+              <tr>
+                <th class="exg-th exg-th-num">#</th>
+                <th class="exg-th exg-th-left" data-i18n="colExchange2">Exchange</th>
+                <th class="exg-th exg-th-left" data-i18n="trustScore">Trust Score</th>
+                <th class="exg-th exg-th-center" data-i18n="volume" style="text-transform:uppercase;">VOLUME (24H)</th>
+                <th class="exg-th exg-th-center" style="text-transform:uppercase;">AVG. LIQUIDITY</th>
+                <th class="exg-th exg-th-center" style="text-transform:uppercase;">WEEKLY VISITS</th>
+                <th class="exg-th exg-th-center" style="text-transform:uppercase;">MARKETS</th>
+                <th class="exg-th exg-th-center" style="text-transform:uppercase;">COINS</th>
+                <th class="exg-th exg-th-left">Fiat Supported</th>
               </tr>
             </thead>
             <tbody id="exGBody"></tbody>
           </table>
         </div>
 
-        <!-- CMC-Style Pagination for Exchanges -->
-        <div id="exPag"
-          style="display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;padding:16px 0">
-          <button onclick="gExFirst()" class="pg-btn" title="First"><i class="fas fa-angle-double-left"></i></button>
-          <button onclick="gExPrev()" class="pg-btn" id="pgExPrev"><i class="fas fa-angle-left"></i></button>
-          <div id="exPgs" style="display:flex;gap:4px;flex-wrap:wrap;align-items:center"></div>
-          <button onclick="gExNext()" class="pg-btn" id="pgExNext"><i class="fas fa-angle-right"></i></button>
-          <button onclick="gExLast()" class="pg-btn" title="Last"><i class="fas fa-angle-double-right"></i></button>
+        <!-- Pagination -->
+        <div class="exg-footer">
+          <div id="exPag" class="exg-pag">
+            <button onclick="gExFirst()" class="pg-btn" title="First"><i class="fas fa-angle-double-left"></i></button>
+            <button onclick="gExPrev()" class="pg-btn" id="pgExPrev"><i class="fas fa-angle-left"></i></button>
+            <div id="exPgs" style="display:flex;gap:4px;flex-wrap:wrap;align-items:center"></div>
+            <button onclick="gExNext()" class="pg-btn" id="pgExNext"><i class="fas fa-angle-right"></i></button>
+            <button onclick="gExLast()" class="pg-btn" title="Last"><i class="fas fa-angle-double-right"></i></button>
+          </div>
+          <div class="exg-page-info">
+            <span data-i18n="showing">Showing</span>
+            <b id="exRange" class="exg-range">--</b>
+            <span data-i18n="of">of</span>
+            <b id="exTotal" class="exg-range">--</b>
+            <span data-i18n="exchange">exchanges</span>
+          </div>
         </div>
-        <div class="text-center text-xs" style="color:var(--t2);padding-bottom:8px"><span data-i18n="showing">عرض</span>
-          <b id="exRange" style="color:var(--t1)">--</b> <span data-i18n="of">من</span> <b id="exTotal"
-            style="color:var(--t1)">--</b> <span data-i18n="exchange">منصة</span>
-        </div>
+
       </div>
     </div>
 
@@ -7349,22 +7848,13 @@
         if (allC.length > 0) { reRank(); filtC = [...allC]; render(); buildTrending(); buildTicker() }
         console.log('Phase 1 CoinCap:', allC.length, 'coins - rendered!');
 
-        // ===== PHASE 2: Binance + MEXC + Gate.io + OKX + CoinGecko Exchanges in PARALLEL =====
-        const [bData, mData, gData, okData, cgEx] = await Promise.all([
+        // ===== PHASE 2: Binance + MEXC + Gate.io + OKX in PARALLEL =====
+        const [bData, mData, gData, okData] = await Promise.all([
           fetchJSON('https://api.binance.com/api/v3/ticker/24hr', 3000),
           fetchJSON('https://api.mexc.com/api/v3/ticker/24hr', 3000),
           fetchJSON('https://api.gateio.ws/api/v4/spot/tickers', 3000),
-          fetchJSON('https://www.okx.com/api/v5/market/tickers?instType=SPOT', 3000),
-          fetchJSON('https://api.coingecko.com/api/v3/exchanges?per_page=100', 4000) // Live Exchange Volumes
+          fetchJSON('https://www.okx.com/api/v5/market/tickers?instType=SPOT', 3000)
         ]);
-
-        // Process Exchange Volumes Background Store
-        if (cgEx && Array.isArray(cgEx)) {
-          cgEx.forEach(ex => {
-            if (ex.id && ex.trade_volume_24h_btc > 0) exLiveVol[mapEid(ex.id)] = ex.trade_volume_24h_btc;
-          });
-          console.log('Loaded Real Volume for', Object.keys(exLiveVol).length, 'Exchanges');
-        }
         // Binance
         if (bData && Array.isArray(bData)) {
           bData.forEach(t => {
@@ -8066,52 +8556,177 @@
     }
 
     // AI Analysis (8 indicators + entry/exit) - Binance klines
-    function cRSI(p, n = 14) { if (p.length < n + 1) return null; let g = 0, l = 0; for (let i = 1; i <= n; i++) { const d = p[i] - p[i - 1]; if (d > 0) { g += d; } else { l += Math.abs(d); } } const ag = g / n, al = l / n; return al === 0 ? 100 : 100 - (100 / (1 + (ag / al))); }
-    function cEMA(p, n) { if (!p.length) return 0; const k = 2 / (n + 1); let e = p[0]; for (let i = 1; i < p.length; i++)e = (p[i] * k) + (e * (1 - k)); return e }
-    function cStoch(p, n = 14) { const r = p.slice(-n); const lo = Math.min(...r), hi = Math.max(...r), c = r[r.length - 1]; return hi === lo ? 50 : ((c - lo) / (hi - lo)) * 100 }
-    async function calcAI() {
+    // ── RSI with proper Wilder smoothing ──
+    function cRSI(p, n=14) {
+      if (p.length < n+2) return null;
+      let g=0, l=0;
+      for (let i=1; i<=n; i++) { const d=p[i]-p[i-1]; if(d>0) g+=d; else l-=d; }
+      let ag=g/n, al=l/n;
+      for (let i=n+1; i<p.length; i++) {
+        const d=p[i]-p[i-1];
+        ag=(ag*(n-1)+Math.max(d,0))/n;
+        al=(al*(n-1)+Math.max(-d,0))/n;
+      }
+      return al===0 ? 100 : 100-(100/(1+ag/al));
+    }
+    // ── EMA seeded with SMA(n) for accuracy ──
+    function cEMA(p, n) {
+      if (!p||p.length===0) return 0;
+      if (p.length<n) return p.reduce((a,b)=>a+b,0)/p.length;
+      const k=2/(n+1);
+      let e=p.slice(0,n).reduce((a,b)=>a+b,0)/n;
+      for (let i=n; i<p.length; i++) e=p[i]*k+e*(1-k);
+      return e;
+    }
+    // ── Stochastic %K ──
+    function cStoch(p, n=14) {
+      const r=p.slice(-n), lo=Math.min(...r), hi=Math.max(...r), c=r[r.length-1];
+      return hi===lo ? 50 : ((c-lo)/(hi-lo))*100;
+    }
+    // ── MACD(12,26,9) with histogram ──
+    function cMACD(p) {
+      if (p.length<35) return {macd:0, signal:0, hist:0};
+      const mLine=[];
+      for (let i=34; i<p.length; i++) {
+        const sl=p.slice(0,i+1);
+        mLine.push(cEMA(sl,12)-cEMA(sl,26));
+      }
+      const macd=mLine[mLine.length-1], signal=cEMA(mLine,9);
+      return {macd, signal, hist:macd-signal};
+    }
+    // ── Real ADX(14) Wilder ──
+    function cADX(H, L, C, n=14) {
+      if (H.length<n+2) return 20;
+      let trS=0,pS=0,mS=0;
+      for (let i=1; i<=n; i++) {
+        const tr=Math.max(H[i]-L[i],Math.abs(H[i]-C[i-1]),Math.abs(L[i]-C[i-1]));
+        const dp=H[i]-H[i-1]>L[i-1]-L[i]?Math.max(H[i]-H[i-1],0):0;
+        const dm=L[i-1]-L[i]>H[i]-H[i-1]?Math.max(L[i-1]-L[i],0):0;
+        trS+=tr; pS+=dp; mS+=dm;
+      }
+      for (let i=n+1; i<H.length; i++) {
+        const tr=Math.max(H[i]-L[i],Math.abs(H[i]-C[i-1]),Math.abs(L[i]-C[i-1]));
+        const dp=H[i]-H[i-1]>L[i-1]-L[i]?Math.max(H[i]-H[i-1],0):0;
+        const dm=L[i-1]-L[i]>H[i]-H[i-1]?Math.max(L[i-1]-L[i],0):0;
+        trS=trS-trS/n+tr; pS=pS-pS/n+dp; mS=mS-mS/n+dm;
+      }
+      if (trS===0) return 20;
+      const diP=pS/trS*100, diM=mS/trS*100;
+      return diP+diM===0 ? 0 : Math.abs(diP-diM)/(diP+diM)*100;
+    }
+    // calcAI accepts pre-fetched klines or fetches them itself
+    async function calcAI(klines) {
       try {
-        // Use Binance klines
-        const r = await fetchJSON('https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&limit=31');
-        if (!r) return;
-        const P = r.map(k => parseFloat(k[4])); // close prices
-        const V = r.map(k => parseFloat(k[5])); // volumes
+        let r = klines;
+        // If no data passed, fetch now
+        if (!r || r.length < 30) {
+          r = await fetchJSON('https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&limit=60');
+        }
+        if (!r || r.length < 30) { console.warn('calcAI: no klines'); return; }
+
+        const P  = r.map(k => parseFloat(k[4])); // close
+        const H  = r.map(k => parseFloat(k[2])); // high
+        const L  = r.map(k => parseFloat(k[3])); // low
+        const V  = r.map(k => parseFloat(k[5])); // volume
         const cur = P[P.length - 1];
         let bu = 0, be = 0, tot = 8;
 
-        const rsi = cRSI(P); if (rsi !== null) { $('rV').textContent = rsi.toFixed(1); $('rBar').style.width = rsi + '%'; $('rBar').style.background = rsi < 30 ? 'var(--gn)' : rsi > 70 ? 'var(--rd)' : 'var(--ac)'; if (rsi < 30) { sig('r', 'b', t('oversold')); bu++; sct('rC', 'buy') } else if (rsi > 70) { sig('r', 's', t('overbought')); be++; sct('rC', 'sell') } else { sig('r', 'n', t('neutral')); sct('rC', 'hold') } }
-        const macd = cEMA(P, 12) - cEMA(P, 26); $('mV').textContent = macd.toFixed(0); if (macd > 0) { sig('m', 'b', t('bullish')); bu++; sct('mC', 'buy') } else { sig('m', 's', t('bearish')); be++; sct('mC', 'sell') }
-        const rp = P.slice(-20), sma = rp.reduce((a, b) => a + b, 0) / 20, std = Math.sqrt(rp.reduce((s, p) => s + Math.pow(p - sma, 2), 0) / 20), pos = ((cur - (sma - std * 2)) / ((sma + std * 2) - (sma - std * 2))) * 100; $('bV').textContent = pos.toFixed(0) + '%'; if (pos < 20) { sig('b', 'b', t('nearBottom')); bu++; sct('bC', 'buy') } else if (pos > 80) { sig('b', 's', t('nearTop')); be++; sct('bC', 'sell') } else { sig('b', 'n', t('neutral')); sct('bC', 'hold') }
-        const e20 = cEMA(P.slice(-20), 20), e50 = cEMA(P, 50); $('eV').textContent = '$' + e20.toFixed(0); if (e20 > e50) { sig('e', 'b', t('goldenCross')); bu++; sct('eC', 'buy') } else { sig('e', 's', t('deathCross')); be++; sct('eC', 'sell') }
-        const st = cStoch(P); $('stV').textContent = st.toFixed(1); if (st < 20) { sig('st', 'b', t('oversold')); bu++; sct('stC', 'buy') } else if (st > 80) { sig('st', 's', t('overbought')); be++; sct('stC', 'sell') } else { sig('st', 'n', t('neutral')); sct('stC', 'hold') }
-        const chgs = []; for (let i = 1; i < P.length; i++)chgs.push(Math.abs(P[i] - P[i - 1]) / P[i - 1] * 100); const adx = chgs.slice(-14).reduce((a, b) => a + b, 0) / 14 * 10; $('adV').textContent = adx.toFixed(1); if (adx > 25) { sig('ad', 'b', t('strongTrend')); bu++; sct('adC', 'buy') } else { sig('ad', 'n', t('weakTrend')); sct('adC', 'hold') }
-        const aV = V.slice(-14).reduce((a, b) => a + b, 0) / 14, cV = V[V.length - 1], vr = (cV / aV * 100).toFixed(0); $('vlV').textContent = vr + '%'; if (cV > aV * 1.2) { sig('vl', 'b', t('highVol')); bu++; sct('vlC', 'buy') } else if (cV < aV * .8) { sig('vl', 's', t('lowVol')); be++; sct('vlC', 'sell') } else { sig('vl', 'n', t('neutral')); sct('vlC', 'hold') }
-        const lo14 = Math.min(...P.slice(-14)), hi14 = Math.max(...P.slice(-14)); $('srV').textContent = `S:$${fS(lo14)} R:$${fS(hi14)}`; if (((cur - lo14) / cur * 100) < 2) { sig('sr', 'b', t('nearBottom')); bu++; sct('srC', 'buy') } else if (((hi14 - cur) / cur * 100) < 2) { sig('sr', 's', t('nearTop')); be++; sct('srC', 'sell') } else { sig('sr', 'n', t('neutral')); sct('srC', 'hold') }
+        // ── 1. RSI(14) Wilder ──
+        const rsi = cRSI(P);
+        if (rsi !== null) {
+          $('rV').textContent = rsi.toFixed(1);
+          $('rBar').style.width = Math.min(rsi,100) + '%';
+          $('rBar').style.background = rsi < 30 ? 'var(--gn)' : rsi > 70 ? 'var(--rd)' : 'var(--ac)';
+          if      (rsi < 30) { sig('r','b',t('oversold'));   bu++; sct('rC','buy')  }
+          else if (rsi > 70) { sig('r','s',t('overbought')); be++; sct('rC','sell') }
+          else               { sig('r','n',t('neutral'));         sct('rC','hold') }
+        }
 
-        const sc = tot > 0 ? Math.round((bu / tot) * 100) : 50;
-        $('aiS').textContent = sc; $('buC').textContent = bu; $('beC').textContent = be;
-        // Confidence ring animation
-        const circumference = 327;
-        const ringEl = $('aiRing');
-        ringEl.style.strokeDashoffset = circumference - (sc / 100 * circumference);
-        ringEl.style.stroke = sc >= 60 ? '#16c784' : sc <= 40 ? '#ea3943' : '#eab308';
-        // Bull/Bear bars
-        $('buBar').style.width = (bu / tot * 100) + '%'; $('beBar').style.width = (be / tot * 100) + '%';
+        // ── 2. MACD(12,26,9) histogram ──
+        const {macd, signal:macdSig, hist} = cMACD(P);
+        $('mV').textContent = macd.toFixed(0);
+        if      (hist > 0 && macd > macdSig) { sig('m','b',t('bullish')); bu++; sct('mC','buy')  }
+        else if (hist < 0)                   { sig('m','s',t('bearish')); be++; sct('mC','sell') }
+        else                                 { sig('m','n',t('neutral'));       sct('mC','hold') }
 
-        const s = $('aiSig');
-        if (sc >= 70) { s.style.background = 'rgba(22,199,132,.3)'; s.innerHTML = '<i class="fas fa-arrow-up"></i> ' + t('strongBuy') }
-        else if (sc >= 55) { s.style.background = 'rgba(132,204,22,.3)'; s.innerHTML = '<i class="fas fa-arrow-up"></i> ' + t('buy') }
-        else if (sc >= 45) { s.style.background = 'rgba(156,163,175,.3)'; s.innerHTML = '<i class="fas fa-minus"></i> ' + t('neutral') }
-        else if (sc >= 30) { s.style.background = 'rgba(251,146,60,.3)'; s.innerHTML = '<i class="fas fa-arrow-down"></i> ' + t('sell') }
-        else { s.style.background = 'rgba(234,57,67,.3)'; s.innerHTML = '<i class="fas fa-arrow-down"></i> ' + t('strongSell') }
+        // ── 3. Bollinger Bands(20,2) ──
+        const rp20=P.slice(-20), sma20=rp20.reduce((a,b)=>a+b,0)/20;
+        const std20=Math.sqrt(rp20.reduce((s,p)=>s+Math.pow(p-sma20,2),0)/20);
+        const upper=sma20+std20*2, lower=sma20-std20*2;
+        const bPos = upper===lower ? 50 : ((cur-lower)/(upper-lower))*100;
+        $('bV').textContent = bPos.toFixed(0)+'%';
+        if      (bPos < 15) { sig('b','b',t('nearBottom')); bu++; sct('bC','buy')  }
+        else if (bPos > 85) { sig('b','s',t('nearTop'));    be++; sct('bC','sell') }
+        else                { sig('b','n',t('neutral'));         sct('bC','hold') }
 
-        $('aiRec').innerHTML = sc >= 60 ? `<div class="flex items-center gap-2"><i class="fas fa-check-circle" style="color:#16c784"></i> ${t('goodEntry')} — ${bu}/${tot} <span data-i18n="bullishSignals">${t('bullishSignals')}</span></div>` : sc <= 40 ? `<div class="flex items-center gap-2"><i class="fas fa-exclamation-triangle" style="color:#ea3943"></i> ${t('riskHigh')} — ${be}/${tot} <span data-i18n="bearishSignals">${t('bearishSignals')}</span></div>` : `<div class="flex items-center gap-2"><i class="fas fa-pause-circle" style="color:#eab308"></i> ${t('holdEntry')}</div>`;
+        // ── 4. EMA20 vs EMA50 ──
+        const e20=cEMA(P,20), e50=cEMA(P,50);
+        $('eV').textContent = '$'+e20.toFixed(0);
+        if   (e20 > e50) { sig('e','b',t('goldenCross')); bu++; sct('eC','buy')  }
+        else             { sig('e','s',t('deathCross'));  be++; sct('eC','sell') }
 
+        // ── 5. Stochastic(14) ──
+        const st=cStoch(P,14);
+        $('stV').textContent = st.toFixed(1);
+        if      (st < 20) { sig('st','b',t('oversold'));   bu++; sct('stC','buy')  }
+        else if (st > 80) { sig('st','s',t('overbought')); be++; sct('stC','sell') }
+        else              { sig('st','n',t('neutral'));         sct('stC','hold') }
 
-      } catch (e) { console.error('AI err:', e) }
+        // ── 6. ADX(14) real Wilder + MACD direction ──
+        const adx=cADX(H,L,P,14);
+        $('adV').textContent = adx.toFixed(1);
+        if      (adx > 25 && macd > 0) { sig('ad','b',t('strongTrend')); bu++; sct('adC','buy')  }
+        else if (adx > 25 && macd < 0) { sig('ad','s',t('strongTrend')); be++; sct('adC','sell') }
+        else                           { sig('ad','n',t('weakTrend'));        sct('adC','hold') }
+
+        // ── 7. Volume vs 20-day average + price direction ──
+        const avgV20=V.slice(-20).reduce((a,b)=>a+b,0)/20;
+        const curV=V[V.length-1], vRatio=avgV20>0?curV/avgV20:1;
+        $('vlV').textContent = (vRatio*100).toFixed(0)+'%';
+        const priceUp = cur > P[P.length-2];
+        if      (vRatio > 1.3 && priceUp)  { sig('vl','b',t('highVol')); bu++; sct('vlC','buy')  }
+        else if (vRatio > 1.3 && !priceUp) { sig('vl','s',t('highVol')); be++; sct('vlC','sell') }
+        else if (vRatio < 0.7)             { sig('vl','n',t('lowVol'));        sct('vlC','hold') }
+        else                               { sig('vl','n',t('neutral'));       sct('vlC','hold') }
+
+        // ── 8. Support/Resistance 14-day ──
+        const lo14=Math.min(...P.slice(-14)), hi14=Math.max(...P.slice(-14));
+        $('srV').textContent = 'S:$'+fS(lo14)+' R:$'+fS(hi14);
+        const distS=(cur-lo14)/cur*100, distR=(hi14-cur)/cur*100;
+        if      (distS < 1.5) { sig('sr','b',t('nearBottom')); bu++; sct('srC','buy')  }
+        else if (distR < 1.5) { sig('sr','s',t('nearTop'));    be++; sct('srC','sell') }
+        else                  { sig('sr','n',t('neutral'));         sct('srC','hold') }
+
+        // ── Score & UI ──
+        const sc = Math.round((bu/tot)*100);
+        $('aiS').textContent = sc;
+        $('buC').textContent = bu;
+        $('beC').textContent = be;
+
+        const circ=327, ring=$('aiRing');
+        ring.style.strokeDashoffset = circ-(sc/100*circ);
+        ring.style.stroke = sc>=60?'#16c784':sc<=40?'#ea3943':'#eab308';
+
+        $('buBar').style.width = (bu/tot*100)+'%';
+        $('beBar').style.width = (be/tot*100)+'%';
+
+        const s=$('aiSig');
+        if      (sc>=70){s.style.background='rgba(22,199,132,.3)'; s.innerHTML='<i class="fas fa-arrow-up"></i> '+t('strongBuy')}
+        else if (sc>=55){s.style.background='rgba(132,204,22,.3)'; s.innerHTML='<i class="fas fa-arrow-up"></i> '+t('buy')}
+        else if (sc>=45){s.style.background='rgba(156,163,175,.3)';s.innerHTML='<i class="fas fa-minus"></i> '+t('neutral')}
+        else if (sc>=30){s.style.background='rgba(251,146,60,.3)'; s.innerHTML='<i class="fas fa-arrow-down"></i> '+t('sell')}
+        else            {s.style.background='rgba(234,57,67,.3)';  s.innerHTML='<i class="fas fa-arrow-down"></i> '+t('strongSell')}
+
+        $('aiRec').innerHTML = sc>=60
+          ? `<div class="flex items-center gap-2"><i class="fas fa-check-circle" style="color:#16c784"></i> ${t('goodEntry')} — ${bu}/${tot} ${t('bullishSignals')}</div>`
+          : sc<=40
+          ? `<div class="flex items-center gap-2"><i class="fas fa-exclamation-triangle" style="color:#ea3943"></i> ${t('riskHigh')} — ${be}/${tot} ${t('bearishSignals')}</div>`
+          : `<div class="flex items-center gap-2"><i class="fas fa-pause-circle" style="color:#eab308"></i> ${t('holdEntry')}</div>`;
+
+      } catch(e) { console.error('calcAI error:', e) }
     }
 
-    function sig(id, tp, lb) { const el = $(id + 'S'); const ic = tp === 'b' ? 'fa-arrow-up' : tp === 's' ? 'fa-arrow-down' : 'fa-minus'; const cl = tp === 'b' ? 'sbb' : tp === 's' ? 'sbs' : 'sbn'; el.className = 'sb ' + cl; el.innerHTML = `<i class="fas ${ic}"></i> ${lb}` }
+        function sig(id, tp, lb) { const el = $(id + 'S'); const ic = tp === 'b' ? 'fa-arrow-up' : tp === 's' ? 'fa-arrow-down' : 'fa-minus'; const cl = tp === 'b' ? 'sbb' : tp === 's' ? 'sbs' : 'sbn'; el.className = 'sb ' + cl; el.innerHTML = `<i class="fas ${ic}"></i> ${lb}` }
     function sct(id, tp) { const c = $(id); c.classList.remove('buy', 'sell', 'hold'); c.classList.add(tp) }
 
     // Network filter — checks platform slug, tags, and known token list
@@ -12311,6 +12926,7 @@
     // ===== EXCHANGE LISTING (CoinMarketCap Table Style) =====
     let _exB = false;
     let exLiveVol = {};
+    try { exLiveVol = JSON.parse(localStorage.getItem('ch_ex_vol') || '{}'); } catch (e) { }
 
     exPage = 1;
     let exPerPage = 50;
@@ -12381,24 +12997,33 @@
         const ref = getRef(ex.n, ex.u.replace(/{s}/g, 'BTC').replace(/{sl}/g, 'btc'));
 
         return `<tr class="ec-row border-b border-gray-800/30 hover:bg-white/5 cursor-pointer transition-colors" onclick="window.open('${ref}', '_blank')">
-            <td class="text-start pl-4 py-4 text-t2 font-bold text-xs">${idx + 1}</td>
-            <td class="text-start py-4">
+            <td class="py-4 text-t2 font-bold text-xs" style="text-align:center;padding:14px 8px;">${idx + 1}</td>
+            <td class="text-start py-4" style="padding:12px 16px;">
                 <div class="flex items-center gap-3">
-                    <img loading="lazy" src="${ex.l}" class="w-8 h-8 rounded-full shadow-sm" onerror="this.onerror=null;this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2232%22 height=%2232%22><rect width=%2232%22 height=%2232%22 rx=%2216%22 fill=%22%233861fb%22/><text x=%2216%22 y=%2221%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2214%22 font-weight=%22bold%22>${encodeURIComponent(ex.n[0])}</text></svg>'" alt="${ex.n}">
-                    <span class="font-bold text-[15px]">${ex.n}</span>
+                    <div style="width:36px;height:36px;border-radius:10px;overflow:hidden;flex-shrink:0;background:var(--bg3);border:1px solid var(--bc);display:flex;align-items:center;justify-content:center;">
+                      <img loading="lazy" src="${ex.l}" style="width:28px;height:28px;object-fit:contain;border-radius:6px;" onerror="this.onerror=null;this.parentElement.innerHTML='<span style=\\'font-weight:700;font-size:13px;color:var(--ac)\\'>${encodeURIComponent(ex.n[0])}</span>'" alt="${ex.n}">
+                    </div>
+                    <div>
+                      <div style="font-weight:700;font-size:14px;color:var(--t1);">${ex.n}</div>
+                    </div>
                 </div>
             </td>
-            <td class="text-start py-4">
-                <span class="inline-block px-2 py-1 rounded-md text-xs font-bold" style="background:${tbBg}; color:${tc}">${displayScore}</span>
+            <td class="text-start py-4" style="padding:12px 16px;">
+                <div style="display:inline-flex;align-items:center;gap:8px;">
+                  <div style="width:70px;height:5px;background:var(--bc);border-radius:3px;overflow:hidden;">
+                    <div style="height:100%;width:${Math.min(100, parseFloat(displayScore) * 10)}%;background:${tc};border-radius:3px;"></div>
+                  </div>
+                  <span style="font-size:12px;font-weight:700;color:${tc};">${displayScore}</span>
+                </div>
             </td>
-            <td class="text-end py-4 font-semibold text-sm">${fN(realVol)}</td>
-            <td class="text-end py-4 text-t2 text-sm">${liq}</td>
-            <td class="text-end py-4 text-t2 text-sm">${visits.toLocaleString()}</td>
-            <td class="text-end py-4 text-t2 text-sm">${markets.toLocaleString()}</td>
-            <td class="text-end py-4 text-t2 text-sm">${coinsCount.toLocaleString()}</td>
-            <td class="text-start pl-4 py-4">
-                <div class="flex gap-1 flex-wrap w-32">
-                    ${exFiats.map(f => `<span class="bg-gray-800 text-gray-300 text-[10px] px-1.5 py-0.5 rounded">${f}</span>`).join('')}
+            <td class="text-center py-4 font-semibold text-sm" style="padding:12px 16px;text-align:center;">${fN(realVol)}</td>
+            <td class="text-center py-4 text-t2 text-sm" style="padding:12px 16px;text-align:center;color:var(--t2);">${liq}</td>
+            <td class="text-center py-4 text-t2 text-sm" style="padding:12px 16px;text-align:center;color:var(--t2);">${visits >= 1000000 ? (visits / 1000000).toFixed(1) + 'M' : (visits / 1000).toFixed(0) + 'K'}</td>
+            <td class="text-center py-4 text-t2 text-sm" style="padding:12px 16px;text-align:center;color:var(--t2);">${markets.toLocaleString()}</td>
+            <td class="text-center py-4 text-t2 text-sm" style="padding:12px 16px;text-align:center;color:var(--t2);">${coinsCount.toLocaleString()}</td>
+            <td class="text-start pl-4 py-4" style="padding:12px 16px;">
+                <div style="display:flex;gap:4px;flex-wrap:wrap;max-width:130px;">
+                    ${exFiats.map(f => `<span style="background:var(--bg3);border:1px solid var(--bc);color:var(--t2);font-size:10px;font-weight:600;padding:2px 7px;border-radius:6px;">${f}</span>`).join('')}
                 </div>
             </td>
         </tr>`;
@@ -12578,39 +13203,172 @@
       { sy: 'PPLT', nm: 'Physical Platinum ETF', ic: '💎', cl: '#E5E4E2', cat: 'etf', ex: ['IBKR', 'Schwab', 'Vanguard'] },
       { sy: 'PALL', nm: 'Physical Palladium ETF', ic: '⚪', cl: '#B0B0B0', cat: 'etf', ex: ['IBKR', 'Schwab', 'Vanguard'] }
     ];
-    let _stkP = {}; let _stkYDirect = true; let _stkProxyIdx = 0;
-    async function _fetchYahoo(sym) {
-      const url = 'https://query1.finance.yahoo.com/v8/finance/chart/' + sym + '?interval=1d&range=5d';
-      if (_stkYDirect) { try { const r = await fetch(url, { signal: AbortSignal.timeout(3000) }); if (r.ok) return await r.json(); _stkYDirect = false } catch (e) { _stkYDirect = false } }
-      const yProxies = [u => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`, u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`]; for (let i = 0; i < yProxies.length; i++) { const idx = (_stkProxyIdx + i) % yProxies.length; try { const r = await fetch(yProxies[idx](url), { signal: AbortSignal.timeout(8000) }); if (r.ok) { _stkProxyIdx = idx; return await r.json() } } catch (e) { } } return null
-    }
-    async function _loadStk() {
+    let _stkP = {};
+    let _stkCacheTs = 0;
+    const _STK_CACHE_TTL = 90000; // 90s cache
+
+    // ── FAST PARALLEL STOCK FETCHER ──
+    async function _fetchAllStocks() {
       const syms = _STK.map(s => s.sy);
-      const batchSize = 6;
-      for (let i = 0; i < syms.length; i += batchSize) {
-        const batch = syms.slice(i, i + batchSize);
-        const results = await Promise.allSettled(batch.map(s => _fetchYahoo(s)));
-        results.forEach((r, idx) => {
-          if (r.status !== 'fulfilled' || !r.value) return;
+      const symsStr = syms.join(',');
+
+      // ── Source A: Yahoo Finance v7 multi-symbol (1 request) ──
+      const yQuoteUrl = `https://query2.finance.yahoo.com/v7/finance/quote?symbols=${symsStr}&fields=regularMarketPrice,regularMarketChangePercent,regularMarketVolume,regularMarketDayHigh,regularMarketDayLow,fiftyTwoWeekHigh,fiftyTwoWeekLow,previousClose,regularMarketTime,longName,currency`;
+      const yQuoteUrl1 = yQuoteUrl.replace('query2', 'query1');
+
+      // ── Source B: Yahoo Finance spark (compact, very fast) ──
+      const ySparkUrl = `https://query1.finance.yahoo.com/v7/finance/spark?symbols=${symsStr}&range=1d&interval=5m`;
+
+      // ── Source C: Stooq CSV for individual stocks (reliable, no key) ──
+      async function _stooqOne(sym) {
+        const url = `https://stooq.com/q/l/?s=${sym.toLowerCase()}.us&f=sd2t2ohlcv&h&e=csv`;
+        const proxies = [
+          `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+          `https://corsproxy.io/?${encodeURIComponent(url)}`
+        ];
+        for (const p of proxies) {
           try {
-            const res = r.value.chart.result[0];
-            const m = res.meta;
-            const q = res.indicators.quote[0];
-            const closes = q.close.filter(v => v !== null);
-            const vols = q.volume.filter(v => v !== null);
-            const pr = m.regularMarketPrice || 0;
-            const prevClose = m.chartPreviousClose || 0;
-            const chg = prevClose > 0 ? ((pr - prevClose) / prevClose * 100) : 0;
-            const hi = m.regularMarketDayHigh || m.fiftyTwoWeekHigh || 0;
-            const lo = m.regularMarketDayLow || m.fiftyTwoWeekLow || 0;
-            const vol = m.regularMarketVolume || 0;
-            const w52h = m.fiftyTwoWeekHigh || 0;
-            const w52l = m.fiftyTwoWeekLow || 0;
-            const mktTime = m.regularMarketTime ? new Date(m.regularMarketTime * 1000) : null;
-            _stkP[batch[idx]] = { pr, chg, hi, lo, vol, w52h, w52l, prevClose, closes, mktTime, currency: m.currency || 'USD', name: m.longName || m.shortName || '' }
-          } catch (e) { }
-        });
+            const r = await fetch(p, { signal: AbortSignal.timeout(4000) });
+            if (!r.ok) continue;
+            const txt = await r.text();
+            const lines = txt.trim().split('\n');
+            if (lines.length < 2) continue;
+            const [, date, time, open, hi, lo, close, vol] = lines[1].split(',');
+            const pr = parseFloat(close), o = parseFloat(open);
+            if (!pr || pr <= 0) continue;
+            const chg = o > 0 ? (pr - o) / o * 100 : 0;
+            return { pr, chg, hi: parseFloat(hi)||0, lo: parseFloat(lo)||0, vol: parseInt(vol)||0, prevClose: o, closes: [o, pr], mktTime: null, w52h:0, w52l:0, currency:'USD', name:'' };
+          } catch(e) {}
+        }
+        return null;
       }
+
+      // ── Try Yahoo multi-symbol first (fastest - 1 request) ──
+      const yhProxies = [
+        u => u,                                                    // direct
+        u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
+        u => `https://corsproxy.io/?${encodeURIComponent(u)}`,
+        u => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`,
+        u => `https://thingproxy.freeboard.io/fetch/${u}`
+      ];
+
+      for (const makeUrl of [() => yQuoteUrl, () => yQuoteUrl1]) {
+        // Race the first 2 proxies simultaneously, then try others sequentially
+        const url = makeUrl();
+        const tryProxy = async (proxyFn) => {
+          try {
+            const pUrl = proxyFn(url);
+            const r = await fetch(pUrl, {
+              signal: AbortSignal.timeout(4500),
+              headers: pUrl === url ? { 'User-Agent': 'Mozilla/5.0' } : {}
+            });
+            if (!r.ok) return null;
+            const j = await r.json();
+            const results = j?.quoteResponse?.result;
+            return (results?.length >= 3) ? results : null;
+          } catch(e) { return null; }
+        };
+
+        // Try direct + first proxy in parallel (race)
+        const raceResult = await Promise.any([
+          tryProxy(yhProxies[0]),
+          tryProxy(yhProxies[1])
+        ]).catch(() => null);
+
+        if (raceResult) {
+          _parseYahooQuote(raceResult);
+          console.log('[STK] Yahoo OK (race)');
+          return true;
+        }
+
+        // Try remaining proxies sequentially
+        for (let i = 2; i < yhProxies.length; i++) {
+          const res = await tryProxy(yhProxies[i]);
+          if (res) { _parseYahooQuote(res); return true; }
+        }
+      }
+
+      // ── Fallback: Stooq CSV for each symbol in parallel (reliable) ──
+      console.log('[STK] Falling back to Stooq parallel fetch');
+      const results = await Promise.allSettled(syms.map(s => _stooqOne(s)));
+      let count = 0;
+      results.forEach((r, i) => {
+        if (r.status === 'fulfilled' && r.value) {
+          _stkP[syms[i]] = r.value;
+          count++;
+        }
+      });
+      if (count > 0) {
+        console.log(`[STK] Stooq got ${count}/${syms.length} symbols`);
+        return true;
+      }
+
+      // ── Last resort: FMP demo ──
+      try {
+        const fmpUrl = `https://financialmodelingprep.com/api/v3/quote/${symsStr}?apikey=demo`;
+        const r = await fetch(fmpUrl, { signal: AbortSignal.timeout(5000) });
+        if (r.ok) {
+          const j = await r.json();
+          if (Array.isArray(j) && j.length) { _parseFMPQuote(j); return true; }
+        }
+      } catch(e) {}
+
+      return false;
+    }
+
+    function _parseYahooQuote(results) {
+      results.forEach(m => {
+        if (!m?.symbol) return;
+        const pr = m.regularMarketPrice || 0;
+        const prevClose = m.previousClose || pr;
+        const chg = m.regularMarketChangePercent || (prevClose > 0 ? (pr - prevClose) / prevClose * 100 : 0);
+        _stkP[m.symbol] = {
+          pr, chg,
+          hi:       m.regularMarketDayHigh || 0,
+          lo:       m.regularMarketDayLow  || 0,
+          vol:      m.regularMarketVolume  || 0,
+          w52h:     m.fiftyTwoWeekHigh     || 0,
+          w52l:     m.fiftyTwoWeekLow      || 0,
+          prevClose,
+          closes:   [prevClose, pr],
+          mktTime:  m.regularMarketTime ? new Date(m.regularMarketTime * 1000) : null,
+          currency: m.currency || 'USD',
+          name:     m.longName || m.shortName || m.symbol
+        };
+      });
+    }
+
+    function _parseFMPQuote(results) {
+      results.forEach(m => {
+        if (!m?.symbol) return;
+        const pr = m.price || 0;
+        const prevClose = m.previousClose || pr;
+        const chg = m.changesPercentage || 0;
+        _stkP[m.symbol] = {
+          pr, chg,
+          hi:       m.dayHigh    || 0,
+          lo:       m.dayLow     || 0,
+          vol:      m.volume     || 0,
+          w52h:     m.yearHigh   || 0,
+          w52l:     m.yearLow    || 0,
+          prevClose,
+          closes:   [prevClose, pr],
+          mktTime:  m.timestamp  ? new Date(m.timestamp * 1000) : null,
+          currency: 'USD',
+          name:     m.name || m.symbol
+        };
+      });
+    }
+
+    async function _loadStk() {
+      // Use cache if fresh
+      if (_stkCacheTs && Date.now() - _stkCacheTs < _STK_CACHE_TTL && Object.keys(_stkP).length > 0) {
+        _renderStk(); return;
+      }
+      // Show skeletons immediately while fetching
+      _renderStk();
+      const ok = await _fetchAllStocks();
+      if (ok) { _stkCacheTs = Date.now(); }
       _renderStk();
     }
     function _miniSparkSVG(closes, color) {
@@ -12953,6 +13711,34 @@
       }
     });
 
+    _CM.reg('coingecko_exchanges', {
+      name: 'CoinGecko API',
+      type: 'rest',
+      icon: 'fa-exchange-alt',
+      items: 'Live Exchange Volume',
+      interval: 7200000,
+      fetchFn: async () => {
+        const r = await fetch('https://api.coingecko.com/api/v3/exchanges', { signal: AbortSignal.timeout(8000) });
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        const d = await r.json();
+        if (!Array.isArray(d)) throw new Error('Invalid exchange data');
+
+        let updated = false;
+        d.forEach(ex => {
+          if (ex.id && ex.trade_volume_24h_btc !== undefined) {
+            const mappedId = typeof mapEid === 'function' ? mapEid(ex.id) : ex.id;
+            exLiveVol[mappedId] = ex.trade_volume_24h_btc;
+            updated = true;
+          }
+        });
+
+        if (updated) {
+          try { localStorage.setItem('ch_ex_vol', JSON.stringify(exLiveVol)); } catch (e) { }
+          if (_exB) loadExchanges();
+        }
+      }
+    });
+
     _CM.reg('cmc', {
       name: 'CoinMarketCap',
       type: 'proxy',
@@ -13003,9 +13789,9 @@
       items: 'BTC Klines for AI Analysis',
       interval: 300000,
       fetchFn: async () => {
-        const r = await fetchJSON('https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&limit=31');
-        if (!r) throw new Error('No klines data');
-        await calcAI();
+        const r = await fetchJSON('https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&limit=60');
+        if (!r || r.length < 30) throw new Error('No klines data');
+        await calcAI(r);
       }
     });
 
@@ -13210,6 +13996,7 @@
           const auxLoads = [
             _CM._execFetch('fear_greed'),
             _CM._execFetch('binance_ai'),
+            _CM._execFetch('coingecko_exchanges'),
           ];
           await Promise.allSettled(auxLoads);
         }, 4000);
@@ -13232,7 +14019,7 @@
       // Real-time intervals: global stats every 10s, badges every 30s, stocks every 60s
       setInterval(() => { updateGlobalFromData(); buildTrending() }, 10000);
       setInterval(() => { if ($('cBadge')) $('cBadge').textContent = allC.length.toLocaleString(); if ($('navCryptoBadge')) $('navCryptoBadge').textContent = allC.length.toLocaleString(); if ($('ldSt')) $('ldSt').textContent = allC.length + ' ' + t('coins') }, 30000);
-      setInterval(() => { if (_stkTabD) _loadStk() }, 60000);
+      setInterval(() => { if (_stkTabD) { _stkCacheTs = 0; _loadStk(); } }, 90000);
     });
     window.addEventListener('beforeunload', () => { _CM.destroy(); if (bWs) bWs.close(); if (uInt) clearInterval(uInt); if (_mtWs) _mtWs.close(); if (_mtPollId) clearInterval(_mtPollId) });
 
