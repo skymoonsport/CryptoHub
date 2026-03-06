@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CryptoHub Blog — Crypto Guides, Analysis & Market Insights</title>
+  <meta name="description" content="CryptoHub Blog: Expert cryptocurrency guides, Bitcoin analysis, DeFi tutorials, and crypto market insights to help you invest smarter in 2025.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.cryptohubcoin.com/blog/">
+  <meta property="og:title" content="CryptoHub Blog — Crypto Guides & Market Analysis">
+  <meta property="og:description" content="Expert cryptocurrency guides, Bitcoin analysis, and market insights.">
+  <meta property="og:url" content="https://www.cryptohubcoin.com/blog/">
+  <meta property="og:image" content="https://www.cryptohubcoin.com/logo.png">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "CryptoHub Blog",
+    "url": "https://www.cryptohubcoin.com/blog/",
+    "description": "Cryptocurrency guides, market analysis, and educational content.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "CryptoHub",
+      "logo": { "@type": "ImageObject", "url": "https://www.cryptohubcoin.com/logo.png" }
+    }
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0f0f1a; --bg2: #1a1a2e; --bg3: #16213e;
+      --t1: #f1f5f9; --t2: #94a3b8; --bc: #1e293b;
+      --ac: #3b82f6; --ac2: #f7931a;
+    }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--t1); min-height: 100vh; }
+    nav {
+      background: rgba(15,15,26,.95); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--bc); padding: 14px 20px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--t1); }
+    .nav-logo img { height: 36px; border-radius: 8px; }
+    .nav-logo span { font-weight: 900; font-size: 18px; }
+    .nav-links { display: flex; gap: 6px; }
+    .nav-links a { color: var(--t2); text-decoration: none; font-size: 13px; font-weight: 600; padding: 7px 14px; border-radius: 8px; transition: all .2s; }
+    .nav-links a:hover, .nav-links a.active { background: var(--bg2); color: var(--t1); }
+    .hero {
+      background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #0f172a 100%);
+      padding: 60px 20px 50px; text-align: center;
+      border-bottom: 1px solid var(--bc); position: relative; overflow: hidden;
+    }
+    .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 0%, #3b82f620, transparent); }
+    .hero-tag { display: inline-flex; align-items: center; gap: 6px; background: #f7931a22; color: #f7931a; border: 1px solid #f7931a44; border-radius: 20px; padding: 5px 14px; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 20px; }
+    .hero h1 { font-size: clamp(28px, 5vw, 52px); font-weight: 900; line-height: 1.15; margin-bottom: 16px; background: linear-gradient(135deg, #f1f5f9, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero p { font-size: 17px; color: var(--t2); max-width: 560px; margin: 0 auto; line-height: 1.7; }
+    .cats { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; padding: 24px 20px; max-width: 900px; margin: 0 auto; }
+    .cat-btn { background: var(--bg2); border: 1px solid var(--bc); color: var(--t2); padding: 7px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all .2s; text-decoration: none; }
+    .cat-btn:hover, .cat-btn.active { background: var(--ac); color: #fff; border-color: var(--ac); }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px 60px; }
+    .section-title { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; color: var(--ac); margin-bottom: 20px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; margin-bottom: 48px; }
+    .card { background: var(--bg2); border: 1px solid var(--bc); border-radius: 16px; overflow: hidden; transition: transform .25s, border-color .25s; text-decoration: none; display: flex; flex-direction: column; }
+    .card:hover { transform: translateY(-5px); border-color: var(--ac); }
+    .card-thumb { height: 140px; display: flex; align-items: center; justify-content: center; font-size: 56px; flex-shrink: 0; }
+    .card-body { padding: 20px; flex: 1; display: flex; flex-direction: column; }
+    .card-tag { display: inline-block; font-size: 10px; font-weight: 800; text-transform: uppercase; padding: 2px 10px; border-radius: 20px; margin-bottom: 12px; }
+    .card h2 { font-size: 16px; font-weight: 800; color: var(--t1); line-height: 1.45; margin-bottom: 10px; }
+    .card p { font-size: 13px; color: var(--t2); line-height: 1.65; flex: 1; }
+    .card-meta { display: flex; align-items: center; justify-content: space-between; margin-top: 16px; font-size: 11px; color: var(--t2); border-top: 1px solid var(--bc); padding-top: 12px; }
+    .card-read { color: var(--ac); font-weight: 700; font-size: 12px; }
+    footer { background: var(--bg2); border-top: 1px solid var(--bc); padding: 30px 20px; text-align: center; }
+    footer a { color: var(--ac); text-decoration: none; }
+    footer p { color: var(--t2); font-size: 13px; margin-top: 8px; }
+    @media (max-width: 640px) { .nav-links { display: none; } .grid { grid-template-columns: 1fr; } .hero { padding: 40px 16px 36px; } }
+  </style>
+</head>
+<body>
+  <nav>
+    <a class="nav-logo" href="/">
+      <img src="/logo.png" alt="CryptoHub Logo">
+      <span>CryptoHub</span>
+    </a>
+    <div class="nav-links">
+      <a href="/">🏠 Home</a>
+      <a href="/blog/" class="active">📝 Blog</a>
+      <a href="/faq">❓ FAQ</a>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-tag"><i class="fas fa-newspaper"></i> CryptoHub Blog</div>
+    <h1>Crypto Guides &amp;<br>Market Insights</h1>
+    <p>Expert articles on Bitcoin, DeFi, trading strategies, and everything you need to navigate the crypto market in 2025.</p>
+  </div>
+
+  <div class="cats">
+    <a class="cat-btn active" href="#">All</a>
+    <a class="cat-btn" href="#">Bitcoin</a>
+    <a class="cat-btn" href="#">Market Analysis</a>
+    <a class="cat-btn" href="#">Beginners</a>
+    <a class="cat-btn" href="#">Security</a>
+    <a class="cat-btn" href="#">Technical Analysis</a>
+    <a class="cat-btn" href="#">BRC-20 &amp; Runes</a>
+  </div>
+
+  <div class="container">
+    <div class="section-title"><i class="fas fa-fire"></i> Latest Articles</div>
+    <div class="grid">
+
+      <a class="card" href="/blog/bitcoin-guide-2025">
+        <div class="card-thumb" style="background:linear-gradient(135deg,#f7931a,#ff6b00)">₿</div>
+        <div class="card-body">
+          <span class="card-tag" style="background:#f7931a22;color:#f7931a">Bitcoin</span>
+          <h2>Bitcoin in 2025: Complete Guide — Halving, ETFs &amp; Price Predictions</h2>
+          <p>Everything about Bitcoin's halving cycle, spot ETFs, institutional adoption, and 2025 price outlook with technical analysis.</p>
+          <div class="card-meta"><span>📅 March 2025 · 12 min read</span><span class="card-read">Read →</span></div>
+        </div>
+      </a>
+
+      <a class="card" href="/blog/brc20-vs-runes">
+        <div class="card-thumb" style="background:linear-gradient(135deg,#9c27b0,#6a1b9a)">📜</div>
+        <div class="card-body">
+          <span class="card-tag" style="background:#9c27b022;color:#ce93d8">BRC-20 &amp; Runes</span>
+          <h2>BRC-20 vs Runes: What's the Difference? Complete 2025 Guide</h2>
+          <p>Technical comparison of both Bitcoin token standards — trading volumes, top tokens, and which has a stronger future.</p>
+          <div class="card-meta"><span>📅 March 2025 · 10 min read</span><span class="card-read">Read →</span></div>
+        </div>
+      </a>
+
+      <a class="card" href="/blog/fear-greed-index-guide">
+        <div class="card-thumb" style="background:linear-gradient(135deg,#c62828,#4caf50)">😨</div>
+        <div class="card-body">
+          <span class="card-tag" style="background:#4caf5022;color:#4caf50">Market Analysis</span>
+          <h2>Fear &amp; Greed Index: How to Use Sentiment to Time the Market</h2>
+          <p>Learn to read the Fear &amp; Greed Index and use it to make smarter crypto buy and sell decisions.</p>
+          <div class="card-meta"><span>📅 Feb 2025 · 7 min read</span><span class="card-read">Read →</span></div>
+        </div>
+      </a>
+
+      <a class="card" href="/blog/gold-vs-bitcoin">
+        <div class="card-thumb" style="background:linear-gradient(135deg,#ffd700,#b8860b)">🥇</div>
+        <div class="card-body">
+          <span class="card-tag" style="background:#ffd70022;color:#b8860b">Gold vs Crypto</span>
+          <h2>Gold vs Bitcoin: The Ultimate Store of Value Comparison</h2>
+          <p>Performance, volatility, scarcity, and long-term store of value — which asset belongs in your portfolio?</p>
+          <div class="card-meta"><span>📅 Feb 2025 · 9 min read</span><span class="card-read">Read →</span></div>
+        </div>
+      </a>
+
+      <a class="card" href="/blog/crypto-beginners-guide">
+        <div class="card-thumb" style="background:linear-gradient(135deg,#3861fb,#1a2b5e)">🎓</div>
+        <div class="card-body">
+          <span class="card-tag" style="background:#3861fb22;color:#3861fb">Beginner Guide</span>
+          <h2>Cryptocurrency for Beginners: Complete 2025 Starter Guide</h2>
+          <p>From blockchain basics to buying your first Bitcoin — everything a beginner needs to start safely.</p>
+          <div class="card-meta"><span>📅 Jan 2025 · 15 min read</span><span class="card-read">Read →</span></div>
+        </div>
+      </a>
+
+      <a class="card" href="/blog/crypto-security-guide">
+        <div class="card-thumb" style="background:linear-gradient(135deg,#f44336,#b71c1c)">🔐</div>
+        <div class="card-body">
+          <span class="card-tag" style="background:#f4433622;color:#f44336">Security</span>
+          <h2>How to Secure Your Crypto: Wallets, Seed Phrases &amp; Best Practices</h2>
+          <p>Complete security guide — hot vs cold wallets, protecting seed phrases, and avoiding common scams.</p>
+          <div class="card-meta"><span>📅 Feb 2025 · 8 min read</span><span class="card-read">Read →</span></div>
+        </div>
+      </a>
+
+      <a class="card" href="/blog/rsi-macd-bollinger-guide">
+        <div class="card-thumb" style="background:linear-gradient(135deg,#00bcd4,#006064)">📊</div>
+        <div class="card-body">
+          <span class="card-tag" style="background:#00bcd422;color:#00bcd4">Technical Analysis</span>
+          <h2>RSI, MACD &amp; Bollinger Bands: Complete Crypto Trading Guide</h2>
+          <p>Master the three most powerful technical indicators and learn how to combine them for stronger trading signals.</p>
+          <div class="card-meta"><span>📅 Jan 2025 · 14 min read</span><span class="card-read">Read →</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <footer>
+    <a href="/">← Back to CryptoHub</a>
+    <p>© 2025 CryptoHub — Not financial advice. Always DYOR.</p>
+  </footer>
+
+</body>
+</html>
