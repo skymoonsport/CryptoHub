@@ -3,6 +3,12 @@
 
 <head>
   <script>
+    // Force www redirect
+    if (window.location.hostname === 'cryptohubcoin.com') {
+      window.location.replace('https://www.cryptohubcoin.com' + window.location.pathname + window.location.search + window.location.hash);
+    }
+  </script>
+  <script>
     (function() {
       var saved = localStorage.getItem('lang');
       if (!saved) {
@@ -44,7 +50,7 @@
   <!-- ============================================================ -->
   <title>CryptoHub - Live Crypto Prices, AI Analysis & Fear Greed Index</title>
   <meta name="description"
-    content="Track 10,000+ cryptocurrencies with live prices, AI market analysis & Fear Greed Index. Free, no signup. Bitcoin, Ethereum, BRC-20, Runes & more.">
+    content="CryptoHub AI — Your Cryptocurrency Hub for tracking 10,000+ coins with real-time prices, AI-powered market analysis, Fear & Greed Index, gold & silver prices. CryptoHub is free, no registration required. The best cryptohub for crypto traders.">
   <meta name="keywords"
     content="كريبتو هاب, cryptohub, criptohub, cryptohub.co, cryptohub.ai, cryptoglowhub, cryptohub.io, cryptocurrency hub, crypto hub, bitcohub.com, CryptoHub AI, cryptocurrency tracker, live crypto prices, bitcoin price, ethereum price, crypto market cap, fear greed index, altcoin season, gold price, silver price, crypto AI analysis, binance prices, crypto portfolio, DeFi tracker, NFT market, crypto exchange">
   <meta name="author" content="CryptoHub">
