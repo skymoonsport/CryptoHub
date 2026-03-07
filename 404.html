@@ -2,22 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>404 - Page Not Found | CryptoHub</title>
-  <meta name="robots" content="noindex, nofollow">
-  <style>
-    body { margin: 0; font-family: sans-serif; background: #0f1117; color: #fff; display: flex; align-items: center; justify-content: center; height: 100vh; text-align: center; }
-    h1 { font-size: 5rem; margin: 0; color: #6366f1; }
-    h2 { font-size: 1.4rem; margin: 10px 0 20px; color: #9ca3af; }
-    a { display: inline-block; padding: 12px 28px; background: #6366f1; color: #fff; text-decoration: none; border-radius: 8px; font-weight: bold; }
-    a:hover { background: #4f46e5; }
-  </style>
+  <title>Redirecting...</title>
+  <script>
+    // www redirect
+    if (window.location.hostname === 'cryptohubcoin.com') {
+      window.location.replace('https://www.cryptohubcoin.com' + window.location.pathname + window.location.search);
+    } else {
+      // SPA redirect for GitHub Pages
+      var path = window.location.pathname;
+      window.location.replace('https://www.cryptohubcoin.com' + path);
+    }
+  </script>
 </head>
 <body>
-  <div>
-    <h1>404</h1>
-    <h2>Page Not Found</h2>
-    <a href="https://cryptohubcoin.com/">← Back to CryptoHub</a>
-  </div>
+  <p>Redirecting...</p>
 </body>
 </html>
