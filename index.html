@@ -2,6 +2,14 @@
 <html lang="en" dir="ltr">
 
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FTBNSF9WJT"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-FTBNSF9WJT');
+  </script>
   <meta charset="UTF-8">
   <meta name="google-adsense-account" content="ca-pub-6273496386873741">
   <!-- Preconnect to critical origins -->
@@ -5943,8 +5951,8 @@
                     </div>
                     <div class="nav-desc" data-i18n="blogNavDesc" style="color:var(--t2)">مقالات وتحليلات سوق الكريبتو</div>
                   </div>
-                  <span class="nav-badge" style="background:#f7931a22;color:#f7931a;border:1px solid #f7931a44;display:flex;align-items:center;gap:4px">
-                    <i class="fas fa-star" style="font-size:8px"></i> Blog
+                  <span class="nav-badge" style="background:var(--ac)22;color:var(--ac);border:1px solid var(--ac)44;display:flex;align-items:center;gap:4px">
+                    <i class="fas fa-newspaper" style="font-size:8px"></i> Blog
                   </span>
                   <i class="fas fa-chevron-left nav-arrow"></i>
                 </a>
@@ -7250,7 +7258,7 @@
 
   
   <!-- AdSense Responsive Unit - Mid Page -->
-  <div style="max-width:1280px;margin:24px auto;padding:0 20px;text-align:center">
+  <div id="adMid" style="max-width:1280px;margin:0 auto;padding:0 20px;text-align:center;min-height:0;overflow:hidden">
     <ins class="adsbygoogle"
          style="display:block"
          data-ad-client="ca-pub-6273496386873741"
@@ -7371,7 +7379,7 @@
 
   
   <!-- AdSense Responsive Unit - Bottom -->
-  <div style="max-width:1280px;margin:0 auto;padding:16px 20px;text-align:center">
+  <div id="adBottom" style="max-width:1280px;margin:0 auto;padding:0 20px;text-align:center;min-height:0;overflow:hidden">
     <ins class="adsbygoogle"
          style="display:block"
          data-ad-client="ca-pub-6273496386873741"
@@ -14849,6 +14857,22 @@
         `<button type='button' onclick='document.getElementById("aiChatInput").value="أفضل العملات";document.getElementById("aiChatSend").click();'>أفضل العملات</button>` +
         `<button type='button' onclick='document.getElementById("aiChatInput").value="شرح FDV";document.getElementById("aiChatSend").click();'>شرح FDV</button></div>`;
     }
+  </script>
+
+  <script>
+    // Collapse AdSense units when empty (no ad loaded)
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        ['adMid','adBottom'].forEach(function(id) {
+          var el = document.getElementById(id);
+          if (!el) return;
+          var ins = el.querySelector('ins.adsbygoogle');
+          if (ins && ins.getAttribute('data-ad-status') !== 'filled') {
+            el.style.display = 'none';
+          }
+        });
+      }, 2500);
+    });
   </script>
 </body>
 
