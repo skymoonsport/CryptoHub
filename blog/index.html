@@ -88,9 +88,37 @@
     footer { background: var(--bg2); border-top: 1px solid var(--bc); padding: 30px 20px; text-align: center; }
     footer a { color: var(--ac); text-decoration: none; }
     footer p { color: var(--t2); font-size: 13px; margin-top: 8px; }
-    @media (max-width: 640px) { .nav-links { display: none; } .grid { grid-template-columns: 1fr; } .hero { padding: 40px 16px 36px; } }
-  
-    
+    /* ── Hamburger ── */
+    .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 6px; background: none; border: none; }
+    .nav-hamburger span { display: block; width: 22px; height: 2px; background: var(--t1); border-radius: 2px; transition: all .3s; }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .mobile-menu { display: none; flex-direction: column; background: var(--bg2); border-bottom: 1px solid var(--bc); padding: 12px 20px; gap: 4px; }
+    .mobile-menu a { color: var(--t2); text-decoration: none; font-size: 14px; font-weight: 600; padding: 10px 14px; border-radius: 8px; transition: all .2s; }
+    .mobile-menu a:hover, .mobile-menu a.active { background: var(--bg3); color: var(--t1); }
+    .mobile-menu.open { display: flex; }
+    /* ── Tablet ── */
+    @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+    /* ── Mobile ── */
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+      .hero { padding: 36px 16px 30px; }
+      .hero p { font-size: 15px; }
+      .hero h1 { font-size: clamp(24px, 7vw, 36px); }
+      .cats { padding: 16px; gap: 6px; }
+      .cat-btn { font-size: 12px; padding: 6px 12px; }
+      .container { padding: 0 14px 48px; }
+      .grid { grid-template-columns: 1fr; gap: 14px; }
+      .card-thumb { height: 110px; font-size: 44px; }
+      .card-body { padding: 16px; }
+      .card h2 { font-size: 15px; }
+      .card p { font-size: 12px; }
+      .card-meta { font-size: 10px; }
+      footer { padding: 24px 16px; }
+      footer p { font-size: 12px; }
+    }
   </style>
 </head>
 <body>
@@ -106,7 +134,17 @@
       <a href="/glossary" data-i18n="glossaryNav">Glossary</a>
       <a href="/about" data-i18n="aboutNav">About</a>
     </div>
-      </nav>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="/">Home</a>
+    <a href="/blog/" class="active">Blog</a>
+    <a href="/faq">FAQ</a>
+    <a href="/glossary">Glossary</a>
+    <a href="/about">About</a>
+  </div>
 
   <div class="hero">
     <div class="hero-tag"><i class="fas fa-newspaper"></i> CryptoHub Blog</div>
@@ -533,5 +571,18 @@
     })();
     // ────────────────────────────────────────────────────────────────────
     </script>
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+    });
+    // Close on link click
+    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+    }));
+  </script>
 </body>
 </html>
