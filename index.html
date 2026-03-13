@@ -13079,8 +13079,8 @@
         }
 
         // ── STEP 1: For BTC, pre-fill ALL exchanges immediately (before any API calls) ──
-        if (cid === 'bitcoin') {
-          const btcCoin = allC.find(c => c.id === 'bitcoin');
+        if (sym === 'BTC') {
+          const btcCoin = allC.find(c => c.sy === 'BTC' || c.id === 'bitcoin');
           // Get price from multiple sources
           const bp = btcCoin?.pr || parseFloat($('cdPrice')?.textContent?.replace(/[^0-9.]/g,'')) || 83000;
           const bv = btcCoin?.vol || 14000000000;
@@ -13103,54 +13103,87 @@
           renderExLst();
         }
 
-        // ── STEP 2: Fetch real data — will OVERRIDE estimates via addResult ──
+        // ── STEP 2: Fetch from CMC (via proxy) + direct APIs ──
         const slug = cid.toLowerCase();
+        const coinObj = allC.find(c => c.id === cid);
+        
+        // Extract CMC numeric ID from image URL
+        const cmcId = coinObj?.img ? (coinObj.img.match(/\/coins\/64x64\/(\d+)\.png/)?.[1] || '') : '';
+
+        // Fetch CMC market pairs (most reliable — covers all exchanges)
+        let cmcMarkets = null;
+        if (cmcId) {
+          const cmcUrl = `https://api.coinmarketcap.com/data-api/v3/cryptocurrency/market-pairs/latest?id=${cmcId}&start=1&limit=100&category=spot&centerType=all&sort=cmc_rank_advanced&direction=desc&spotUntracked=true`;
+          cmcMarkets = await fetchCMC(cmcUrl).catch(() => null);
+        }
+
+        if (cmcMarkets?.data?.marketPairs) {
+          cmcMarkets.data.marketPairs.forEach(mp => {
+            const exName = mp.exchangeName || '';
+            const eid = mapEid(exName.toLowerCase().replace(/[\s.]+/g, '_'));
+            const pr = parseFloat(mp.price) || 0;
+            const vol = parseFloat(mp.volumeUsd) || 0;
+            const pair = (mp.baseSymbol || sym) + '/' + (mp.quoteSymbol || 'USDT');
+            if (pr > 0) addResult(eid, exName, pair, pr, vol);
+          });
+        }
+
+        // Also try CoinGecko + CoinCap as backup
         const [ccR, cgR] = await Promise.all([
           fetchJSON(`https://api.coincap.io/v2/assets/${slug}/markets?limit=200`).catch(() => null),
           fetchJSON(`https://api.coingecko.com/api/v3/coins/${slug}/tickers?depth=false&order=volume_desc&per_page=100`).catch(() => null)
         ]);
 
-        if (cgR && cgR.tickers) {
+        if (cgR?.tickers) {
           cgR.tickers.forEach(tk => {
             const eid = mapEid(tk.market?.identifier || '');
             if (!eid) return;
             addResult(eid, tk.market?.name || eid, tk.base + '/' + tk.target, tk.converted_last?.usd || 0, tk.converted_volume?.usd || 0);
           });
         }
-        if (ccR && ccR.data) {
+        if (ccR?.data) {
           ccR.data.forEach(m => addResult(mapEid(m.exchangeId), m.exchangeId, m.baseSymbol + '/' + m.quoteSymbol, parseFloat(m.priceUsd) || 0, parseFloat(m.volumeUsd24Hr) || 0));
         }
 
-        const [binR, mexR, gateR, bybitR, okxR] = await Promise.all([
+        // Direct exchange APIs — only adds if coin exists (returns valid price)
+        const p = v => parseFloat(v) || 0;
+        const [binR, mexR, gateR, bybitR, okxR, kucoinR, bitgetR] = await Promise.all([
           fetchJSON(`https://api.binance.com/api/v3/ticker/24hr?symbol=${sym}USDT`).catch(() => null),
           fetchJSON(`https://api.mexc.com/api/v3/ticker/24hr?symbol=${sym}USDT`).catch(() => null),
           fetchJSON(`https://api.gateio.ws/api/v4/spot/tickers?currency_pair=${sym}_USDT`).catch(() => null),
           fetchJSON(`https://api.bybit.com/v5/market/tickers?category=spot&symbol=${sym}USDT`).catch(() => null),
-          fetchJSON(`https://www.okx.com/api/v5/market/ticker?instId=${sym}-USDT`).catch(() => null)
+          fetchJSON(`https://www.okx.com/api/v5/market/ticker?instId=${sym}-USDT`).catch(() => null),
+          fetchJSON(`https://api.kucoin.com/api/v1/market/stats?symbol=${sym}-USDT`).catch(() => null),
+          fetchJSON(`https://api.bitget.com/api/v2/spot/market/tickers?symbol=${sym}USDT`).catch(() => null)
         ]);
 
-        if (binR?.lastPrice) addResult('binance', 'Binance', sym + '/USDT', parseFloat(binR.lastPrice), parseFloat(binR.quoteVolume) || 0);
-        if (mexR?.lastPrice) addResult('mexc', 'MEXC', sym + '/USDT', parseFloat(mexR.lastPrice), parseFloat(mexR.quoteVolume) || 0);
-        if (gateR?.[0]?.last) addResult('gate', 'Gate.io', sym + '/USDT', parseFloat(gateR[0].last), parseFloat(gateR[0].quote_volume) || 0);
-        if (bybitR?.result?.list?.[0]) addResult('bybit', 'Bybit', sym + '/USDT', parseFloat(bybitR.result.list[0].lastPrice), parseFloat(bybitR.result.list[0].turnover24h) || 0);
-        if (okxR?.data?.[0]) { const o = okxR.data[0]; addResult('okx', 'OKX', sym + '/USDT', parseFloat(o.last), parseFloat(o.vol24h) * parseFloat(o.last) || 0); }
+        if (p(binR?.lastPrice) > 0)  addResult('binance',  'Binance', sym+'/USDT', p(binR.lastPrice),  p(binR.quoteVolume));
+        if (p(mexR?.lastPrice) > 0)  addResult('mxc',      'MEXC',    sym+'/USDT', p(mexR.lastPrice),  p(mexR.quoteVolume));
+        if (p(gateR?.[0]?.last) > 0) addResult('gate',     'Gate.io', sym+'/USDT', p(gateR[0].last),   p(gateR[0].quote_volume));
+        if (p(bybitR?.result?.list?.[0]?.lastPrice) > 0) addResult('bybit_spot','Bybit',sym+'/USDT',p(bybitR.result.list[0].lastPrice),p(bybitR.result.list[0].turnover24h));
+        if (p(okxR?.data?.[0]?.last) > 0) { const o=okxR.data[0]; addResult('okex','OKX',sym+'/USDT',p(o.last),p(o.volCcy24h)); }
+        if (p(kucoinR?.data?.last) > 0) addResult('kucoin','KuCoin',sym+'/USDT',p(kucoinR.data.last),p(kucoinR.data.volValue));
+        if (p(bitgetR?.data?.[0]?.lastPr) > 0) addResult('bitget','Bitget',sym+'/USDT',p(bitgetR.data[0].lastPr),p(bitgetR.data[0].quoteVolume));
 
-        // ── STEP 3: For non-BTC coins, simulate trust≥7 exchanges ──
-        if (cid !== 'bitcoin') {
-          const cd = allC.find(c => c.id === cid);
-          const basePrice = cd ? cd.pr : 0;
-          const baseVol = cd && cd.vol > 0 ? cd.vol : 1000000;
-          EX_DB.filter(e => e.t >= 7).forEach(dbEx => {
-            if (eidMap.has(dbEx.id)) return;
-            const trust = dbEx.t, hash = dbEx.n.split('').reduce((a, ch) => a + ch.charCodeAt(0), 0);
-            const pr = basePrice > 0 ? basePrice * (1 + (hash%20-10)/10000) : 0;
-            const vol = baseVol > 0 ? baseVol * Math.pow(trust/10, 2) * 0.08 * ((hash%30+85)/100) : 0;
-            addResult(dbEx.id, dbEx.n, sym + '/USDT', pr, vol, true);
+        // Non-BTC: real data only — no simulation
+
+        // ── STEP 3 final: for BTC, ensure ALL BTC_IDS are in results ──
+        if (sym === 'BTC') {
+          const btcCoin = allC.find(c => c.sy === 'BTC' || c.id === 'bitcoin');
+          const bp = btcCoin?.pr || parseFloat($('cdPrice')?.textContent?.replace(/[^0-9.]/g,'')) || 83000;
+          const bv = btcCoin?.vol || 14000000000;
+          BTC_IDS.forEach(eid => {
+            if (eidMap.has(eid)) return; // already in results (real or estimated)
+            const dbEx = EX_DB.find(e => e.id === eid);
+            if (!dbEx) return;
+            const hash = dbEx.n.split('').reduce((a,ch) => a + ch.charCodeAt(0), 0);
+            const pr = bp * (1 + (hash%20-10)/10000);
+            const vol = bv * Math.pow(dbEx.t/10, 2.2) * 0.032 * ((hash%40+80)/100);
+            const idx = results.length;
+            results.push({ n: dbEx.n, eid, pair: 'BTC/USDT', pr, vol, isSim: true });
+            eidMap.set(eid, idx);
           });
         }
-
-        // Mark real data
-        results.forEach(r => { if (r.vol > 0 && !r.isSim) r.isSim = false; });
 
         const realData = results.filter(r => !r.isSim && r.vol > 0).sort((a, b) => b.vol - a.vol);
         const simData = results.filter(r => r.isSim && r.vol > 0).sort((a, b) => b.vol - a.vol);
