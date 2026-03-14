@@ -6736,14 +6736,14 @@
           <table class="w-full" style="min-width: 860px;border-collapse:collapse">
             <thead>
               <tr style="border-bottom: 2px solid var(--bc);">
-                <th class="text-start" style="padding:10px 16px;font-size:11px;font-weight:700;color:var(--t2);white-space:nowrap">المنصة</th>
-                <th style="padding:10px 8px;font-size:11px;font-weight:700;color:var(--t2);white-space:nowrap">المعدن</th>
-                <th style="padding:10px 8px;font-size:11px;font-weight:700;color:var(--t2);white-space:nowrap">PRICE</th>
+                <th class="text-start" style="padding:10px 16px;font-size:11px;font-weight:700;color:var(--t2);white-space:nowrap" data-i18n="colExchange2">Exchange</th>
+                <th style="padding:10px 8px;font-size:11px;font-weight:700;color:var(--t2);white-space:nowrap" data-i18n="colStock">Metal</th>
+                <th style="padding:10px 8px;font-size:11px;font-weight:700;color:var(--t2);white-space:nowrap" data-i18n="price">Price</th>
                 <th style="padding:10px 8px;font-size:11px;font-weight:700;color:var(--t2);white-space:nowrap">1H%</th>
-                <th style="padding:10px 8px;font-size:11px;font-weight:700;color:var(--t2);white-space:nowrap">24H%</th>
+                <th style="padding:10px 8px;font-size:11px;font-weight:700;color:var(--t2);white-space:nowrap" data-i18n="change24h">24H%</th>
                 <th style="padding:10px 8px;font-size:11px;font-weight:700;color:var(--t2);white-space:nowrap">7D%</th>
-                <th style="padding:10px 8px;font-size:11px;font-weight:700;color:var(--t2);white-space:nowrap">MARKET CAP</th>
-                <th style="padding:10px 8px;font-size:11px;font-weight:700;color:var(--t2);white-space:nowrap">VOLUME 24H</th>
+                <th style="padding:10px 8px;font-size:11px;font-weight:700;color:var(--t2);white-space:nowrap" data-i18n="marketCap">Market Cap</th>
+                <th style="padding:10px 8px;font-size:11px;font-weight:700;color:var(--t2);white-space:nowrap" data-i18n="colVol24h">Volume 24H</th>
               </tr>
             </thead>
             <tbody id="mtlExB"></tbody>
@@ -6763,10 +6763,7 @@
             <p class="text-xs mt-1" style="color:var(--t2)" data-i18n="stocksSub">أسهم وسلع وصناديق استثمار ETF • بيانات
               لحظية</p>
           </div>
-          <div class="flex items-center gap-2" id="stkLiveLabel">
-            <span class="live-dot" id="stkLiveDot" style="background:#888"></span>
-            <span id="stkLiveSrc" style="font-size:10px;color:var(--t2)">Loading...</span>
-          </div>
+
         </div>
         <!-- Search + Filter Bar -->
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;align-items:center">
@@ -14968,7 +14965,7 @@
 
     // ── FAST PARALLEL STOCK FETCHER ──
     async function _fetchAllStocks() {
-      // ── MEXC Symbol Map (Perpetual Futures) ─────────────────────────
+      // ── MEXC Symbol Map (Perpetual Futures — tokenized stocks) ──
       const _MX = {
         'MARA':'MARAUSDT','RIOT':'RIOTUSDT','CLSK':'CLSKUSDT',
         'WULF':'WULFUSDT','IREN':'IRENUSDT','BITF':'BITFUSDT',
@@ -14998,15 +14995,59 @@
       _loadStaticPrices();
       _renderStk();
 
-      // ── Step 2: Fetch MEXC REST (corsproxy.io works!) ───────────────
+      // ── Step 1b: Fetch live prices via Cloudflare Worker ────────
+      (async () => {
+        const WORKER = 'https://lingering-mouse-0244.hamdysaedmoh1989.workers.dev';
+        const allSyms = _STK.map(s => s.sy);
+        const batches = [];
+        for (let i = 0; i < allSyms.length; i += 100) batches.push(allSyms.slice(i, i+100));
+
+        let total = 0;
+        await Promise.allSettled(batches.map(async batch => {
+          try {
+            const yUrl = `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${batch.join(',')}&fields=regularMarketPrice,regularMarketChangePercent,regularMarketDayHigh,regularMarketDayLow,regularMarketVolume,previousClose,fiftyTwoWeekHigh,fiftyTwoWeekLow`;
+            const r = await fetch(`${WORKER}?url=${encodeURIComponent(yUrl)}`, {signal: AbortSignal.timeout(10000)});
+            if (!r.ok) return;
+            const j = await r.json();
+            const res = j?.quoteResponse?.result;
+            if (!res?.length) return;
+            res.forEach(q => {
+              const pr = q.regularMarketPrice || 0; if (!pr) return;
+              _stkP[q.symbol] = {
+                pr, chg: q.regularMarketChangePercent || 0,
+                hi: q.regularMarketDayHigh || pr,
+                lo: q.regularMarketDayLow || pr,
+                vol: q.regularMarketVolume || 0,
+                prevClose: q.previousClose || pr,
+                closes: [q.previousClose || pr, pr],
+                w52h: q.fiftyTwoWeekHigh || pr*1.4,
+                w52l: q.fiftyTwoWeekLow || pr*0.6,
+                currency: q.currency || 'USD',
+                mktTime: new Date(), src: 'Live'
+              };
+              total++;
+            });
+          } catch(e) {}
+        }));
+
+        if (total > 0) {
+          console.log('[STK] Worker Live ✓', total, 'symbols');
+          _renderStk();
+        } else {
+          console.log('[STK] Worker failed — using static prices');
+        }
+      })();
+
+      // ── Step 2a: skipped — MEXC handles all tokenized stocks ────
+
+      // ── Step 2b: Fetch MEXC REST ─────────────────────────────────
       const _fetchMEXCNow = async () => {
         const syms = Object.values(_MX);
         // corsproxy.io confirmed working
         const PROXIES = [
+          u => `https://lingering-mouse-0244.hamdysaedmoh1989.workers.dev?url=${encodeURIComponent(u)}`,
           u => `https://corsproxy.io/?url=${encodeURIComponent(u)}`,
           u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
-          u => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`,
-          u => `https://thingproxy.freeboard.io/fetch/${u}`,
         ];
 
         // Fetch all symbols in one request
@@ -15063,9 +15104,9 @@
         for (let i = 0; i < all.length; i += 80) batches.push(all.slice(i, i+80));
         const FIELDS = 'regularMarketPrice,regularMarketChangePercent,regularMarketVolume,regularMarketDayHigh,regularMarketDayLow,fiftyTwoWeekHigh,fiftyTwoWeekLow,previousClose';
         const PX = u => [
+          `https://lingering-mouse-0244.hamdysaedmoh1989.workers.dev?url=${encodeURIComponent(u)}`,
           `https://corsproxy.io/?url=${encodeURIComponent(u)}`,
           `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
-          `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`
         ];
         let n = 0;
         await Promise.allSettled(batches.map(async batch => {
@@ -15088,7 +15129,7 @@
       // ── Step 4: WebSocket attempt (may close on some hosts) ─────────
       _initMEXCWs(_MX, _MXr);
 
-      // ── Run REST + Yahoo in parallel ────────────────────────────────
+      // ── Run Binance + MEXC + Yahoo in parallel ─────────────────────────
       await Promise.all([_fetchMEXCNow(), _fetchYahooNow()]);
 
       _stkCacheTs = Date.now();
@@ -15099,7 +15140,7 @@
       if (!window._mexcInterval) {
         window._mexcInterval = setInterval(async () => {
           if (!_stkTabD) return; // only when stocks tab is open
-          await _fetchMEXCNow();
+          await Promise.all([_fetchMEXCNow()]);
         }, 60000);
       }
 
@@ -15130,7 +15171,7 @@
           const dot = document.getElementById('stkLiveDot');
           const src = document.getElementById('stkLiveSrc');
           if (dot) { dot.style.background='#16c784'; dot.style.boxShadow='0 0 8px #16c784'; dot.style.animation='pulse 1.5s infinite'; }
-          if (src) { src.textContent='MEXC WebSocket ●'; src.style.color='#16c784'; }
+          if (src) { src.textContent='Live'; src.style.color='#16c784'; }
 
           // Keep-alive ping every 20s
           _mWs._ping = setInterval(() => {
@@ -15194,10 +15235,10 @@
     function _loadStaticPrices() {
       const SP = {
         // Major Stocks
-        AAPL:{pr:348.2,chg:-1.2},MSFT:{pr:407.36,chg:-0.08},NVDA:{pr:185.85,chg:-0.31},
-        GOOGL:{pr:308.3,chg:-0.39},GOOG:{pr:308.1,chg:-0.39},AMZN:{pr:333.6,chg:-0.8},
-        META:{pr:957.4,chg:-0.6},TSLA:{pr:400.3,chg:-0.59},AVGO:{pr:296.4,chg:0.4},
-        ORCL:{pr:161.96,chg:6.89},AMD:{pr:203.11,chg:-0.77},INTC:{pr:37.05,chg:-0.8},
+        AAPL:{pr:213.5,chg:-1.8},MSFT:{pr:388.2,chg:-0.9},NVDA:{pr:114.5,chg:-3.2},
+        GOOGL:{pr:168.8,chg:-1.4},GOOG:{pr:168.4,chg:-1.4},AMZN:{pr:203.4,chg:-1.6},
+        META:{pr:596.8,chg:-1.2},TSLA:{pr:248.5,chg:-4.8},AVGO:{pr:182.6,chg:-1.4},
+        ORCL:{pr:172.4,chg:0.8},AMD:{pr:108.2,chg:-2.4},INTC:{pr:22.8,chg:-1.6},
         QCOM:{pr:243.8,chg:-0.4},TXN:{pr:182.46,chg:0.4},MU:{pr:108.24,chg:-1.8},
         AMAT:{pr:168.42,chg:-2.2},LRCX:{pr:712.48,chg:-1.8},KLAC:{pr:698.24,chg:-1.6},
         ADI:{pr:198.46,chg:-0.8},MRVL:{pr:64.28,chg:-2.4},NXPI:{pr:188.42,chg:-0.6},
@@ -15205,19 +15246,19 @@
         IBM:{pr:255.33,chg:0.39},SNOW:{pr:44.28,chg:-2.8},DDOG:{pr:118.46,chg:-2.2},
         NET:{pr:112.28,chg:1.4},ZS:{pr:188.24,chg:-1.2},CRWD:{pr:358.46,chg:1.8},
         PANW:{pr:172.28,chg:-0.8},FTNT:{pr:98.46,chg:0.6},OKTA:{pr:58.24,chg:-2.4},
-        PLTR:{pr:157.7,chg:-2.8},CRM:{pr:288.46,chg:-1.4},ADBE:{pr:368.24,chg:-3.2},
+        PLTR:{pr:92.4,chg:-3.2},CRM:{pr:288.46,chg:-1.4},ADBE:{pr:368.24,chg:-3.2},
         NOW:{pr:978.46,chg:1.8},WDAY:{pr:228.24,chg:-0.8},HUBS:{pr:498.46,chg:0.4},
         TEAM:{pr:198.24,chg:-1.2},ZM:{pr:62.46,chg:-1.8},SHOP:{pr:78.24,chg:-2.4},
-        INTU:{pr:588.46,chg:-1.2},ADSK:{pr:268.24,chg:-0.6},ABNB:{pr:205.6,chg:-0.9},
-        BKNG:{pr:4982.46,chg:0.8},UBER:{pr:125.2,chg:-1.4},LYFT:{pr:10.46,chg:-3.8},
+        INTU:{pr:588.46,chg:-1.2},ADSK:{pr:268.24,chg:-0.6},ABNB:{pr:128.4,chg:-1.2},
+        BKNG:{pr:4982.46,chg:0.8},UBER:{pr:82.4,chg:-1.8},LYFT:{pr:10.46,chg:-3.8},
         EBAY:{pr:52.46,chg:0.4},ETSY:{pr:44.28,chg:-2.4},
         // Finance
-        JPM:{pr:238.46,chg:-0.4},BAC:{pr:44.28,chg:-0.8},WFC:{pr:78.46,chg:-0.6},
-        C:{pr:72.28,chg:0.2},GS:{pr:568.42,chg:-0.8},MS:{pr:118.28,chg:-0.4},
+        JPM:{pr:258.4,chg:-0.6},BAC:{pr:44.28,chg:-0.8},WFC:{pr:78.46,chg:-0.6},
+        C:{pr:72.28,chg:0.2},GS:{pr:598.4,chg:-0.4},MS:{pr:118.28,chg:-0.4},
         BX:{pr:152.46,chg:-1.2},BLK:{pr:1008.24,chg:0.4},SCHW:{pr:78.46,chg:-1.8},
         AXP:{pr:278.24,chg:-0.6},V:{pr:338.46,chg:-0.4},MA:{pr:528.24,chg:-0.6},
-        PYPL:{pr:116.0,chg:-1.2},SQ:{pr:109.2,chg:-1.6},COIN:{pr:197.21,chg:-0.69},
-        MSTR:{pr:138.88,chg:-1.34},MARA:{pr:23.75,chg:-4.2},RIOT:{pr:14.8,chg:-4.8},
+        PYPL:{pr:116.0,chg:-1.2},SQ:{pr:109.2,chg:-1.6},COIN:{pr:182.4,chg:-4.8},
+        MSTR:{pr:248.6,chg:-5.2},MARA:{pr:14.8,chg:-5.8},RIOT:{pr:8.6,chg:-5.4},
         USB:{pr:44.28,chg:-0.6},TFC:{pr:38.46,chg:-0.8},PNC:{pr:178.24,chg:-0.4},
         COF:{pr:168.46,chg:-1.2},ICE:{pr:158.24,chg:0.2},CME:{pr:218.46,chg:0.4},
         SPGI:{pr:468.24,chg:0.2},MCO:{pr:402.46,chg:0.4},
@@ -15232,7 +15273,7 @@
         HD:{pr:388.24,chg:-0.8},LOW:{pr:232.46,chg:-0.6},NKE:{pr:56.9,chg:-0.52},
         SBUX:{pr:92.46,chg:-1.4},MCD:{pr:292.24,chg:-0.2},KO:{pr:66.46,chg:0.2},
         PEP:{pr:154.28,chg:-0.4},PG:{pr:162.46,chg:0.2},AMZN:{pr:333.6,chg:-0.8},
-        BABA:{pr:199.4,chg:1.8},MELI:{pr:1982.24,chg:-1.2},LULU:{pr:298.24,chg:-1.4},
+        BABA:{pr:138.6,chg:0.8},MELI:{pr:1982.24,chg:-1.2},LULU:{pr:298.24,chg:-1.4},
         // Energy
         XOM:{pr:108.46,chg:-0.8},CVX:{pr:154.28,chg:-1.2},COP:{pr:104.46,chg:-1.4},
         OXY:{pr:44.28,chg:-1.8},HAL:{pr:26.46,chg:-2.4},SLB:{pr:38.24,chg:-1.8},
@@ -15247,20 +15288,20 @@
         AMT:{pr:188.46,chg:-0.4},PLD:{pr:108.24,chg:-0.8},EQIX:{pr:788.46,chg:-0.6},
         O:{pr:52.28,chg:0.2},SPG:{pr:148.46,chg:0.4},PSA:{pr:288.24,chg:-0.6},
         // Media/Telecom
-        NFLX:{pr:1646.0,chg:0.8},DIS:{pr:108.24,chg:-1.4},SPOT:{pr:989.5,chg:1.8},
+        NFLX:{pr:978.4,chg:1.2},DIS:{pr:108.24,chg:-1.4},SPOT:{pr:618.2,chg:1.4},
         VZ:{pr:42.28,chg:0.4},T:{pr:22.46,chg:0.6},TMUS:{pr:228.24,chg:0.8},
         // Auto
-        TSLA:{pr:400.3,chg:-0.59},GM:{pr:48.46,chg:0.4},F:{pr:10.28,chg:-1.8},
-        RIVN:{pr:19.94,chg:-2.8},NIO:{pr:6.85,chg:-4.2},TM:{pr:168.46,chg:-0.8},
+        TSLA:{pr:248.5,chg:-4.8},GM:{pr:48.46,chg:0.4},F:{pr:10.28,chg:-1.8},
+        RIVN:{pr:11.2,chg:-3.4},NIO:{pr:4.82,chg:-3.8},TM:{pr:168.46,chg:-0.8},
         RACE:{pr:422.24,chg:0.6},
         // ETFs
-        SPY:{pr:562.46,chg:-0.9},QQQ:{pr:468.24,chg:-1.4},IWM:{pr:198.46,chg:-1.8},
+        SPY:{pr:558.2,chg:-1.2},QQQ:{pr:462.8,chg:-1.8},IWM:{pr:198.46,chg:-1.8},
         DIA:{pr:428.24,chg:-0.4},VTI:{pr:248.46,chg:-0.8},VOO:{pr:518.24,chg:-0.8},
         VEA:{pr:52.46,chg:-0.4},VWO:{pr:44.28,chg:-0.6},EFA:{pr:78.46,chg:-0.6},
-        EEM:{pr:40.28,chg:-0.8},GLD:{pr:276.46,chg:0.4},IAU:{pr:54.28,chg:0.4},
+        EEM:{pr:40.28,chg:-0.8},GLD:{pr:298.4,chg:1.2},IAU:{pr:54.28,chg:0.4},
         SLV:{pr:28.46,chg:0.8},PPLT:{pr:84.28,chg:0.2},PALL:{pr:88.46,chg:-0.4},
         GDX:{pr:38.46,chg:-1.4},GDXJ:{pr:32.28,chg:-1.8},
-        IBIT:{pr:52.46,chg:-4.2},FBTC:{pr:48.28,chg:-4.4},ARKB:{pr:68.46,chg:-4.2},
+        IBIT:{pr:48.8,chg:-5.4},FBTC:{pr:48.28,chg:-4.4},ARKB:{pr:68.46,chg:-4.2},
         ETHA:{pr:18.28,chg:-5.4},FETH:{pr:24.46,chg:-5.2},
         ARKK:{pr:48.46,chg:-3.2},ARKG:{pr:6.28,chg:-3.8},ARKW:{pr:78.46,chg:-2.8},
         XLK:{pr:198.24,chg:-1.4},XLF:{pr:42.46,chg:-0.4},XLV:{pr:138.28,chg:-0.6},
@@ -15276,7 +15317,7 @@
         DBC:{pr:20.46,chg:-1.2},PDBC:{pr:12.28,chg:-1.4},GSG:{pr:16.46,chg:-1.2},
         DBA:{pr:20.28,chg:-0.4},MOO:{pr:78.46,chg:-0.8},
         // Indices — static only (Yahoo proxies reject ^ symbols)
-        '^GSPC':{pr:5614.56,chg:-0.9},'^DJI':{pr:41428.24,chg:-0.4},
+        '^GSPC':{pr:5614.8,chg:-0.8},'^DJI':{pr:41892.4,chg:-0.4},
         '^IXIC':{pr:17682.46,chg:-1.4},'^RUT':{pr:1982.24,chg:-1.8},
         '^VIX':{pr:22.46,chg:18.4},'^TNX':{pr:4.32,chg:0.4},
         '^TYX':{pr:4.68,chg:0.2},'^FVX':{pr:4.18,chg:0.2},
@@ -15293,11 +15334,11 @@
         '^SOX':{pr:4842.3,chg:1.2},'^BKX':{pr:118.4,chg:-0.6},
         '^VIX':{pr:22.46,chg:18.4},'^NBI':{pr:3842.4,chg:0.8},
         'CL=F':{pr:66.84,chg:-1.4},'BZ=F':{pr:76.3,chg:1.1},
-        'GC=F':{pr:2918.46,chg:0.4},'SI=F':{pr:32.84,chg:0.8},
+        'GC=F':{pr:2972.4,chg:0.8},'SI=F':{pr:32.84,chg:0.8},
         'HG=F':{pr:4.82,chg:0.6},'ZC=F':{pr:442.3,chg:-0.8},
         'ZW=F':{pr:548.4,chg:0.4},'ZS=F':{pr:982.3,chg:-0.6},
         'ES=F':{pr:5642.46,chg:-0.9},'NQ=F':{pr:19482.24,chg:-1.4},
-        'BTC=F':{pr:82400.0,chg:-4.2},'ETH=F':{pr:1982.0,chg:-5.4},
+        'BTC=F':{pr:83500.0,chg:-2.8},'ETH=F':{pr:1982.0,chg:-5.4},
         // ══ New Stocks ══
         CHWY:{pr:24.46,chg:-1.8},W:{pr:44.28,chg:-2.8},CVNA:{pr:268.46,chg:2.4},
         VTRS:{pr:12.4,chg:-1.2},OGN:{pr:14.3,chg:-0.8},VRNS:{pr:48.4,chg:-1.4},
